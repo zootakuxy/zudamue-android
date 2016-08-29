@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="libMargemNormal">10dp</dimen>
+    <dimen name="libMargemSmall">8dp</dimen>
+    <dimen name="libMargemTiny">4dp</dimen>
+    <dimen name="libMargemBigTiny">2dp</dimen>
+
+
+    <!-- DIMENSOES PARA AS BORDER -->
+    <dimen name="lib_border_line_tiny">0.5dp</dimen>
+    <dimen name="lib_border_line_small">2dp</dimen>
+    <dimen name="lib_border_line_normal">3dp</dimen>
+    <dimen name="lib_border_line_long">4dp</dimen>
+
+
+    <!--PADING TEXT-->
+    <dimen name="lip_padding_text_top">5dp</dimen>
+    <dimen name="lib_padding_text_button">5dp</dimen>
+    <dimen name="lib_padding_text_right">10dp</dimen>
+    <dimen name="lib_padding_text_left">10dp</dimen>
+
+
+
+
+
+
+    <!-- DIMIENSIO OF TEXT-->
+    <dimen name="libTextSizeDefault">15sp</dimen>
+    <dimen name="libTextSizeLong">18sp</dimen>
+    <dimen name="libTextSizeGrandLog">21sp</dimen>
+    <dimen name="libTextSizeBig">24sp</dimen>
+    <dimen name="libTextSizeSmall">12sp</dimen>
+
+
+
+
+    <!--  DIMENSION PADDING -->
+    <dimen name="libPaddingTextSall">6dp</dimen>
+    <dimen name="libPaddingTextTiny">4dp</dimen>
+    <dimen name="libPaddingTextNorma">8dp</dimen>
+    <dimen name="libPaddingTextLong">11dp</dimen>
+    <dimen name="libPaddingTextBig">15dp</dimen>
+    <dimen name="libPaddingTextDouble">20dp</dimen>
+
+    <dimen name="lib_padding_aba_content">13dp</dimen>
+
+    <dimen name="lib_text_size_aba">16sp</dimen>
+
+
+    <!--Thi area is of material designer dimension-->
+    <dimen name="md_aba_icon_and_height">72dp</dimen>
+    <dimen name="md_aba_icon_size">24dp</dimen>
+    <dimen name="md_aba_height">48dp</dimen>
+
+</resources>

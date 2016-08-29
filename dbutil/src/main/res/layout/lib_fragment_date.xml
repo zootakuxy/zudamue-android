@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <NumberPicker
+        android:id="@+id/pikerDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="false"
+        android:layout_marginLeft="@dimen/libMargemNormal"
+        >
+    </NumberPicker>
+
+    <NumberPicker
+        android:id="@+id/pikerMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/pikerYear"
+        android:layout_toRightOf="@id/pikerDay"
+        android:layout_marginRight="@dimen/libMargemNormal"
+        android:layout_marginLeft="@dimen/libMargemNormal"
+        />
+
+    <NumberPicker
+        android:id="@+id/pikerYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/libMargemNormal"
+        />
+
+
+</RelativeLayout>

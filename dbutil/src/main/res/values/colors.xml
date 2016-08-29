@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">?colorPrimary</color>
+    <color name="colorPrimaryDark">?colorPrimaryDark</color>
+    <color name="colorAccent">?colorAccent</color>
+
+    <color name="vert">#0CD600</color>
+    <color name="vertSelector">#05FF14</color>
+    <color name="vertEscuro">#007A08</color>
+
+    <color name="lib_cizent">#cac8c8</color>
+    <color name="lib_aba_unselected">#CDE</color>
+</resources>

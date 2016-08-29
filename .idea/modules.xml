@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DBUtilAndroid.iml" filepath="$PROJECT_DIR$/DBUtilAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dbutil/dbutil.iml" filepath="$PROJECT_DIR$/dbutil/dbutil.iml" />
     </modules>
   </component>
 </project>

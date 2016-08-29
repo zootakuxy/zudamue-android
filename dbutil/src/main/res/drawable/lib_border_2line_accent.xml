@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/colorAccent"/>
+    <item android:drawable="@android:color/white"
+        android:top="@dimen/lib_border_line_small"
+        android:bottom="@dimen/lib_border_line_small"/>
+</layer-list>

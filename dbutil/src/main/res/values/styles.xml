@@ -1,0 +1,27 @@
+<resources>
+
+    <style name="lib_tab_layout">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="lib_view_pager">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <!--<item name="android:background">?android:background</item>-->
+    </style>
+
+    <style name="lib_aba_title">
+        <item name="android:textSize">@dimen/lib_text_size_aba</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:colorAccent">?cardBackgroundColor</item>
+    </style>
+
+    <declare-styleable name="Toolbar">
+        <attr name="backgroundPre" format="reference" />
+    </declare-styleable>
+</resources>

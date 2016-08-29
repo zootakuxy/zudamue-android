@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/colorAccent"/>
+    <item android:bottom="@dimen/lib_border_line_normal">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white"/>
+            <padding android:bottom="@dimen/lib_padding_text_button"
+                android:top="@dimen/lip_padding_text_top"
+                android:right="@dimen/lib_padding_text_right"
+                android:left="@dimen/lib_padding_text_left"
+                />
+        </shape>
+    </item>
+</layer-list>
