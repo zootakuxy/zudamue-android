@@ -9,33 +9,31 @@ import android.os.AsyncTask;
 public class BackgroundProcess extends AsyncTask<Object, Double, ProcessResult>
 {
     private final OnProcessResult onResultProcess;
-    public Background<? extends ProcessResult> backgroud;
+    public Background<? extends ProcessResult> background;
 
     public BackgroundProcess(Background<? extends ProcessResult> backgroud, OnProcessResult onResultProcess)
     {
-        this.backgroud = backgroud;
+        this.background = backgroud;
         this.onResultProcess = onResultProcess;
     }
 
     @Override
-    protected ProcessResult doInBackground(Object... inParamsn)
+    protected ProcessResult doInBackground(final Object... inParamsn)
     {
-        return backgroud.onExecute(inParamsn);
+        ProcessResult result = background.onExecute(inParamsn);
+        return result;
     }
 
     @Override
     protected void onPostExecute(ProcessResult result)
     {
         super.onPostExecute(result);
-        Background <ProcessResult> background = (Background<ProcessResult>) this.backgroud;
-        background.accept(result, onResultProcess);
+        this.onResultProcess.processedResult(result);
     }
 
     public interface Background<R extends ProcessResult>
     {
         R onExecute(Object... paramns);
-
-        void accept(R result, OnProcessResult onProcessResult);
     }
 
 }

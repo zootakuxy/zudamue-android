@@ -6,5 +6,5 @@ package com.st.dbutil.android.process;
  */
 public interface OnProcessResult<PR extends  ProcessResult>
 {
-    void processResult(PR processResult);
+    void processedResult(PR processResult);
 }
