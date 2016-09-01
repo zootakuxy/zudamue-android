@@ -3,6 +3,7 @@ package com.st.dbutil.android.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import java.util.Map;
 /**
  * Created by xdata on 8/9/16.
  */
-public abstract class BaseReclyclerAdapter<E extends BaseReclyclerAdapter.ItemDataSet> extends RecyclerView.Adapter<BaseReclyclerAdapter.ItemViewHolder>
+public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemDataSet> extends RecyclerView.Adapter<BaseRecyclerAdapter.ItemViewHolder>
 {
     private final Context context;
     private final LayoutInflater inflater;
@@ -24,7 +25,7 @@ public abstract class BaseReclyclerAdapter<E extends BaseReclyclerAdapter.ItemDa
     private List<? extends E> listDataSet;
     private HashMap<Integer, ItemViewHolder> bindMap;
 
-    public BaseReclyclerAdapter(Context context, List<? extends E> listDataSet)
+    public BaseRecyclerAdapter(Context context, List<? extends E> listDataSet)
     {
         this.context = context;
         this.inflater = LayoutInflater.from(this.context);
@@ -53,11 +54,22 @@ public abstract class BaseReclyclerAdapter<E extends BaseReclyclerAdapter.ItemDa
     protected abstract ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType, LayoutInflater inflater);
 
     @Override
-    public final void onBindViewHolder(ItemViewHolder holder, int position)
+    public final void onBindViewHolder(final ItemViewHolder holder, final int position)
     {
         ItemDataSet data = this.listDataSet.get(position);
-        boolean binded = holder.bind(data, position);
-        if(!binded)
+                if(holder.isClickable(position))
+        {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.onClink(position);
+                }
+            });
+        }
+
+        boolean bind = holder.bind(data, position);
+        Log.i("DBA:APP.TEST", " bind | "+holder.getClass().getSimpleName());
+        if(!bind)
             this.onBindViewHolder(holder, data, position);
         this.bindMap.put(position, holder);
     }
@@ -92,10 +104,10 @@ public abstract class BaseReclyclerAdapter<E extends BaseReclyclerAdapter.ItemDa
     public void addAll(List<? extends E> itemDatas)
     {
         for(E itemData: itemDatas)
-            this.addItemDataSet(itemData);
+            this.addDataSet(itemData);
     }
 
-    public void addItemDataSet(E itemData)
+    public void addDataSet(E itemData)
     {
 
         List<E> aEList = (List<E>) this.listDataSet;
@@ -145,7 +157,7 @@ public abstract class BaseReclyclerAdapter<E extends BaseReclyclerAdapter.ItemDa
             super(itemView);
         }
 
-        public boolean bind(ItemDataSet itemDataSet, int position)
+        public boolean bind(ItemDataSet dataSet, int position)
         {
             return false;
         }
@@ -163,7 +175,12 @@ public abstract class BaseReclyclerAdapter<E extends BaseReclyclerAdapter.ItemDa
             return new ItemViewHolder(view);
         }
 
+        public void onClink(int position) {
+        }
 
+        public boolean isClickable(int position) {
+            return false;
+        }
     }
 
     public interface ItemDataSet extends Serializable
