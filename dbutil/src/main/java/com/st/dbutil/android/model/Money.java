@@ -11,9 +11,9 @@ import java.util.Locale;
  */
 public class Money extends Number implements Comparable<Money>, CharSequence, Serializable
 {
-    private final double value;
-    private final NumberFormat numberFormat;
-    private final String format;
+    private double value;
+    private NumberFormat numberFormat;
+    private String format;
 
     private static  NumberFormat format()
     {
@@ -22,6 +22,10 @@ public class Money extends Number implements Comparable<Money>, CharSequence, Se
         format.setMinimumFractionDigits(2);
         format.setCurrency(Currency.getInstance("STD"));
         return format;
+    }
+
+    public Money() {
+        this(0);
     }
 
     public Money (double value)
@@ -134,6 +138,8 @@ public class Money extends Number implements Comparable<Money>, CharSequence, Se
         double result = value1.value - value2.value;
         return new Money(result);
     }
+
+
     /**
      * Somar dois valores em moeda
      * @param value1

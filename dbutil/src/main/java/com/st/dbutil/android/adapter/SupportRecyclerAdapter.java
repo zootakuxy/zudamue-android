@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by xdata on 8/9/16.
  */
-public class SupportRecyclerAdapter extends BaseReclyclerAdapter
+public class SupportRecyclerAdapter extends BaseRecyclerAdapter
 {
     private  int idDefaultLayoutItem;
 
@@ -109,17 +109,16 @@ public class SupportRecyclerAdapter extends BaseReclyclerAdapter
     }
 
     @Override
-    protected void onBindViewHolder(final ItemViewHolder holder, final ItemDataSet data, int position)
+    protected void onBindViewHolder(final ItemViewHolder holder, final ItemDataSet data, final int position)
     {
         if(this.onBindViewHolder != null)
             this.onBindViewHolder.onBindViewHolder(holder, data, position, this.onRecyclerViewId);
-        if(this.onItemClickListener != null)
+        if(holder.isClickable(position))
         {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view)
-                {
-                    onItemClickListener.onItemClick(view, data, holder.getAdapterPosition(), holder.getAdapterPosition());
+                public void onClick(View view) {
+                    holder.onClink(position);
                 }
             });
         }
@@ -163,9 +162,6 @@ public class SupportRecyclerAdapter extends BaseReclyclerAdapter
         this.onBindViewHolder = onBindViewHolder;
     }
 
-    public void setOnRequireTypeView(OnRequireTypeView onRequireTypeView) {
-        this.onRequireTypeView = onRequireTypeView;
-    }
 
     public void setOnCreateView(OnCreateView onCreateView) {
         this.onCreateView = onCreateView;
