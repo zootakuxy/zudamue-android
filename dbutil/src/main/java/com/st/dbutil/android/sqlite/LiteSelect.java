@@ -458,13 +458,14 @@ public class LiteSelect extends DMLite implements CommandSelect.ComplectSelect
     }
 
     @Override
-    public void limit(int limit) throws DMLException
+    public DML limit(int limit) throws DMLException
     {
         this.checkStatus(SelectStatus.LIMIT);
         debug("Defining limit:\""+limit+"\"");
         if(limit<0)
             throw new InvalidParameterException("O limite tem de ser superior a zero");
         this.limit = limit;
+        return this;
     }
 
     @Override

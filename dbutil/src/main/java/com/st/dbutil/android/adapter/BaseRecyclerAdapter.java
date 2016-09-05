@@ -48,9 +48,11 @@ public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemData
         if(itemViewHolder.group == null)
             itemViewHolder.group = parent;
         itemViewHolder.context = this.context;
+        itemViewHolder.baseRecyclerAdapter = this;
         return itemViewHolder;
     }
 
+    @NonNull
     protected abstract ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType, LayoutInflater inflater);
 
     @Override
@@ -59,7 +61,7 @@ public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemData
         ItemDataSet data = this.listDataSet.get(position);
                 if(holder.isClickable(position))
         {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.getClickableView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     holder.onClink(position);
@@ -68,11 +70,13 @@ public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemData
         }
 
         boolean bind = holder.bind(data, position);
+        holder.currentDataSet = data;
         Log.i("DBA:APP.TEST", " bind | "+holder.getClass().getSimpleName());
         if(!bind)
             this.onBindViewHolder(holder, data, position);
         this.bindMap.put(position, holder);
     }
+
 
     @Override
     public void onViewRecycled(ItemViewHolder holder)
@@ -109,7 +113,6 @@ public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemData
 
     public void addDataSet(E itemData)
     {
-
         List<E> aEList = (List<E>) this.listDataSet;
         aEList.add(itemData);
     }
@@ -147,19 +150,55 @@ public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemData
         return this.getViewHolderIfAvailable(position);
     }
 
+    public void removeDataSet(int index) {
+        if(exist(index)) {
+            listDataSet.remove(index);
+        }
+    }
+
+
+    public void replace(int index, ItemDataSet itemDataSet) {
+        if(this.exist(index))
+        {
+            List<ItemDataSet> list = (List<ItemDataSet>) this.listDataSet;
+            list.set(index, itemDataSet);
+        }
+    }
+
+    private boolean exist(int index) {
+        return index>=0 && index <= this.listDataSet.size();
+    }
+
+    public void clear() {
+        this.listDataSet.clear();
+    }
+
+    public int getLastIndex() {
+        return this.listDataSet.size() - 1;
+    }
+
+
     public static class ItemViewHolder extends RecyclerView.ViewHolder
     {
         protected ViewGroup group;
         private Context context;
+        private BaseRecyclerAdapter<? extends ItemDataSet> baseRecyclerAdapter;
+        private ItemDataSet currentDataSet;
+
 
         public ItemViewHolder(View itemView)
         {
             super(itemView);
+            context = itemView.getContext();
         }
 
         public boolean bind(ItemDataSet dataSet, int position)
         {
             return false;
+        }
+
+        public BaseRecyclerAdapter.ItemDataSet getCurrentDataSet(){
+            return this.currentDataSet;
         }
 
         public ViewGroup getGroup() {
@@ -170,7 +209,11 @@ public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemData
             return context;
         }
 
-        public static ItemViewHolder newInstace (@NonNull View view)
+        public BaseRecyclerAdapter<? extends ItemDataSet> getBaseRecyclerAdapter() {
+            return baseRecyclerAdapter;
+        }
+
+        public ItemViewHolder newInstace (@NonNull View view)
         {
             return new ItemViewHolder(view);
         }
@@ -178,9 +221,20 @@ public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemData
         public void onClink(int position) {
         }
 
+        public View getClickableView() {
+            return this.itemView;
+        }
+
         public boolean isClickable(int position) {
             return false;
         }
+
+        public View findViewById(int refeId) {
+            return this.itemView != null?
+                    this.itemView.findViewById(refeId)
+                    :null;
+        }
+
     }
 
     public interface ItemDataSet extends Serializable

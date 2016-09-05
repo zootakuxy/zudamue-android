@@ -9,8 +9,7 @@ public interface CommandSelect
      * public <T extends From & Where> T insert(String ... columns);
      **/
 
-    public interface ComplectSelect extends Select, SelectAs, From, Join, JoinON, Where, WhereAdd, Order, Group, Limit, WhereROWID
-    {
+    public interface ComplectSelect extends Select, SelectAs, From, Join, JoinON, Where, WhereAdd, Order, Group, Limit, WhereROWID {
     }
     public interface Select
     {
@@ -89,6 +88,6 @@ public interface CommandSelect
 
     public interface Limit
     {
-        public void limit(int num) throws DMLException;
+        public DML limit(int num) throws DMLException;
     }
 }

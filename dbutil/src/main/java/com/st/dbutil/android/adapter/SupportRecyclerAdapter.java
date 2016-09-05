@@ -35,28 +35,6 @@ public class SupportRecyclerAdapter extends BaseRecyclerAdapter
         this.hasDefaultTypeView = true;
     }
 
-    public SupportRecyclerAdapter(Context context, List listDataSet, OnCreateView onCreateView)
-    {
-        super(context, listDataSet);
-        this.onCreateView = onCreateView;
-        this.idDefaultLayoutItem = 0;
-        this.hasDefaultTypeView = false;
-    }
-
-    public SupportRecyclerAdapter(Context context, int idLayoutItem)
-    {
-        super(context, null);
-        this.idDefaultLayoutItem = idLayoutItem;
-        this.hasDefaultTypeView = true;
-    }
-
-    public SupportRecyclerAdapter(Context context, OnCreateView onCreateView) {
-        super(context, null);
-        this.onCreateView = onCreateView;
-        this.idDefaultLayoutItem = 0;
-        this.hasDefaultTypeView = false;
-    }
-
     public SupportRecyclerAdapter(Context context)
     {
         super(context, null);
@@ -98,9 +76,8 @@ public class SupportRecyclerAdapter extends BaseRecyclerAdapter
             viewHolder = onCreateViewHolder.onCreateViewHolder(view, viewType, this.onRecyclerViewId);
 
         if(viewHolder == null)
-        {
             viewHolder = new ItemViewHolder(view);
-        }
+
         Log.i("DBA:APP.TEST", getClass().getSimpleName()+"-> viewHolder{"
                 +"class:\""+viewHolder.getClass().getSimpleName()
                 +layoutName

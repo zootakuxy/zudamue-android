@@ -271,26 +271,26 @@ public class XReference
 //    }
 //
 //    private static Object treatInteger(String xmlValue) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To replace body of generated methods, choose Tools | Templates.
 //    }
 //
 //    private static Object treatShort(String xmlValue) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To replace body of generated methods, choose Tools | Templates.
 //    }
 //
 //    private static Object treatByte(String xmlValue) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To replace body of generated methods, choose Tools | Templates.
 //    }
 //
 //    private static Object treatLong(String xmlValue) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To replace body of generated methods, choose Tools | Templates.
 //    }
 //
 //    private static Object treatFloat(String xmlValue) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To replace body of generated methods, choose Tools | Templates.
 //    }
 //
 //    private static Object treatDouble(String xmlValue) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        throw new UnsupportedOperationException("Not supported yet."); //To replace body of generated methods, choose Tools | Templates.
 //    }
 }
