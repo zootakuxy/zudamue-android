@@ -1,24 +1,23 @@
-package st.domain.support.android.sqlite;
+package st.domain.support.android.old_sql.sqlite;
 
-import android.annotation.TargetApi;
 import android.content.ContentValues;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
-
-import st.domain.support.android.model.Money;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
+
+import st.domain.support.android.AndroidLibraryTag;
+import st.domain.support.android.model.Money;
 
 /**
  * Created by xdata on 7/23/16.
  */
-public abstract class DMLite implements DML.Debugable, DML
+public abstract class DMLite implements DML.Debugable, DML, AndroidLibraryTag
 {
     private final String prefixe;
     private boolean debugable;
@@ -26,13 +25,15 @@ public abstract class DMLite implements DML.Debugable, DML
     private int debugableType;
     private DML.Status currentStatus;
     private DML.Status oldStatus;
+    private String tag;
 
     public DMLite()
     {
-        this.setTagDebug("DBA:APP.TEST");
+        this.setTagDebug(getTag());
         this.setDebugable(false, Log.INFO);
         this.prefixe = this.getClass().getSimpleName()+"-> ";
         this.currentStatus = BaseStatus.INIT;
+        this.tag = this.getClass().getSimpleName();
     }
 
     protected void mapParam(ContentValues containerValues, LinkedHashMap<CharSequence, Object> mapValues)
@@ -213,20 +214,15 @@ public abstract class DMLite implements DML.Debugable, DML
         return null;
     }
 
-    public void checkStatus(DML.Status newStatus)
-    {
-        debug("Accept STATUS \""+newStatus.statusName()+"\" RELATIVE \""+currentStatus.statusName()+"\"");
-        if(!currentStatus.accept(newStatus))
-            throw new DMLException.DMLStatusException("The new action is invalid new action="+newStatus+" " +
-                    "| old action = "+currentStatus.statusName()+" | require = "+currentStatus.possiblit());
-        this.oldStatus = this.currentStatus;
-        this.currentStatus = newStatus;
-        debug("Valid Accept");
-
+    @Override
+    public String getTag() {
+        return this.tag;
     }
 
-
-
+    @Override
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public class WhereClausa
     {
@@ -253,7 +249,7 @@ public abstract class DMLite implements DML.Debugable, DML
          * @param columnName O nome da coluna real
          * @return
          */
-        protected static Column find(ArrayList<Column> listColumns, String columnName)
+        protected static Column find(List<Column> listColumns, String columnName)
         {
             for(Column coll: listColumns)
                 if(coll.equals(columnName))
@@ -269,7 +265,7 @@ public abstract class DMLite implements DML.Debugable, DML
          * @param columnName O nome da coluna real
          * @return
          */
-        protected static Column findReal(ArrayList<Column> listColumns, String columnName)
+        protected static Column findReal(List<Column> listColumns, String columnName)
         {
             columnName = columnName.toUpperCase();
             for(Column coll: listColumns)
@@ -280,14 +276,14 @@ public abstract class DMLite implements DML.Debugable, DML
 
         public Column(String realName, String alias)
         {
-            this.realName = realName.toUpperCase();
+            this.realName = realName;
             this.alias = alias;
             this.type = ColumnType.SIMPLE;
         }
 
         public Column(String realName, String alias, ColumnType type)
         {
-            this.realName = realName.toUpperCase();
+            this.realName = realName;
             this.alias = alias;
             this.type = ColumnType.SIMPLE;
             this.type = type;
@@ -332,19 +328,6 @@ public abstract class DMLite implements DML.Debugable, DML
             return this.alias.subSequence(beginIndex, endIndex);
         }
 
-        @TargetApi(Build.VERSION_CODES.N)
-        @Override
-        public IntStream chars()
-        {
-            return this.alias.chars();
-        }
-
-        @TargetApi(Build.VERSION_CODES.N)
-        @Override
-        public IntStream codePoints()
-        {
-            return this.alias.codePoints();
-        }
 
         @Override
         public String toString()
@@ -368,7 +351,7 @@ public abstract class DMLite implements DML.Debugable, DML
          * @param listColumns
          * @return
          */
-        public static Column findPrimaryKey(ArrayList<Column> listColumns)
+        public static Column findPrimaryKey(List<Column> listColumns)
         {
             for(Column coll: listColumns)
                 if(coll.type == ColumnType.RRIMARY_KEY)
@@ -376,9 +359,9 @@ public abstract class DMLite implements DML.Debugable, DML
             return null;
         }
 
-        public static ArrayList<Column> useds(ArrayList<Column> listColumns)
+        public static List<Column> useds(List<Column> listColumns)
         {
-            ArrayList<Column> columns = new ArrayList<>();
+            List<Column> columns = new ArrayList<>();
             for (Column coll: listColumns)
                 if(coll.use)
                     columns.add(coll);

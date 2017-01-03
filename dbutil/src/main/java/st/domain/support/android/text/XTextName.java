@@ -11,14 +11,18 @@ import android.util.Log;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import st.domain.support.android.AndroidLibraryTag;
+
 
 /**
  * Essa classe permite recriar um ficeiro xml baseando da estrutura de uma classe em java
  * desde que essa implemente a interface ClassXML
  * @author Servidor
  */
-public class XTextName
+public class XTextName implements AndroidLibraryTag
 {
+    private String tag = XTextName.class.getSimpleName();
+
     /**
      * Essa função mapea-se a classe java a um ficheiro xml
      * @param xNameClass Coresponde a classe em java que sera mapeada - Essa classe deve Implementar a interface ClassXML
@@ -27,7 +31,7 @@ public class XTextName
     {
         if(apllyMode == null ||
                 xNameClass == null)
-            throw new TextException("The argment is invalid, the class and mode apply can not be null");
+            throw new TextException("The argment is invalid, the class jand mode apply can not be null");
         try
         {
             ArrayList<Class> listClass = new ArrayList<>();
@@ -93,7 +97,7 @@ public class XTextName
         } catch (Exception ex)
         {
             String message;
-            Log.e("DBA:APP.TEST", message = "XTextName-> rename{class:\""+aClass.getName()+"\", field:\""+field.getName()+"\", value:\""+value+"\"} FAILED ");
+            Log.e("wdfe", message = "XTextName-> rename{class:\""+aClass.getName()+"\", field:\""+field.getName()+"\", value:\""+value+"\"} FAILED ");
             throw new TextException(ex.getMessage() +"\n"+message, ex);
         }
     }
@@ -162,7 +166,7 @@ public class XTextName
             case TREAT_FIRST_INIT_UPPER: return initFristUpper(text);
             case TREAT_INIT_UPPER: return initTextUpper(text);
             default:
-                Log.i("DBA:APP.TEST", "DEFAULT MODO");
+                Log.i(XTextName.class.getSimpleName(), "DEFAULT MODO");
                 return text;
         }
     }
@@ -189,6 +193,16 @@ public class XTextName
         if(text.length()>=1)
             text = text.substring(0, 1) + (text.substring(1, text.length()).toLowerCase());
         return text;
+    }
+
+    @Override
+    public String getTag() {
+        return this.tag;
+    }
+
+    @Override
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
 

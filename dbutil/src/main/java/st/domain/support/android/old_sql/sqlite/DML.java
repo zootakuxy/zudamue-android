@@ -1,7 +1,6 @@
-package st.domain.support.android.sqlite;
+package st.domain.support.android.old_sql.sqlite;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import st.domain.support.android.sql.SQLRow;
 
 /**
  * Created by xdata on 7/23/16.
@@ -32,7 +31,7 @@ public interface   DML
     public Object getResult() throws DMLException;
 
     /**
-     * Obter o SQL do stamnetnt
+     * Obter o AbstractSQL do stamnetnt
      * @return
      */
     public String getSql() throws DMLException;
@@ -46,11 +45,11 @@ public interface   DML
 
     public interface CatchResult
     {
-        void catchInto(LinkedHashMap<CharSequence, Object> mapa);
+        void catchInto(SQLRow rowResult);
     }
 
     /**
-     * Codicao dos SQL
+     * Codicao dos AbstractSQL
      */
     public abstract class Condicion
     {
@@ -60,7 +59,7 @@ public interface   DML
          * @param row
          * @return
          */
-        public abstract boolean accept(int wherePosition, HashMap<CharSequence, Object> row);
+        public abstract boolean accept(int wherePosition, SQLRow row);
 
         public String getSql()
         {

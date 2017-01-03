@@ -1,9 +1,9 @@
-package st.domain.support.android.sqlite;
+package st.domain.support.android.sql.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.storage.StorageVolume;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -11,16 +11,20 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
+
+import st.domain.support.android.AndroidLibraryTag;
 
 /**
  * Created by xdata on 7/22/16.
  */
-public class AssetsDataBase extends SQLiteOpenHelper
+public class AssetsDataBase extends SQLiteOpenHelper implements AndroidLibraryTag
 {
     private static String dataBaseName;
     private final Context context;
     private ActionExecute execute;
     private String assetsName;
+    private String tag;
 
     /**
      * Criar o controlador do banco de dados
@@ -35,6 +39,7 @@ public class AssetsDataBase extends SQLiteOpenHelper
         this.assetsName = AssetsDataBase.dataBaseName;
         this.context = context;
         this.setUpDataBase();
+        this.tag = getClass().getSimpleName();
     }
 
     /**
@@ -56,14 +61,14 @@ public class AssetsDataBase extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase sqLiteDatabase)
     {
         this.execute = ActionExecute.CREATE;
-        Log.i("DBA:APP.TEST", "CREATE DATABASE REQUIREDE");
+        Log.i(getTag(), "CREATE DATABASE REQUIREDE");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1)
     {
         this.execute = ActionExecute.UPGRADE;
-        Log.i("DBA:APP.TEST", "UPGRADE REQUIREDA");
+        Log.i(getTag(), "UPGRADE REQUIREDA");
     }
 
     /**
@@ -76,15 +81,15 @@ public class AssetsDataBase extends SQLiteOpenHelper
         SQLiteDatabase data = this.getWritableDatabase();
         if(this.execute == ActionExecute.CREATE)
         {
-            Log.i("DBA:APP.TEST", "SET UP -> CREATING DATA BASE");
+            Log.i(getTag(), "SET UP -> CREATING DATA BASE");
             this.createFromAssets(data);
-            Log.i("DBA:APP.TEST", "SET UP -> DATABASE CREATED");
+            Log.i(getTag(), "SET UP -> DATABASE CREATED");
         }
         else if(this.execute == ActionExecute.UPGRADE)
         {
-            Log.i("DBA:APP.TEST", "SET UP -> UPGRADE DATABASE");
+            Log.i(getTag(), "SET UP -> UPGRADE DATABASE");
             upgradeFromAssets(data);
-            Log.i("DBA:APP.TEST", "SET UP -> DATABASE UPGRADED");
+            Log.i(getTag(), "SET UP -> DATABASE UPGRADED");
         }
 
         data.close();
@@ -96,11 +101,11 @@ public class AssetsDataBase extends SQLiteOpenHelper
      */
     protected void upgradeFromAssets(SQLiteDatabase data)
     {
-        Log.i("DBA:APP.TEST", "DROPING CURRENT DATABASE");
+        Log.i(getTag(), "DROPING CURRENT DATABASE");
         boolean result = SQLiteDatabase.deleteDatabase(new File(data.getPath()));
         if(result)
-            Log.i("DBA:APP.TEST", "CURRENTE DATABASE DROPED");
-        else Log.i("DBA:APP.TEST", "CAN NOT DROPED DATABASE");
+            Log.i(getTag(), "CURRENTE DATABASE DROPED");
+        else Log.i(getTag(), "CAN NOT DROPED DATABASE");
         this.createFromAssets(data);
     }
 
@@ -110,13 +115,13 @@ public class AssetsDataBase extends SQLiteOpenHelper
      */
     protected void createFromAssets(SQLiteDatabase dataBase)
     {
-        Log.i("DBA:APP.TEST", "COPYING DATA BASE "+ dataBaseName+" TO -> PATCH "+dataBase.getPath());
+        Log.i(getTag(), "COPYING DATA BASE "+ dataBaseName+" TO -> PATCH "+dataBase.getPath());
         InputStream inputStream;
         FileOutputStream outputStream;
         try
         {
             String out = dataBase.getPath();
-            Log.i("DBA:APP.TEST", "INIT COPY");
+            Log.i(getTag(), "INIT COPY");
             inputStream = this.context.getAssets().open(this.assetsName);
             outputStream = new FileOutputStream(out, false);
             byte[] buffer = new  byte[1024];
@@ -131,7 +136,7 @@ public class AssetsDataBase extends SQLiteOpenHelper
             outputStream.close();
             inputStream.close();
 
-            Log.i("DBA:APP.TEST", "NEW DATABASE CREATED SUCESSFUL");
+            Log.i(getTag(), "NEW DATABASE CREATED SUCESSFUL");
 
         } catch (IOException e)
         {
@@ -140,21 +145,54 @@ public class AssetsDataBase extends SQLiteOpenHelper
     }
 
 
-    public void restory()
+    public void outputDatabase()
     {
-        InputStream inputStream;
-        FileOutputStream outputStream;
-        try
+
+        File outputFolder = new File(Environment.getExternalStorageDirectory().getPath()+"/"
+                + context.getPackageName()+"/"
+                + "AssetsDataBase/"
+                + this.getDatabaseName()+"/"
+        );
+
+        boolean export = outputFolder.exists();
+        if(!export)
+            export = outputFolder.mkdirs();
+
+        if(export)
         {
+            Calendar current = Calendar.getInstance();
+            String month = ( current.get(Calendar.MONTH) <10 )? "0"+ current.get(Calendar.MONTH) : String.valueOf( current.get(Calendar.MONTH) );
+            String day = (current.get(Calendar.DAY_OF_MONTH) < 10)? "0"+current.get(Calendar.DAY_OF_MONTH) : String.valueOf(current.get(Calendar.DAY_OF_MONTH));
+            String hour = (current.get(Calendar.HOUR_OF_DAY) < 10)? "0"+current.get(Calendar.HOUR_OF_DAY) : String.valueOf(current.get(Calendar.HOUR_OF_DAY));
+            String minute = (current.get(Calendar.MINUTE) < 10)? "0"+current.get(Calendar.MINUTE) : String.valueOf(current.get(Calendar.MINUTE));
+            String second = (current.get(Calendar.SECOND) < 10)? "0"+current.get(Calendar.SECOND) : String.valueOf(current.get(Calendar.SECOND));
+
+
+            String time = ""+current.get(Calendar.YEAR)+month+day;
+            time = time +" "+hour+minute+second;
+            String fileName = "export."+time+"."+this.getDatabaseName();
+            File outFile  = new File(outputFolder, fileName);
+
+
+            dumpDatabase(outFile);
+        }
+        else {
+            Log.w(getTag(), "Data Base not exported");
+        }
+    }
+
+    public void dumpDatabase(File outFile)
+    {
+        try {
+
             String in = this.getReadableDatabase().getPath();
-            Log.i("DBA:APP.TEST", "INIT COPY");
+            Log.i(getTag(), "INIT COPY");
+            InputStream inputStream;
+            FileOutputStream outputStream;
+
             inputStream = new FileInputStream(in);
-
-            File outFile = new File("/sdcard/Quitanda/quitanda.database.restore.db");
-
             outputStream = new FileOutputStream(outFile, false);
 
-            StorageVolume k;
             byte[] buffer = new  byte[1024];
             int length;
 
@@ -166,19 +204,26 @@ public class AssetsDataBase extends SQLiteOpenHelper
             outputStream.flush();
             outputStream.close();
             inputStream.close();
-
-
-        } catch (IOException e)
+        }catch (Exception ex)
         {
-            e.printStackTrace();
+            ex.printStackTrace();
         }
     }
-
 
 
     public SQLiteDatabase getDataBase()
     {
         return this.getReadableDatabase();
+    }
+
+    @Override
+    public String getTag() {
+        return this.tag;
+    }
+
+    @Override
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     private enum ActionExecute

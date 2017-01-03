@@ -1,4 +1,4 @@
-package st.domain.support.android.sqlite;
+package st.domain.support.android.old_sql.sqlite;
 
 /**
  * Created by xdata on 7/23/16.

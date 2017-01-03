@@ -8,6 +8,7 @@ package st.domain.support.android.socket;
 import android.app.Activity;
 import android.util.Log;
 
+import st.domain.support.android.AndroidLibraryTag;
 import st.domain.support.android.model.Identified;
 import com.thoughtworks.xstream.XStream;
 
@@ -25,7 +26,7 @@ import java.util.Map;
  * @author AhmedJorge
  * @author xdata
  */
-public class ClientSocketListener implements Serializable
+public class ClientSocketListener implements Serializable, AndroidLibraryTag
 {
 	private final String clientIdentifier;
 	private final NetIntentConverter netIntentConverter;
@@ -45,6 +46,7 @@ public class ClientSocketListener implements Serializable
 	private String serverName;
 	private int serverConectKey;
 	private String connectMessage;
+	private String tag;
 
 
 	public ClientSocketListener(String host, int port, String clientIdentifier, Activity activity, OnTreatNetIntent defaultOntreater)
@@ -59,6 +61,8 @@ public class ClientSocketListener implements Serializable
 		this.serverName = "SERVER";
 		this.connectMessage = "Estabelecendo o mapamento de coexao";
 		this.activity = activity;
+		this.tag = this.getClass().getSimpleName();
+
 
 		this.listTreater.put(defaultOntreater.getProtocolKey(), defaultOntreater);
 		this.xStream.registerConverter(this.netIntentConverter);
@@ -71,7 +75,7 @@ public class ClientSocketListener implements Serializable
 	 */
 	private Thread simpleConnect()
 	{
-		Log.i("DBA:APP.TEST", getClass().getSimpleName()+"-> PROCDURANDO PELO SERVIDOR DA APLICACAO "+host);
+		Log.i(getTag(), getClass().getSimpleName()+"-> PROCDURANDO PELO SERVIDOR DA APLICACAO "+host);
 		Thread creator = new Thread(new Runnable()
 		{
 			@Override
@@ -85,7 +89,7 @@ public class ClientSocketListener implements Serializable
 					ClientSocketListener.this.register();
 				} catch (Exception e)
 				{
-					Log.e("DBA:APP.TEST", "ERRO AO PROCURAR O SERVER | INIT SOCKT", e);
+					Log.e(getTag(), "ERRO AO PROCURAR O SERVER | INIT SOCKT", e);
 					NetIntent intent = new NetIntent();
 					intent.setResult(NetIntent.Result.FAILED);
 					intent.setIntent(NetIntent.Intent.CONNECT);
@@ -121,10 +125,10 @@ public class ClientSocketListener implements Serializable
 
 	private void register()
 	{
-		Log.i("DBA:APP.TEST", getClass().getSimpleName()+"-> REGISTRING SERVER...");
+		Log.i(getTag(), getClass().getSimpleName()+"-> REGISTRING SERVER...");
 		NetIntent intent = new NetIntent(this.clientIdentifier, this.serverName, this.serverConectKey, NetIntent.Intent.CONNECT, this.connectMessage);
 		boolean result = this.sendIntent(intent);
-		Log.i("DBA:APP.TEST", "CONNECTION REQUEST SEND "+result);
+		Log.i(getTag(), "CONNECTION REQUEST SEND "+result);
 	}
 
 	public void setServerName(String serverName)
@@ -149,16 +153,16 @@ public class ClientSocketListener implements Serializable
 	 */
 	public void stop()
     {
-		Log.i("DBA:APP.TEST",getClass().getSimpleName()+ "-> STOPING SERVICE");
+		Log.i(getTag(),getClass().getSimpleName()+ "-> STOPING SERVICE");
 		try 
 		{
 			this.stopRun();
 			this.clientListner.stop();
 			this.server.close();
-			Log.i("DBA:APP.TEST",getClass().getSimpleName()+ "->SERVICE STOPPED");
+			Log.i(getTag(),getClass().getSimpleName()+ "->SERVICE STOPPED");
 		} catch (Exception e) 
 		{
-			Log.e("DBA:APP.TEST",getClass().getSimpleName()+ "->STOP SERVICE FAILED");
+			Log.e(getTag(),getClass().getSimpleName()+ "->STOP SERVICE FAILED");
 		}
 	}
 
@@ -172,12 +176,12 @@ public class ClientSocketListener implements Serializable
 				&& this.server != null
 				&& this.server.isConnected()
 				&& !this.server.isClosed();
-		Log.i("DBA:APP.TEST", getClass().getSimpleName()+"-> Has Connection : "+hasConnection);
+		Log.i(getTag(), getClass().getSimpleName()+"-> Has Connection : "+hasConnection);
 		if(!hasConnection)
 		{
-			Log.w("DBA:APP.TEST", getClass().getSimpleName()+"-> SERVER : "+server);
-			if(server != null)Log.w("DBA:APP.TEST", getClass().getSimpleName()+"-> SERVER.isConnected : "+server.isConnected());
-			if(server != null) Log.w("DBA:APP.TEST", getClass().getSimpleName()+"-> SERVER.isClosed : "+server.isConnected());
+			Log.w(getTag(), getClass().getSimpleName()+"-> SERVER : "+server);
+			if(server != null)Log.w(getTag(), getClass().getSimpleName()+"-> SERVER.isConnected : "+server.isConnected());
+			if(server != null) Log.w(getTag(), getClass().getSimpleName()+"-> SERVER.isClosed : "+server.isConnected());
 		}
 		return hasConnection;
 	}
@@ -229,7 +233,7 @@ public class ClientSocketListener implements Serializable
      */
 	private void runService()
 	{
-		Log.i("DBA:APP.TEST", getClass().getSimpleName()+"-> .runService called");
+		Log.i(getTag(), getClass().getSimpleName()+"-> .runService called");
 		if(isRunming())
 		{
 			if(this.controleThread != null)
@@ -298,6 +302,16 @@ public class ClientSocketListener implements Serializable
 				&& this.server.isConnected();
 	}
 
+	@Override
+	public String getTag() {
+		return this.tag;
+	}
+
+	@Override
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
 	private class Client implements Runnable
     {
         private ObjectInputStream in;
@@ -311,29 +325,29 @@ public class ClientSocketListener implements Serializable
 				this.out = new ObjectOutputStream(socket.getOutputStream());
 			} catch (Exception e) 
 			{
-				Log.e("DBA:APP.TEST",getClass().getSimpleName()+ "-> ERROR AO CRIAR O CLIENTE LISTENER: "+e.getMessage(), e);
+				Log.e(getTag(),getClass().getSimpleName()+ "-> ERROR AO CRIAR O CLIENTE LISTENER: "+e.getMessage(), e);
 			}
         	
 		}
 
 		public void stop() 
 		{
-			Log.i("DBA:APP.TEST",getClass().getSimpleName()+ "-> STOPING LISTINER...");
+			Log.i(getTag(),getClass().getSimpleName()+ "-> STOPING LISTINER...");
 			try 
 			{
 				this.in.close();
 				this.out.close();
 			} catch (Exception e)
 			{
-				Log.i("DBA:APP.TEST",getClass().getSimpleName()+ "-> LISTINER STOPING FAILED");
+				Log.i(getTag(),getClass().getSimpleName()+ "-> LISTINER STOPING FAILED");
 			}
-			Log.i("DBA:APP.TEST",getClass().getSimpleName()+ "-> LISTINER STOPED");
+			Log.i(getTag(),getClass().getSimpleName()+ "-> LISTINER STOPED");
 		}
 		
 		@Override
 		public void run() 
 		{
-			Log.i("DBA:APP.TEST",getClass().getSimpleName()+ "->RUNNING...");
+			Log.i(getTag(),getClass().getSimpleName()+ "->RUNNING...");
 			try 
 			{
 				String xml;
@@ -342,7 +356,7 @@ public class ClientSocketListener implements Serializable
 					try
 					{
 						final NetIntent intent = (NetIntent) xStream.fromXML(xml);
-						Log.i("DBA:APP.TEST", getClass().getSimpleName()+"-> intent: "+intent);
+						Log.i(getTag(), getClass().getSimpleName()+"-> intent: "+intent);
 						if (intent.getIntent() == NetIntent.Intent.CONNECT
 								|| intent.getIntent() == NetIntent.Intent.DISCONNECT)
 						{
@@ -353,17 +367,17 @@ public class ClientSocketListener implements Serializable
 					}
 					catch (Throwable tr)
 					{
-						Log.e("DBA:APP.TEST", getClass().getSimpleName()+"-> Error in treat the xml:\n "+xml);
+						Log.e(getTag(), getClass().getSimpleName()+"-> Error inSelect treat the xml:\n "+xml);
 						tr.printStackTrace();
 					}
 				}
 			} catch (Exception e) 
 			{
-				Log.e("DBA:APP.TEST",getClass().getSimpleName()+ "->CONNECTION ERROR "+e.getMessage(), e);
+				Log.e(getTag(),getClass().getSimpleName()+ "->CONNECTION ERROR "+e.getMessage(), e);
 				this.connectionLost();
 				this.disconnect();
 			}
-			Log.i("DBA:APP.TEST",getClass().getSimpleName()+ "-> END RUMING...");
+			Log.i(getTag(),getClass().getSimpleName()+ "-> END RUMING...");
 		}
 
 		/**
@@ -408,14 +422,14 @@ public class ClientSocketListener implements Serializable
 				controleThread = null;
 			}catch(Exception ex)
 			{
-				Log.e("DBA:APP.TEST",getClass().getSimpleName()+ "-> ERROR IN DISCONNECTION");
+				Log.e(getTag(),getClass().getSimpleName()+ "-> ERROR IN DISCONNECTION");
 				ex.printStackTrace();
 			}
 		}
 
 		private void connectionLost() 
 		{
-			Log.i("DBA:APP.TEST", getClass().getSimpleName()+"-> Connectin Losted");
+			Log.i(getTag(), getClass().getSimpleName()+"-> Connectin Losted");
 			alertActivity(new Runnable()
 			{
 				@Override
@@ -436,15 +450,15 @@ public class ClientSocketListener implements Serializable
 			try 
 			{
 				String xml = xStream.toXML(data);
-				Log.i("DBA:APP.TEST", getClass().getSimpleName()+ "-> SENDING XML...");
-				Log.i("DBA:APP.TEST", getClass().getSimpleName()+ "-> XML: "+xml);
+				Log.i(getTag(), getClass().getSimpleName()+ "-> SENDING XML...");
+				Log.i(getTag(), getClass().getSimpleName()+ "-> XML: "+xml);
 				this.out.writeObject(xml);
-				Log.i("DBA:APP.TEST", "DBA:APP.TEST");
+				Log.i(getTag(), getTag());
 				return true;
 			}
 			catch (IOException e) 
 			{
-				Log.e("DBA:APP.TEST",getClass().getSimpleName()+ "-> DBA:APP.TEST"+e.getMessage(), e);
+				Log.e(getTag(),getClass().getSimpleName()+ "-> DBA:APP.TEST"+e.getMessage(), e);
 				return false;
 			}
 		}
@@ -456,7 +470,7 @@ public class ClientSocketListener implements Serializable
 		/**
 		 * Verifi if is possible treat the net intent
 		 * @param intent the net intent can cantreater
-         * @return true if can treat and false if not treat
+         * @return true if can treat jand false if not treat
          */
 		boolean canTreat(NetIntent intent);
 

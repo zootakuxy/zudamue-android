@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import st.domain.support.android.AndroidLibraryTag;
 import st.domain.support.android.adapter.ViewPagerAdpter;
 import st.domain.support.android.model.ItemFragment;
 import st.domain.support.android.model.ListNavegation;
@@ -15,7 +16,7 @@ import st.domain.support.android.R;
 
 
 
-public class GeralActivityPager extends AppCompatActivity implements ListNavegation
+public class GeralActivityPager extends AppCompatActivity implements ListNavegation, AndroidLibraryTag
 {
 	private ViewPagerAdpter adapter;
 	private ViewPager pager;
@@ -26,6 +27,7 @@ public class GeralActivityPager extends AppCompatActivity implements ListNavegat
 	private boolean distributeEvenly;
 	private SlidingTabLayout.TypeAba typeAba;
 	private int[] selectedIndicatorColor;
+	private String tag;
 
 
 	@Override
@@ -34,6 +36,7 @@ public class GeralActivityPager extends AppCompatActivity implements ListNavegat
 		super.onCreate(savedInstanceState);
 		this.adapter = new ViewPagerAdpter(this.getSupportFragmentManager(), this);
 		this.distributeEvenly = true;
+		tag = this.getClass().getSimpleName();
 	}
 
 	/**
@@ -52,7 +55,7 @@ public class GeralActivityPager extends AppCompatActivity implements ListNavegat
 	public void addFragment(ItemFragment item)
 	{
 		this.adapter.addFragment(item);
-		Log.i("DBA:APP.TEST", getClass().getSimpleName()+"."+new Throwable().getLocalizedMessage()+"-> TOTAL ZISE "+adapter.getCount());
+		Log.i(getTag(), getClass().getSimpleName()+"."+new Throwable().getLocalizedMessage()+"-> TOTAL ZISE "+adapter.getCount());
 	}
 
 	/**
@@ -60,7 +63,7 @@ public class GeralActivityPager extends AppCompatActivity implements ListNavegat
 	 */
 	public void setUp()
 	{
-		Log.i("DBA:APP.TEST", getClass().getSimpleName()+"-> .setUp\\pagers: "+adapter.getCount());
+		Log.i(getTag(), getClass().getSimpleName()+"-> .setUp\\pagers: "+adapter.getCount());
 		if(tabLayout != null && this.pager != null)
 		{
 			this.pager.setAdapter(this.adapter);
@@ -78,7 +81,7 @@ public class GeralActivityPager extends AppCompatActivity implements ListNavegat
 				this.tabLayout.setSelectedIndicatorColors(this.selectedIndicatorColor);
 			else this.tabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.colorAccent));
 
-			Log.i("DBA:APP.TEST", getClass().getSimpleName()+"-> total pager found: "+this.adapter.getCount());
+			Log.i(getTag(), getClass().getSimpleName()+"-> total pager found: "+this.adapter.getCount());
 			this.tabLayout.setViewPager(this.pager);
 		}
 	}
@@ -131,7 +134,7 @@ public class GeralActivityPager extends AppCompatActivity implements ListNavegat
 		int index = this.adapter.getItemPosition(keyFragment);
 		if(index != -1)
 			this.naveTo(index);
-		else Log.e("DBA:APP.TEST", getClass().getSimpleName()+"-> Não consegue navegara para  "+keyFragment);
+		else Log.e(getTag(), getClass().getSimpleName()+"-> Não consegue navegara para  "+keyFragment);
 	}
 
 	@Override
@@ -169,5 +172,15 @@ public class GeralActivityPager extends AppCompatActivity implements ListNavegat
 
 	public void setTypeAba(SlidingTabLayout.TypeAba typeAba) {
 		this.typeAba = typeAba;
+	}
+
+	@Override
+	public String getTag() {
+		return this.tag;
+	}
+
+	@Override
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 }

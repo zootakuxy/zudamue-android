@@ -1,4 +1,4 @@
-package st.domain.support.android.sqlite;
+package st.domain.support.android.old_sql.sqlite;
 
 /**
  * Created by xdata on 7/23/16.
@@ -55,7 +55,6 @@ public interface CommandInsert
          * @param <T>
          * @return
          */
-        public <T extends Returning>  T as (LiteSelect query) throws DMLException;
     }
 
     public interface Returning

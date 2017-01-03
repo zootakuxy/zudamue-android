@@ -3,16 +3,18 @@ package st.domain.support.android.beans;
 import android.os.Bundle;
 import android.util.Log;
 
+import st.domain.support.android.AndroidLibraryTag;
 import st.domain.support.android.model.CallbackClient;
-import st.domain.support.android.sqlite.DMLite;
+import st.domain.support.android.old_sql.sqlite.DMLite;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class CallbackControler
+public class CallbackControler implements AndroidLibraryTag
 {
 	public static  final HashMap<CharSequence, CallbackClient> map = new HashMap<>();
+	private String tag = CallbackControler.class.getSimpleName();
 
 
 	/**
@@ -90,7 +92,7 @@ public class CallbackControler
 		boolean result = true;
 		if(destines == null)
 		{
-			Log.e("DBA:APP.TEST", "KeyboradSimpleNumbers-> destinataries not found");
+			Log.e(CallbackControler.class.getSimpleName(), "KeyboradSimpleNumbers-> destinataries not found");
 			return  false;
 		}
 		for(CharSequence destine: destines)
@@ -112,13 +114,13 @@ public class CallbackControler
 		//O dado so pode ser inviado se o frgamento for uma instancia de callbackCLiente
 		if(destine != null)
 		{
-			Log.i("DBA:APP.TEST", CallbackControler.class.getSimpleName()+"-> SENDING | intent{origem:\""+origem.getProtocolKey()+"\", destine:\""+destineId+"\", summary:\""+summary+"\", type:\""+sendType+"\", values"+ DMLite.toText(sendValue)+"}");
+			Log.i(CallbackControler.class.getSimpleName(), CallbackControler.class.getSimpleName()+"-> SENDING | intent{origem:\""+origem.getProtocolKey()+"\", destine:\""+destineId+"\", summary:\""+summary+"\", type:\""+sendType+"\", arguments"+ DMLite.toText(sendValue)+"}");
 			destine.onReceive(sendType, origem, summary, sendValue);
 			return true;
 		}
 		else
 		{
-			Log.e("DBA:APP.TEST", CallbackControler.class.getSimpleName()+"-> SEND FAILED | intent{origem:\""+origem.getProtocolKey()+"\", destineKey:\""+destineId+"\",  type:\""+sendType+"\", values"+ DMLite.toText(sendValue)+"}");
+			Log.e(CallbackControler.class.getSimpleName(), CallbackControler.class.getSimpleName()+"-> SEND FAILED | intent{origem:\""+origem.getProtocolKey()+"\", destineKey:\""+destineId+"\",  type:\""+sendType+"\", arguments"+ DMLite.toText(sendValue)+"}");
 		}
 		return false;
 	}
@@ -127,15 +129,25 @@ public class CallbackControler
 	{
 		if(clientRequired == null)
 		{
-			Log.w("DBA:APP.TEST", "Cliente required is null");
+			Log.w(CallbackControler.class.getSimpleName(), "Cliente required is null");
 		}
 
 		CallbackClient response = findNet(clientResponse);
 		if(response != null) return findNet(clientResponse).query(clientRequired, querySummary, values);
 		else
 		{
-			Log.e("DBA:APP.TEST", CallbackControler.class.getName()+"-> NOT FOUND CLIENT "+response+" FOR "+clientRequired.getProtocolKey());
+			Log.e(CallbackControler.class.getSimpleName(), CallbackControler.class.getName()+"-> NOT FOUND CLIENT "+response+" FOR "+clientRequired.getProtocolKey());
 			return null;
 		}
+	}
+
+	@Override
+	public String getTag() {
+		return tag;
+	}
+
+	@Override
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
 }

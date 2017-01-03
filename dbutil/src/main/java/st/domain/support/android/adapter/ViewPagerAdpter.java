@@ -10,6 +10,7 @@ import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.util.Log;
 
+import st.domain.support.android.AndroidLibraryTag;
 import st.domain.support.android.model.ItemFragment;
 
 import java.io.Serializable;
@@ -18,14 +19,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serializable
+public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serializable, AndroidLibraryTag
 {
 	private final Rect defaultBounds;
 	private Rect custonBounds;
 	private HashMap<CharSequence, ItemFragment> mapFragments;
 	private ArrayList<ItemFragment> listFragments;
 	private Context context;
-	
+	private String tag;
+
 	public ViewPagerAdpter(FragmentManager fm, Context context)
 	{
 		super(fm);
@@ -33,6 +35,7 @@ public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serial
 		this.mapFragments = new HashMap<>();
 		this.listFragments = new ArrayList<>();
 		this.defaultBounds = new Rect(0, 0, 40, 40);
+		this.tag = this.getClass().getSimpleName();
 	}
 
 	public static SpannableString createSpannableString(String text, Drawable icon, Rect bounds)
@@ -99,11 +102,11 @@ public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serial
 	 */
 	public void addFragment(ItemFragment item)
 	{
-		Log.i("DBA:APP.TEST", getClass().getSimpleName()+"-> Adding fragement item "+item);
+		Log.i(getTag(), getClass().getSimpleName()+"-> Adding fragement item "+item);
 		if(mapFragments.containsKey(item.getProtocolKey()))
 		{
-			Log.e("DBA:APP.TEST", "Duplicated protocol key in  view pager");
-			throw new Error("Duplicated protocol key in  view pager");
+			Log.e(getTag(), "Duplicated protocol key inSelect  view pager");
+			throw new Error("Duplicated protocol key inSelect  view pager");
 		}
 		this.mapFragments.put(item.getProtocolKey(), item);
 		this.listFragments.add(item);
@@ -139,4 +142,13 @@ public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serial
 		return this.mapFragments.entrySet();
 	}
 
+	@Override
+	public String getTag() {
+		return this.tag;
+	}
+
+	@Override
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 }

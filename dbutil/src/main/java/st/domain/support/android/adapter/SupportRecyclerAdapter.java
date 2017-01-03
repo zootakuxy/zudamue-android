@@ -78,7 +78,7 @@ public class SupportRecyclerAdapter extends BaseRecyclerAdapter
         if(viewHolder == null)
             viewHolder = new ItemViewHolder(view);
 
-        Log.i("DBA:APP.TEST", getClass().getSimpleName()+"-> viewHolder{"
+        Log.i(getTag(), getClass().getSimpleName()+"-> viewHolder{"
                 +"class:\""+viewHolder.getClass().getSimpleName()
                 +layoutName
                 +"}");

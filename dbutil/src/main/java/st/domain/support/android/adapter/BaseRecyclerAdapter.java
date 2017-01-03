@@ -14,16 +14,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import st.domain.support.android.AndroidLibraryTag;
+
 /**
  * Created by xdata on 8/9/16.
  */
 public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemDataSet> extends RecyclerView.Adapter<BaseRecyclerAdapter.ItemViewHolder>
+    implements AndroidLibraryTag
+
 {
+
     private final Context context;
     private final LayoutInflater inflater;
 
     private List<? extends E> listDataSet;
     private HashMap<Integer, ItemViewHolder> bindMap;
+    private String tag;
 
     public BaseRecyclerAdapter(Context context, List<? extends E> listDataSet)
     {
@@ -33,6 +39,8 @@ public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemData
         if(listDataSet == null)
             this.listDataSet = new ArrayList<>();
         else this.listDataSet = listDataSet;
+
+        tag = this.getClass().getSimpleName();
     }
 
 
@@ -71,7 +79,7 @@ public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemData
 
         boolean bind = holder.bind(data, position);
         holder.currentDataSet = data;
-        Log.i("DBA:APP.TEST", " bind | "+holder.getClass().getSimpleName());
+        Log.i(getTag(), " bind | "+holder.getClass().getSimpleName());
         if(!bind)
             this.onBindViewHolder(holder, data, position);
         this.bindMap.put(position, holder);
@@ -240,5 +248,15 @@ public abstract class BaseRecyclerAdapter<E extends BaseRecyclerAdapter.ItemData
     public interface ItemDataSet extends Serializable
     {
         int getTypeView();
+    }
+
+    @Override
+    public String getTag() {
+        return tag;
+    }
+
+    @Override
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

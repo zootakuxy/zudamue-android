@@ -154,7 +154,7 @@ public class SlidingTabStrip extends LinearLayout
     }
 
     /**
-     * Blend {@code color1} and {@code color2} using the given ratio.
+     * Blend {@code color1} jand {@code color2} using the given ratio.
      *
      * @param ratio of which to blend. 1.0 will return {@code color1}, 0.5 will give an even blend,
      *              0.0 will return {@code color2}.
