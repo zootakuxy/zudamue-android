@@ -21,7 +21,6 @@ import st.domain.support.android.sql.builder.Select;
  *
  * Created by xdata on 1/1/17.
  */
-
 public class Query {
 
     private Cursor cursor;
@@ -80,20 +79,19 @@ public class Query {
      * @param sql the string of statement
      * @param arguments the arguments of statements
      */
-    public void execute(String sql, Object ... arguments) {
+    public Query execute(String sql, Object ... arguments) {
 
         this.arguments.clear();
         this.query(sql);
         this.arguments.addAll(Arrays.asList(arguments));
-        this.execute();
-
+        return this.execute();
     }
 
     /**
      * Execute any query
      * @param query the char sequence query {@link String}, {@link Function}, {@link Select}
      */
-    public void execute (CharSequence query) {
+    public Query execute (CharSequence query) {
 
         if(query instanceof String) {
 
@@ -118,13 +116,14 @@ public class Query {
             throw new RuntimeException("Invalid object type query");
 
         }
+        return this;
     }
 
     /**
      * Execute the current statement
      */
-    public void execute() {
-        this.execute(this.query, prepareArguments(this.arguments));
+    public Query execute() {
+        return this.execute(this.query, prepareArguments(this.arguments));
     }
 
 
@@ -133,28 +132,31 @@ public class Query {
      * @param sqlQuery the query statement
      * @param arguments the string value statement
      */
-    public void execute(String sqlQuery, String[] arguments) {
+    public Query execute(String sqlQuery, String[] arguments) {
         if(this.isOpen())
             this.cursor.close();
 
         Log.i(tag, "QUERY->>>  "+sqlQuery);
         Log.i(tag, "ARGUMENTS->>>  "+Arrays.toString(arguments));
         this.cursor = this.database.rawQuery(sqlQuery, arguments);
+        return this;
     }
 
     /**
      * Clear all argument list
      */
-    public void clearArguments() {
+    public Query clearArguments() {
         this.arguments.clear();
+        return this;
     }
 
     /**
      * put the sql query stantment
      * @param query sql
      */
-    public void query(String query) {
+    public Query query(String query) {
         this.query = query;
+        return this;
     }
 
     /**
@@ -212,7 +214,7 @@ public class Query {
 
             }while (cursor.moveToNext());
 
-            this.closeCurosor();
+            this.closeCursor();
             return list;
         }else {
             throw new SQLException("The cursor is closed");
@@ -220,6 +222,10 @@ public class Query {
     }
 
 
+    /**
+     * Loop in SQLResult
+     * @param onCatchSQLRow lambda of loop code
+     */
     public void forLoopCursor(OnCatchSQLRow onCatchSQLRow) {
         if(hasRow()) {
             this.cursor.moveToNext();
@@ -227,10 +233,14 @@ public class Query {
                 SQLRow row = catchRow(this.cursor);
                 onCatchSQLRow.accept(row);
             }while (cursor.moveToNext());
-            this.closeCurosor();
+            this.closeCursor();
         }
     }
 
+    /**
+     * Verity if as row in current result
+     * @return true if as result | false if not has result
+     */
     public boolean hasRow() {
         return isOpen() && this.cursor.getCount()>0;
     }
@@ -240,16 +250,15 @@ public class Query {
      * @param cursor the cursor catchable
      * @return the SQLRow for cursor position
      */
-    public SQLRow catchRow(Cursor cursor)
-    {
+    public SQLRow catchRow(Cursor cursor) {
+
         Map<String, SQLiteRow.HeaderCell> indexH = this.processIndex(cursor);
         Map<String, SQLiteRow.HeaderCell> headerIndex = Collections.unmodifiableMap(indexH);
 
         SQLiteRow row = new SQLiteRow(cursor.getColumnCount(), headerIndex);
         String columnName;
 
-        for(int i=0; i<cursor.getColumnCount(); i++)
-        {
+        for(int i=0; i<cursor.getColumnCount(); i++) {
 
             columnName = cursor.getColumnName(i);
             switch (cursor.getType(i))
@@ -277,7 +286,9 @@ public class Query {
                     row.value(columnName, cursor.getExtras().get(columnName));
             }
         }
+        Log.i(this.tag, row.toString());
         return row;
+
     }
 
     private Map<String, SQLiteRow.HeaderCell> processIndex(Cursor cursor) {
@@ -317,14 +328,14 @@ public class Query {
      * Close the query and database
      */
     public void close() {
-        closeCurosor();
+        closeCursor();
         this.database.close();
     }
 
     /**
      * close de query
      */
-    public void closeCurosor(){
+    public void closeCursor(){
         if(isOpen()) {
             this.cursor.close();
         }
@@ -362,3 +373,4 @@ public class Query {
                 && !cursor.isClosed();
     }
 }
+

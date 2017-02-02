@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class Identifier implements CharSequence {
 
-    private final String name;
+    protected final String name;
 
 
     public Identifier(String name) {

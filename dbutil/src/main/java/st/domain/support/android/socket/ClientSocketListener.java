@@ -8,7 +8,6 @@ package st.domain.support.android.socket;
 import android.app.Activity;
 import android.util.Log;
 
-import st.domain.support.android.AndroidLibraryTag;
 import st.domain.support.android.model.Identified;
 import com.thoughtworks.xstream.XStream;
 
@@ -26,7 +25,7 @@ import java.util.Map;
  * @author AhmedJorge
  * @author xdata
  */
-public class ClientSocketListener implements Serializable, AndroidLibraryTag
+public class ClientSocketListener implements Serializable
 {
 	private final String clientIdentifier;
 	private final NetIntentConverter netIntentConverter;
@@ -64,7 +63,7 @@ public class ClientSocketListener implements Serializable, AndroidLibraryTag
 		this.tag = this.getClass().getSimpleName();
 
 
-		this.listTreater.put(defaultOntreater.getProtocolKey(), defaultOntreater);
+		this.listTreater.put(defaultOntreater.getIdentifier(), defaultOntreater);
 		this.xStream.registerConverter(this.netIntentConverter);
 		this.xStream.alias(this.netIntentConverter.getTagRoot(), NetIntent.class);
 	}
@@ -211,9 +210,9 @@ public class ClientSocketListener implements Serializable, AndroidLibraryTag
     
     public void addTreater(OnTreatNetIntent onTreatNetIntent)
     {
-		if(listTreater.containsKey(onTreatNetIntent.getProtocolKey()))
-			listTreater.remove(onTreatNetIntent.getProtocolKey());
-		this.listTreater.put(onTreatNetIntent.getProtocolKey(), onTreatNetIntent);
+		if(listTreater.containsKey(onTreatNetIntent.getIdentifier()))
+			listTreater.remove(onTreatNetIntent.getIdentifier());
+		this.listTreater.put(onTreatNetIntent.getIdentifier(), onTreatNetIntent);
     }
 
     /**
@@ -302,12 +301,10 @@ public class ClientSocketListener implements Serializable, AndroidLibraryTag
 				&& this.server.isConnected();
 	}
 
-	@Override
 	public String getTag() {
 		return this.tag;
 	}
 
-	@Override
 	public void setTag(String tag) {
 		this.tag = tag;
 	}

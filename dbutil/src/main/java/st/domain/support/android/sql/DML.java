@@ -1,5 +1,6 @@
-package st.domain.support.android.old_sql.sqlite;
+package st.domain.support.android.sql;
 
+import st.domain.support.android.sql.DMLException;
 import st.domain.support.android.sql.SQLRow;
 
 /**

@@ -1,33 +1,34 @@
-package st.domain.support.android.old_sql.sqlite;
+package st.domain.support.android.sql;
 
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import st.domain.support.android.sql.SQLRow;
-import st.domain.support.android.sql.sqlite.AssetsDataBase;
+import st.domain.support.android.sql.builder.Select;
+import st.domain.support.android.sql.sqlite.AssetsDatabase;
 import st.domain.support.android.sql.sqlite.Query;
 import st.domain.support.android.sql.sqlite.SQLResources;
+
 
 /**
  *
  * Created by xdata on 7/25/16.
  */
-public class LiteDataBase extends DMLite implements CommandInsert.Insert
+public class LiteDatabase extends DMLite implements CommandInsert.Insert
 {
 
     private final Context context;
-    private final AssetsDataBase SQLite;
+    private final AssetsDatabase SQLite;
     private final LiteInsert insert;
     private final Query query;
     private Operaction operaction;
 
     private SQLResources liteResources;
 
-    public LiteDataBase(Context context, String dataBaseName, int version)
+    public LiteDatabase(Context context, String dataBaseName, int version)
     {
         this.context = context;
-        this.SQLite =  new AssetsDataBase(context, dataBaseName, version);
+        this.SQLite =  new AssetsDatabase(context, dataBaseName, version);
         this.insert = new LiteInsert(this.SQLite.getWritableDatabase());
 
         this.liteResources = new SQLResources(this.SQLite.getDataBase());
@@ -36,6 +37,60 @@ public class LiteDataBase extends DMLite implements CommandInsert.Insert
 
     public Query query() {
         return query;
+    }
+
+    public Select select(CharSequence ... columns){
+        return new Select(columns);
+    }
+
+
+
+    public CharSequence sum (String ... columns){
+        return AggregateFunction.function("sum", columns);
+    }
+
+    public CharSequence count (CharSequence ... columns){
+        return AggregateFunction.function("count", (String[]) columns);
+    }
+
+    public CharSequence max (CharSequence ... columns){
+        return AggregateFunction.function("max", (String[]) columns);
+    }
+
+    public CharSequence min (CharSequence ... columns){
+        return AggregateFunction.function("min", (String[]) columns);
+    }
+
+    public CharSequence avg (CharSequence ... columns){
+        return AggregateFunction.function("avg", (String[]) columns);
+    }
+
+    public CharSequence strftime (String format, Object values) {
+        return Function.function("strftime", format, values);
+    }
+
+    public CharSequence column (String column){
+        return st.domain.support.android.sql.Column.column(column);
+    }
+
+    public CharSequence value(byte value){
+        return String.valueOf(value);
+    }
+
+    public CharSequence value(int value){
+        return String.valueOf(value);
+    }
+
+    public CharSequence value(long value){
+        return String.valueOf(value);
+    }
+
+    public CharSequence value(float value){
+        return String.valueOf(value);
+    }
+
+    public CharSequence value(double value){
+        return String.valueOf(value);
     }
 
     @Deprecated
@@ -74,7 +129,7 @@ public class LiteDataBase extends DMLite implements CommandInsert.Insert
     @Override
     public Object getResult() throws DMLException
     {
-       return insert.getResult();
+        return insert.getResult();
     }
 
     public SQLRow getInsertResult()
@@ -147,6 +202,10 @@ public class LiteDataBase extends DMLite implements CommandInsert.Insert
 
     public SQLiteDatabase getDataBase() {
         return this.SQLite.getWritableDatabase();
+    }
+
+    public void cloneDatabase() {
+        this.SQLite.outputDatabase();
     }
 
     public enum Operaction

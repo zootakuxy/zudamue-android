@@ -3,14 +3,14 @@ package st.domain.support.android.sql.sqlite;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import st.domain.support.android.AndroidLibraryTag;
-import st.domain.support.android.old_sql.sqlite.SelectFunctionManager;
+import st.domain.support.android.sql.SelectFunctionManager;
 
 /**
+ *
  * Created by xdata on 12/24/16.
  */
 
-public class SQLResources implements AndroidLibraryTag{
+public class SQLResources {
 
     SelectFunctionManager selectFunctionManager;
     private String tag;
@@ -88,12 +88,10 @@ public class SQLResources implements AndroidLibraryTag{
     }
 
 
-    @Override
     public void setTag(String tag) {
         this.tag = tag;
     }
 
-    @Override
     public String getTag() {
         return this.tag;
     }

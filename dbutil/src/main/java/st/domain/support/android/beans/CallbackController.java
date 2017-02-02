@@ -3,18 +3,17 @@ package st.domain.support.android.beans;
 import android.os.Bundle;
 import android.util.Log;
 
-import st.domain.support.android.AndroidLibraryTag;
 import st.domain.support.android.model.CallbackClient;
-import st.domain.support.android.old_sql.sqlite.DMLite;
+import st.domain.support.android.sql.DMLite;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class CallbackControler implements AndroidLibraryTag
+public class CallbackController
 {
 	public static  final HashMap<CharSequence, CallbackClient> map = new HashMap<>();
-	private String tag = CallbackControler.class.getSimpleName();
+	private String tag = CallbackController.class.getSimpleName();
 
 
 	/**
@@ -37,7 +36,7 @@ public class CallbackControler implements AndroidLibraryTag
 
 	private static void unRegister(CallbackClient callbackClient)
 	{
-		CharSequence id = callbackClient.getProtocolKey();
+		CharSequence id = callbackClient.getIdentifier();
 		if(map.containsKey(id))
 			map.remove(id);
 	}
@@ -50,8 +49,8 @@ public class CallbackControler implements AndroidLibraryTag
      */
 	public static boolean registerClient(CallbackClient client)
 	{
-		if(map.containsKey(client.getProtocolKey())) return false;
-		map.put(client.getProtocolKey(), client);
+		if(map.containsKey(client.getIdentifier())) return false;
+		map.put(client.getIdentifier(), client);
 		return true;
 	}
 	
@@ -92,11 +91,11 @@ public class CallbackControler implements AndroidLibraryTag
 		boolean result = true;
 		if(destines == null)
 		{
-			Log.e(CallbackControler.class.getSimpleName(), "KeyboradSimpleNumbers-> destinataries not found");
+			Log.e(CallbackController.class.getSimpleName(), "KeyboradSimpleNumbers-> destinataries not found");
 			return  false;
 		}
 		for(CharSequence destine: destines)
-			if(!CallbackControler.sendTo(origem, destine, sumary, sendValues))
+			if(!CallbackController.sendTo(origem, destine, sumary, sendValues))
 				result = false;
 		return  result;
 	}
@@ -114,13 +113,13 @@ public class CallbackControler implements AndroidLibraryTag
 		//O dado so pode ser inviado se o frgamento for uma instancia de callbackCLiente
 		if(destine != null)
 		{
-			Log.i(CallbackControler.class.getSimpleName(), CallbackControler.class.getSimpleName()+"-> SENDING | intent{origem:\""+origem.getProtocolKey()+"\", destine:\""+destineId+"\", summary:\""+summary+"\", type:\""+sendType+"\", arguments"+ DMLite.toText(sendValue)+"}");
+			Log.i(CallbackController.class.getSimpleName(), CallbackController.class.getSimpleName()+"-> SENDING | intent{origem:\""+origem.getIdentifier()+"\", destine:\""+destineId+"\", summary:\""+summary+"\", type:\""+sendType+"\", arguments"+ DMLite.toText(sendValue)+"}");
 			destine.onReceive(sendType, origem, summary, sendValue);
 			return true;
 		}
 		else
 		{
-			Log.e(CallbackControler.class.getSimpleName(), CallbackControler.class.getSimpleName()+"-> SEND FAILED | intent{origem:\""+origem.getProtocolKey()+"\", destineKey:\""+destineId+"\",  type:\""+sendType+"\", arguments"+ DMLite.toText(sendValue)+"}");
+			Log.e(CallbackController.class.getSimpleName(), CallbackController.class.getSimpleName()+"-> SEND FAILED | intent{origem:\""+origem.getIdentifier()+"\", destineKey:\""+destineId+"\",  type:\""+sendType+"\", arguments"+ DMLite.toText(sendValue)+"}");
 		}
 		return false;
 	}
@@ -129,24 +128,22 @@ public class CallbackControler implements AndroidLibraryTag
 	{
 		if(clientRequired == null)
 		{
-			Log.w(CallbackControler.class.getSimpleName(), "Cliente required is null");
+			Log.w(CallbackController.class.getSimpleName(), "Cliente required is null");
 		}
 
 		CallbackClient response = findNet(clientResponse);
 		if(response != null) return findNet(clientResponse).query(clientRequired, querySummary, values);
 		else
 		{
-			Log.e(CallbackControler.class.getSimpleName(), CallbackControler.class.getName()+"-> NOT FOUND CLIENT "+response+" FOR "+clientRequired.getProtocolKey());
+			Log.e(CallbackController.class.getSimpleName(), CallbackController.class.getName()+"-> NOT FOUND CLIENT "+response+" FOR "+clientRequired.getIdentifier());
 			return null;
 		}
 	}
 
-	@Override
 	public String getTag() {
 		return tag;
 	}
 
-	@Override
 	public void setTag(String tag) {
 		this.tag = tag;
 	}

@@ -12,13 +12,13 @@ import java.sql.Timestamp;
 public interface SQLRow {
 
     String NULL = "null";
-    String INTEGER = "integer";
-    String FLOAT = "float";
-    String STRING = "string";
+    String INTEGER = "i";
+    String FLOAT = "f";
+    String STRING = "t";
     String TIME = "time";
     String DATE = "date";
     String TIMESTAMP = "timestamp";
-    String BLOB = "blob";
+    String BLOB = "byte";
 
     /**
      * Get the get the value inSelect row

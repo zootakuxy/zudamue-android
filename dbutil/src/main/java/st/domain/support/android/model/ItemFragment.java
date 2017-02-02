@@ -9,11 +9,11 @@ public interface ItemFragment extends Identified
 	 * 	Obter o tiitulo para o fragmento
 	 * @return
 	 */
-	public CharSequence getTitle();
+	CharSequence getTitle();
 	
 	/**
 	 * Obter o fragmento
 	 * @return
 	 */
-	public Fragment getFragment();
+	Fragment getFragment();
 }

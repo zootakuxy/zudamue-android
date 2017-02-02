@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-import st.domain.support.android.AndroidLibraryTag;
 import st.domain.support.android.sql.SQLRow;
 
 /**
@@ -14,7 +13,7 @@ import st.domain.support.android.sql.SQLRow;
  * Created by xdata on 12/25/16.
  */
 
-class SQLiteRow implements SQLRow, AndroidLibraryTag {
+class SQLiteRow implements SQLRow {
 
     private Map<String, HeaderCell> headerIndex;
     private Object[]row;
@@ -25,12 +24,13 @@ class SQLiteRow implements SQLRow, AndroidLibraryTag {
 
 
     private SQLiteRow(int columnCount) {
+
         this.tag = getClass().getName();
-        SimpleDateFormat s;
         this.row = new Object[columnCount];
         this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         this.timeFormat = new SimpleDateFormat("HH:mm:ss");
         this.timestampFormant = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     }
 
     SQLiteRow (int columnCount,  Map<String, HeaderCell> headerIndex) {
@@ -44,7 +44,6 @@ class SQLiteRow implements SQLRow, AndroidLibraryTag {
     }
 
     private int indexOf(String columnName) {
-        Log.i("TEST NULL PONT", String.valueOf(headerIndex.get(columnName)));
         return this.headerIndex.get(columnName).index;
     }
 
@@ -176,37 +175,41 @@ class SQLiteRow implements SQLRow, AndroidLibraryTag {
         this.put(columnName, objectValue);
     }
 
-    @Override
     public void setTag(String tag) {
         this.tag = tag;
     }
 
-    @Override
+
     public String getTag() {
         return this.tag;
     }
 
 
-    public String asJson(){
-        String json = "{rows:[";
+    public String text(){
+        String json = "{";
         String itemRow;
         int iCount =0;
         for(Map.Entry<String, HeaderCell> item: this.headerIndex.entrySet()){
-            itemRow =  "\"name\":\""+item.getKey()+"\"";
-            itemRow += ", \"type\":\""+item.getValue().type+"\"";
-            itemRow += ", \"value\":{\""+this.row[item.getValue().index]+"\"}";
+
+            Object oValue = this.row[item.getValue().index];
+            String value = oValue != null ? String.valueOf(oValue) : "";
+            String type = String.valueOf(item.getValue().type);
+            type = oValue != null ? type : "<"+type+">";
+            String name =  item.getKey();
+            itemRow =  "\""+name+"\":\""+type+"{"+value+"}\"";
             if(iCount == 0)
-                json += "{"+itemRow+"}";
-            else json += ", {"+itemRow+"}";
+                json += itemRow;
+            else json += ", "+itemRow+"";
             iCount ++;
+
         }
-        json +="]}";
+        json +="}";
         return json;
     }
 
     @Override
     public String toString() {
-        return getClass().getSimpleName()+asJson();
+        return getClass().getSimpleName()+ text();
     }
 
     static class HeaderCell {

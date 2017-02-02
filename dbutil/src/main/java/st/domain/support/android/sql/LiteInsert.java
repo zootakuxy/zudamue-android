@@ -1,4 +1,4 @@
-package st.domain.support.android.old_sql.sqlite;
+package st.domain.support.android.sql;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import st.domain.support.android.sql.SQLRow;
 import st.domain.support.android.sql.sqlite.Query;
 import st.domain.support.android.sql.builder.Select;
 
@@ -17,7 +16,7 @@ import st.domain.support.android.sql.builder.Select;
  *
  * Created by xdata on 7/23/16.
  */
-public class LiteInsert extends DMLite implements  DML, CommandInsert.ComplectInsert
+public class LiteInsert extends DMLite implements DML, CommandInsert.ComplectInsert
 {
     private final SQLiteDatabase dataBase;
     private boolean debugable;

@@ -5,13 +5,11 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.util.Log;
-
-import st.domain.support.android.AndroidLibraryTag;
-import st.domain.support.android.model.ItemFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,7 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serializable, AndroidLibraryTag
+import st.domain.support.android.model.ItemFragment;
+
+public class BaseFragmentPagerAdapter extends FragmentPagerAdapter implements Serializable, BasePagerAdapter
 {
 	private final Rect defaultBounds;
 	private Rect custonBounds;
@@ -28,8 +28,7 @@ public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serial
 	private Context context;
 	private String tag;
 
-	public ViewPagerAdpter(FragmentManager fm, Context context)
-	{
+	public BaseFragmentPagerAdapter(FragmentManager fm, Context context) {
 		super(fm);
 		this.context = context;
 		this.mapFragments = new HashMap<>();
@@ -38,8 +37,7 @@ public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serial
 		this.tag = this.getClass().getSimpleName();
 	}
 
-	public static SpannableString createSpannableString(String text, Drawable icon, Rect bounds)
-	{
+	public static SpannableString createSpannableString(String text, Drawable icon, Rect bounds) {
 		icon.setBounds(bounds);
 		ImageSpan imageSpan = new ImageSpan(icon);
 		SpannableString spannableString = new SpannableString(text);
@@ -64,7 +62,7 @@ public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serial
 		int index = 0;
 		for(ItemFragment item: this.listFragments)
 		{
-			if(item.getProtocolKey().equals(key))
+			if(item.getIdentifier().equals(key))
 				return index;
 			index++;
 		}
@@ -85,15 +83,9 @@ public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serial
 	
 	
 	@Override
-	public CharSequence getPageTitle(int position) 
-	{
+	public CharSequence getPageTitle(int position) {
 		CharSequence title = this.listFragments.get(position).getTitle();
 		return  title;
-	}
-
-	public CharSequence getSimpleTitle(int position)
-	{
-		return this.listFragments.get(position).getTitle();
 	}
 
 	
@@ -103,23 +95,13 @@ public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serial
 	public void addFragment(ItemFragment item)
 	{
 		Log.i(getTag(), getClass().getSimpleName()+"-> Adding fragement item "+item);
-		if(mapFragments.containsKey(item.getProtocolKey()))
+		if(mapFragments.containsKey(item.getIdentifier()))
 		{
 			Log.e(getTag(), "Duplicated protocol key inSelect  view pager");
 			throw new Error("Duplicated protocol key inSelect  view pager");
 		}
-		this.mapFragments.put(item.getProtocolKey(), item);
+		this.mapFragments.put(item.getIdentifier(), item);
 		this.listFragments.add(item);
-	}
-	
-	/**
-	 * Proucurar o fragmento na lista
-	 * @param key
-	 * @return
-	 */
-	public Fragment find(String key)
-	{
-		return this.mapFragments.get(key).getFragment();
 	}
 
 
@@ -127,27 +109,28 @@ public class ViewPagerAdpter extends FragmentStatePagerAdapter implements Serial
 	 * Limpar por completo o adapter 
 	 * remover todos dos fragmetos do adpter
 	 */
-	public void clear ()
-	{
+	public void clear () {
 		this.listFragments.clear();
 		this.mapFragments.clear();
+	}
+
+	public ArrayList<ItemFragment> getListFragments() {
+		return listFragments;
 	}
 
 	/**
 	 * Obter a lista do  mapa do fragmento
 	 * @return
 	 */
-	public Set<Map.Entry<CharSequence, ItemFragment>> getMap()
+	public Map<CharSequence, ItemFragment> getMap()
 	{
-		return this.mapFragments.entrySet();
+		return this.mapFragments;
 	}
 
-	@Override
 	public String getTag() {
 		return this.tag;
 	}
 
-	@Override
 	public void setTag(String tag) {
 		this.tag = tag;
 	}

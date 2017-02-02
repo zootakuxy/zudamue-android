@@ -11,5 +11,5 @@ public interface Identified extends Serializable
      * Obter o do cliente na net
      * @return
      */
-    public CharSequence getProtocolKey();
+    public CharSequence getIdentifier();
 }

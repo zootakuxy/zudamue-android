@@ -5,6 +5,7 @@ import st.domain.support.android.sql.type.Time;
 import st.domain.support.android.sql.type.Timestamp;
 
 /**
+ *
  * Created by xdata on 1/1/17.
  */
 

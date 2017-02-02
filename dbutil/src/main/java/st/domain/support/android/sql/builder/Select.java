@@ -24,6 +24,7 @@ public class Select extends SelectInterfaces
     private String tag;
     String level;
     String variable;
+    String name;
 
     public Select() {
         this.query = "";
@@ -33,6 +34,10 @@ public class Select extends SelectInterfaces
         this.variable ="?";
     }
 
+    public Select as(String name) {
+        this.name = name;
+        return this;
+    }
 
     public Select(CharSequence ... columns) {
         this();
@@ -111,6 +116,10 @@ public class Select extends SelectInterfaces
 
         String query = this.processIdentifier(tableQuery);
         this.query = this.query + "\n  FROM "+query;
+        if(name == null && tableQuery instanceof Select)
+            this.name = ((Select) tableQuery).name;
+        else if(name == null)
+            this.name = query;
         return this;
     }
 
@@ -118,6 +127,7 @@ public class Select extends SelectInterfaces
     public FromResult from(CharSequence queryTable, String aliasTable) {
         from(queryTable);
         this.query+= " AS "+aliasTable;
+        this.name = aliasTable;
         return this;
     }
 
@@ -391,6 +401,8 @@ public class Select extends SelectInterfaces
         } else if (column instanceof Select){
             ((Select) column).setLevel(nextLevel());
             value = "("+((SQL) column).sql()+")";
+            if(((Select) column).name != null)
+                value += " as "+((Select) column).name;
             appendArguments(((SQL) column).arguments());
 
 

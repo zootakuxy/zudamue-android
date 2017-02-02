@@ -20,15 +20,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class SlidingTabStrip extends LinearLayout
-{
+class SlidingTabStrip extends LinearLayout {
 
     private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 0;
     private static final byte DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0x26;
@@ -51,8 +48,7 @@ public class SlidingTabStrip extends LinearLayout
         this(context, null);
     }
 
-    SlidingTabStrip(Context context, AttributeSet attrs)
-    {
+    SlidingTabStrip(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
 
@@ -76,21 +72,19 @@ public class SlidingTabStrip extends LinearLayout
         mSelectedIndicatorPaint = new Paint();
     }
 
-    void setCustomTabColorizer(SlidingTabLayout.TabColorizer customTabColorizer)
-    {
+    void setCustomTabColorizer(SlidingTabLayout.TabColorizer customTabColorizer) {
         mCustomTabColorizer = customTabColorizer;
         invalidate();
     }
 
     void setSelectedIndicatorColors(int... colors) {
-        // Make sure that the custom colorizer type removed
+        // Make sure that the custom colorizer is removed
         mCustomTabColorizer = null;
         mDefaultTabColorizer.setIndicatorColors(colors);
         invalidate();
     }
 
-    void onViewPagerPageChanged(int position, float positionOffset)
-    {
+    void onViewPagerPageChanged(int position, float positionOffset) {
         mSelectedPosition = position;
         mSelectionOffset = positionOffset;
         invalidate();
@@ -100,8 +94,9 @@ public class SlidingTabStrip extends LinearLayout
     protected void onDraw(Canvas canvas) {
         final int height = getHeight();
         final int childCount = getChildCount();
-
-        final SlidingTabLayout.TabColorizer tabColorizer = getTabColorizer();
+        final SlidingTabLayout.TabColorizer tabColorizer = mCustomTabColorizer != null
+                ? mCustomTabColorizer
+                : mDefaultTabColorizer;
 
         // Thick colored underline below the current selection
         if (childCount > 0) {
@@ -109,11 +104,8 @@ public class SlidingTabStrip extends LinearLayout
             int left = selectedTitle.getLeft();
             int right = selectedTitle.getRight();
             int color = tabColorizer.getIndicatorColor(mSelectedPosition);
-            View currentTitle = getChildAt(mSelectedPosition + 1);
 
-            if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1))
-            {
-                AppCompatActivity l;
+            if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1)) {
                 int nextColor = tabColorizer.getIndicatorColor(mSelectedPosition + 1);
                 if (color != nextColor) {
                     color = blendColors(nextColor, color, mSelectionOffset);
@@ -125,7 +117,6 @@ public class SlidingTabStrip extends LinearLayout
                         (1.0f - mSelectionOffset) * left);
                 right = (int) (mSelectionOffset * nextTitle.getRight() +
                         (1.0f - mSelectionOffset) * right);
-                nextTitle.setSelected(false);
             }
 
             mSelectedIndicatorPaint.setColor(color);
@@ -138,14 +129,6 @@ public class SlidingTabStrip extends LinearLayout
         canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
     }
 
-    @NonNull
-    public SlidingTabLayout.TabColorizer getTabColorizer() {
-        return mCustomTabColorizer != null
-                    ? mCustomTabColorizer
-                    : mDefaultTabColorizer;
-    }
-
-
     /**
      * Set the alpha value of the {@code color} to be the given {@code alpha} value.
      */
@@ -154,7 +137,7 @@ public class SlidingTabStrip extends LinearLayout
     }
 
     /**
-     * Blend {@code color1} jand {@code color2} using the given ratio.
+     * Blend {@code color1} and {@code color2} using the given ratio.
      *
      * @param ratio of which to blend. 1.0 will return {@code color1}, 0.5 will give an even blend,
      *              0.0 will return {@code color2}.

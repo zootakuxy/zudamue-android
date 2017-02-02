@@ -1,4 +1,4 @@
-package st.domain.support.android.old_sql.sqlite;
+package st.domain.support.android.sql;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -6,14 +6,12 @@ import android.database.sqlite.SQLiteStatement;
 import java.util.LinkedList;
 import java.util.List;
 
-import st.domain.support.android.AndroidLibraryTag;
-
 /**
  *
  * Created by xdata on 12/24/16.
  */
 
-public class SelectFunctionManager implements AndroidLibraryTag {
+public class SelectFunctionManager {
 
     SQLiteDatabase database;
     private String name;
@@ -116,7 +114,7 @@ public class SelectFunctionManager implements AndroidLibraryTag {
     }
 
     /**
-     * Prepare imputs params
+     * Prepare imputs inParmm
      * @param compile
      */
     private void prepareParmans(SQLiteStatement compile) {
@@ -157,12 +155,10 @@ public class SelectFunctionManager implements AndroidLibraryTag {
     }
 
 
-    @Override
     public String getTag() {
         return this.tag;
     }
 
-    @Override
     public void setTag(String tag) {
         this.tag = tag;
     }

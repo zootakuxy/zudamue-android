@@ -1,4 +1,4 @@
-package st.domain.support.android.old_sql.sqlite;
+package st.domain.support.android.sql;
 
 import android.content.ContentValues;
 import android.support.annotation.NonNull;
@@ -11,13 +11,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import st.domain.support.android.AndroidLibraryTag;
 import st.domain.support.android.model.Money;
 
 /**
  * Created by xdata on 7/23/16.
  */
-public abstract class DMLite implements DML.Debugable, DML, AndroidLibraryTag
+public abstract class DMLite implements DML.Debugable, DML
 {
     private final String prefixe;
     private boolean debugable;
@@ -214,12 +213,10 @@ public abstract class DMLite implements DML.Debugable, DML, AndroidLibraryTag
         return null;
     }
 
-    @Override
     public String getTag() {
         return this.tag;
     }
 
-    @Override
     public void setTag(String tag) {
         this.tag = tag;
     }

@@ -13,12 +13,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
 
-import st.domain.support.android.AndroidLibraryTag;
-
 /**
+ *
  * Created by xdata on 7/22/16.
  */
-public class AssetsDataBase extends SQLiteOpenHelper implements AndroidLibraryTag
+public class AssetsDatabase extends SQLiteOpenHelper
 {
     private static String dataBaseName;
     private final Context context;
@@ -32,11 +31,11 @@ public class AssetsDataBase extends SQLiteOpenHelper implements AndroidLibraryTa
      * @param dataBaseName
      * @param version
      */
-    public AssetsDataBase(Context context, String dataBaseName, int version)
+    public AssetsDatabase(Context context, String dataBaseName, int version)
     {
         super(context, dataBaseName, null, version);
-        AssetsDataBase.dataBaseName = dataBaseName;
-        this.assetsName = AssetsDataBase.dataBaseName;
+        AssetsDatabase.dataBaseName = dataBaseName;
+        this.assetsName = AssetsDatabase.dataBaseName;
         this.context = context;
         this.setUpDataBase();
         this.tag = getClass().getSimpleName();
@@ -216,12 +215,10 @@ public class AssetsDataBase extends SQLiteOpenHelper implements AndroidLibraryTa
         return this.getReadableDatabase();
     }
 
-    @Override
     public String getTag() {
         return this.tag;
     }
 
-    @Override
     public void setTag(String tag) {
         this.tag = tag;
     }

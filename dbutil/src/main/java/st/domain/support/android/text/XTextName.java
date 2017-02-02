@@ -11,15 +11,13 @@ import android.util.Log;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import st.domain.support.android.AndroidLibraryTag;
-
 
 /**
  * Essa classe permite recriar um ficeiro xml baseando da estrutura de uma classe em java
  * desde que essa implemente a interface ClassXML
  * @author Servidor
  */
-public class XTextName implements AndroidLibraryTag
+public class XTextName
 {
     private String tag = XTextName.class.getSimpleName();
 
@@ -195,12 +193,10 @@ public class XTextName implements AndroidLibraryTag
         return text;
     }
 
-    @Override
     public String getTag() {
         return this.tag;
     }
 
-    @Override
     public void setTag(String tag) {
         this.tag = tag;
     }
