@@ -1,11 +1,15 @@
 package st.domain.support.android.util;
 
 import java.io.Serializable;
+import java.util.List;
+
+import st.domain.support.android.sql.type.IntegerCharSequence;
 
 /**
+ *
  * Created by xdata on 8/9/16.
  */
-public abstract class BaseCharacter implements CharSequence, Serializable
+public abstract class BaseCharSequence implements CharSequence, Serializable
 {
 
     @Override
@@ -25,4 +29,5 @@ public abstract class BaseCharacter implements CharSequence, Serializable
     }
 
     public abstract String toString();
+
 }

@@ -2,38 +2,23 @@ package st.domain.support.android.sql;
 
 import java.util.List;
 
+import st.domain.support.android.util.BaseCharSequence;
+
 /**
  *
  * Created by xdata on 12/30/16.
  */
 
-public abstract class Identifier implements CharSequence {
+public abstract class Identifier extends BaseCharSequence {
 
     protected final String name;
 
 
     public Identifier(String name) {
-
         this.name = name;
-
     }
 
     public abstract List<Object> arguments();
-
-    @Override
-    public int length() {
-        return this.name.length();
-    }
-
-    @Override
-    public char charAt(int index) {
-        return this.name.charAt(0);
-    }
-
-    @Override
-    public CharSequence subSequence(int start, int end) {
-        return this.name.subSequence(start, end);
-    }
 
     public String name(){
         return name;
@@ -43,5 +28,4 @@ public abstract class Identifier implements CharSequence {
     public String toString() {
         return this.name;
     }
-
 }

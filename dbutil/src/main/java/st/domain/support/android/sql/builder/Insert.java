@@ -1,5 +1,7 @@
 package st.domain.support.android.sql.builder;
 
+import android.support.v4.util.Pair;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,17 +17,23 @@ public class Insert  extends AbstractSQL implements st.domain.support.android.sq
 {
 
     private Select select;
-    private CharSequence table;
-    private List<PairColumn> list;
+    private List<Object> list;
+    private List<String> listColumns;
+    private String sql;
+    private String table;
 
     public Insert() {
         this.select = new st.domain.support.android.sql.builder.Select();
         this.list = new LinkedList<>();
+        this.listColumns = new LinkedList<>();
     }
 
     @Override
-    public ResultInsertInto insertInto(CharSequence table) {
+    public ResultInsertInto insertInto(String table) {
+        this.listColumns.clear();
+        this.list.clear();
         this.table = table;
+        this.sql = "INSERT INTO "+table;
         return this;
     }
 
@@ -35,37 +43,43 @@ public class Insert  extends AbstractSQL implements st.domain.support.android.sq
     }
 
     @Override
-    public ResultColumn column(CharSequence column, CharSequence value) {
-        this.list.add(new PairColumn(column, value, true));
-        return this;
-    }
-
-    @Override
-    public ResultColumns columns(CharSequence ... columns) {
-        for(CharSequence column: columns) {
-            this.list.add(new PairColumn(column));
+    public ResultColumns columns(String ... columns) {
+        this.sql += "( ";
+        int count = 0;
+        for(String column: columns) {
+            this.listColumns.add(column);
+            this.sql += column;
+            if(++count < columns.length)
+                this.sql += ", ";
         }
+        this.sql += " )";
+
         return this;
     }
 
     @Override
-    public void values (Object ... values) {
-
+    public Insert values (Object ... values) {
+        this.sql += " VALUES( ";
         int iCount = 0;
-        for(PairColumn pairColumn: this.list) {
-            if(!pairColumn.isSet())
-                pairColumn.value(values[iCount++]);
+        for(Object value: values) {
+            this.sql += "?";
+            this.list.add(value);
+
+            if(++iCount < values.length)
+                this.sql += ", ";
         }
+        this.sql+= ") ";
+        return this;
     }
 
     @Override
     public String sql() {
-        return null;
+        return this.sql;
     }
 
     @Override
     public List<Object> arguments() {
-        return null;
+        return this.list;
     }
 
     private class PairColumn {

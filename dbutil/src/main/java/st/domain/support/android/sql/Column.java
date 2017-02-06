@@ -1,5 +1,7 @@
 package st.domain.support.android.sql;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -9,28 +11,16 @@ import java.util.List;
 
 public class Column extends Identifier {
 
+    private List<Object> arguments;
+
     public Column(String name) {
         super(name);
+        this.arguments = new LinkedList<>();
     }
 
     @Override
     public List<Object> arguments() {
-        return null;
-    }
-
-    @Override
-    public int length() {
-        return 0;
-    }
-
-    @Override
-    public char charAt(int index) {
-        return 0;
-    }
-
-    @Override
-    public CharSequence subSequence(int start, int end) {
-        return null;
+        return Collections.unmodifiableList(this.arguments);
     }
 
     public static Column column(String name){

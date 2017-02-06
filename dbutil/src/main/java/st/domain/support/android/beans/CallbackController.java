@@ -3,11 +3,10 @@ package st.domain.support.android.beans;
 import android.os.Bundle;
 import android.util.Log;
 
-import st.domain.support.android.model.CallbackClient;
-import st.domain.support.android.sql.DMLite;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import st.domain.support.android.model.CallbackClient;
 
 
 public class CallbackController
@@ -113,13 +112,13 @@ public class CallbackController
 		//O dado so pode ser inviado se o frgamento for uma instancia de callbackCLiente
 		if(destine != null)
 		{
-			Log.i(CallbackController.class.getSimpleName(), CallbackController.class.getSimpleName()+"-> SENDING | intent{origem:\""+origem.getIdentifier()+"\", destine:\""+destineId+"\", summary:\""+summary+"\", type:\""+sendType+"\", arguments"+ DMLite.toText(sendValue)+"}");
+			//Log.i(CallbackController.class.getSimpleName(), CallbackController.class.getSimpleName()+"-> SENDING | intent{origem:\""+origem.getIdentifier()+"\", destine:\""+destineId+"\", summary:\""+summary+"\", type:\""+sendType+"\", arguments"+ DMLite.toText(sendValue)+"}");
 			destine.onReceive(sendType, origem, summary, sendValue);
 			return true;
 		}
 		else
 		{
-			Log.e(CallbackController.class.getSimpleName(), CallbackController.class.getSimpleName()+"-> SEND FAILED | intent{origem:\""+origem.getIdentifier()+"\", destineKey:\""+destineId+"\",  type:\""+sendType+"\", arguments"+ DMLite.toText(sendValue)+"}");
+			//Log.e(CallbackController.class.getSimpleName(), CallbackController.class.getSimpleName()+"-> SEND FAILED | intent{origem:\""+origem.getIdentifier()+"\", destineKey:\""+destineId+"\",  type:\""+sendType+"\", arguments"+ DMLite.toText(sendValue)+"}");
 		}
 		return false;
 	}

@@ -4,39 +4,88 @@ package st.domain.support.android.sql;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.List;
+
+import st.domain.support.android.sql.builder.*;
+import st.domain.support.android.sql.builder.Insert;
 import st.domain.support.android.sql.builder.Select;
 import st.domain.support.android.sql.sqlite.AssetsDatabase;
 import st.domain.support.android.sql.sqlite.Query;
 import st.domain.support.android.sql.sqlite.SQLResources;
+import st.domain.support.android.sql.sqlite.UpdatableSQL;
+import st.domain.support.android.sql.type.DateCharSequence;
+import st.domain.support.android.sql.type.DoubleCharSequence;
+import st.domain.support.android.sql.type.FloatCharSequence;
+import st.domain.support.android.sql.type.IntegerCharSequence;
+import st.domain.support.android.sql.type.LongCharSequence;
 
 
 /**
  *
  * Created by xdata on 7/25/16.
  */
-public class LiteDatabase extends DMLite implements CommandInsert.Insert
-{
+public class LiteDatabase {
 
     private final Context context;
     private final AssetsDatabase SQLite;
-    private final LiteInsert insert;
     private final Query query;
-    private Operaction operaction;
+    private final UpdatableSQL updatableSQL;
 
     private SQLResources liteResources;
 
-    public LiteDatabase(Context context, String dataBaseName, int version)
-    {
+    public LiteDatabase(Context context, String dataBaseName, int version) {
         this.context = context;
         this.SQLite =  new AssetsDatabase(context, dataBaseName, version);
-        this.insert = new LiteInsert(this.SQLite.getWritableDatabase());
-
         this.liteResources = new SQLResources(this.SQLite.getDataBase());
+
         this.query = new Query(this.getDataBase());
+        this.updatableSQL = new UpdatableSQL(this.getDataBase());
     }
 
-    public Query query() {
-        return query;
+    public LiteDatabase query( CharSequence query ) {
+        this.query.execute( query );
+        return this;
+    }
+
+    public void query(String query, Object ... argments) {
+        this.query.execute(query, argments);
+    }
+
+
+    public void execute( CharSequence charSequence ) {
+        this.updatableSQL.execute( charSequence );
+    }
+
+    public void execute(String sql, Object ... argments) {
+        this.updatableSQL.execute( sql, argments );
+    }
+
+    public st.domain.support.android.sql.Insert.ResultInsertInto insertInto(String table) {
+        return new Insert().insertInto(table);
+    }
+
+    public void onExecutResult(UpdatableSQL.OnResultExecute onResultExecute) {
+        this.updatableSQL.onExecuteResult (onResultExecute);
+    }
+
+    public Long getResultExecut () {
+        return this.updatableSQL.getResultExecute();
+    }
+
+    public UpdatableSQL.ExecuteType getExecuteTypeExecute () {
+        return this.updatableSQL.getResultType();
+    }
+
+    public void onQueryResult(OnQueryResult onCatch){
+        this.query.forLoopCursor(onCatch);
+    }
+
+    public List<SQLRow> onCatchResult(OnQueryResult onCatchSQLRow) {
+        return this.query.catchAllResult(onCatchSQLRow);
+    }
+
+    public List<SQLRow> catchAllResult () {
+        return this.query.catchAllResult();
     }
 
     public Select select(CharSequence ... columns){
@@ -65,133 +114,51 @@ public class LiteDatabase extends DMLite implements CommandInsert.Insert
         return AggregateFunction.function("avg", (String[]) columns);
     }
 
+
+
     public CharSequence strftime (String format, Object values) {
         return Function.function("strftime", format, values);
+    }
+
+    public Function upper (Object values) {
+        return Function.function("upper", values);
+    }
+
+    public CharSequence lower (Object values) {
+        return Function.function("lower", values);
     }
 
     public CharSequence column (String column){
         return st.domain.support.android.sql.Column.column(column);
     }
 
-    public CharSequence value(byte value){
+    public CharSequence value(Byte value){
         return String.valueOf(value);
     }
 
-    public CharSequence value(int value){
-        return String.valueOf(value);
+    public CharSequence value(Integer value){
+        return new IntegerCharSequence(value);
     }
 
-    public CharSequence value(long value){
-        return String.valueOf(value);
+    public CharSequence value(Long value){
+        return new LongCharSequence(value);
     }
 
-    public CharSequence value(float value){
-        return String.valueOf(value);
+    public CharSequence value(Float value){
+        return new FloatCharSequence( value );
     }
 
-    public CharSequence value(double value){
-        return String.valueOf(value);
+    public CharSequence value(Double value){
+        return new DoubleCharSequence( value );
     }
 
-    @Deprecated
-    @Override
-    public void begin() throws DMLException {
+    public DateCharSequence value(java.util.Date date) {
+        return new DateCharSequence(date.getTime());
     }
 
     public SQLResources getResources()
     {
         return this.liteResources;
-    }
-
-    public synchronized void setOperaction(Operaction operaction)
-    {
-    }
-
-    public  void begin(Operaction operaction)
-    {
-        this.setOperaction(operaction);
-        this.begin();
-    }
-
-
-    @Override
-    public void end() throws DMLException
-    {
-
-    }
-
-    @Override
-    public void execute() throws DMLException
-    {
-        insert.execute();
-    }
-
-    @Override
-    public Object getResult() throws DMLException
-    {
-        return insert.getResult();
-    }
-
-    public SQLRow getInsertResult()
-    {
-        return this.insert.getResultCatch();
-    }
-
-    @Override
-    public String getSql() throws DMLException
-    {
-        return insert.getSql();
-    }
-
-    @Override
-    public DML.Status getStatus()
-    {
-        if(this.operaction == null) return BaseStatus.INIT;
-        switch (this.operaction)
-        {
-
-            case INSERT:return this.insert.getStatus();
-
-            default:return BaseStatus.INIT;
-        }
-    }
-
-
-    @Override
-    public <T extends CommandInsert.Values & CommandInsert.Columns & CommandInsert.As> T insertInto(String tableName, String tableId) throws DMLException {
-        return this.insert.insertInto(tableName, tableId);
-
-    }
-
-
-
-    @Override
-    public void setDebugable(Debugable debugable) {
-        super.setDebugable(debugable);
-        this.insert.setDebugable(debugable);
-    }
-
-    @Override
-    public void setDebugable(boolean debugable, int typeDebug) {
-        super.setDebugable(debugable, typeDebug);
-        try {
-            this.insert.setDebugable(debugable, typeDebug);
-
-        }catch (Exception ex)
-        {
-
-        }
-    }
-
-    @Override
-    public void setTagDebug(String tagDebug) {
-        super.setTagDebug(tagDebug);
-        try {
-            this.insert.setTagDebug(tagDebug);
-        }catch (Exception ex)
-        {
-
-        }
     }
 
     public Context getContext()
@@ -208,9 +175,19 @@ public class LiteDatabase extends DMLite implements CommandInsert.Insert
         this.SQLite.outputDatabase();
     }
 
-    public enum Operaction
-    {
+    public enum Operaction {
         INSERT
+    }
+
+    public abstract class OnAllQueryResults implements OnQueryResult {
+
+        @Override
+        public boolean accept(SQLRow row) {
+            this.onRow(row);
+            return true;
+        }
+
+        protected abstract void onRow(SQLRow row);
     }
 
 }

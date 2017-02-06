@@ -92,7 +92,7 @@ public class SelectFunctionManager {
     }
 
     /**
-     * Execute any selectFunctionManager returns returns string inSelect data base
+     * UpdatableSQL any selectFunctionManager returns returns string inSelect data base
      * @return
      */
     public String executAsString(){
@@ -103,7 +103,7 @@ public class SelectFunctionManager {
     }
 
     /**
-     * Execute any selectFunctionManager return long inSelect data base
+     * UpdatableSQL any selectFunctionManager return long inSelect data base
      * @return
      */
     public long executAsLong(){

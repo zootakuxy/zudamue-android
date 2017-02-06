@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import st.domain.support.android.sql.Function;
-import st.domain.support.android.sql.OnCatchSQLRow;
+import st.domain.support.android.sql.OnQueryResult;
 import st.domain.support.android.sql.SQLRow;
 import st.domain.support.android.sql.builder.Select;
 
@@ -21,171 +21,94 @@ import st.domain.support.android.sql.builder.Select;
  *
  * Created by xdata on 1/1/17.
  */
-public class Query {
+public class Query extends BaseSQLExecutable {
 
     private Cursor cursor;
-    private SQLiteDatabase database;
-    private String query;
-    private List<Object> arguments;
-    private String tag;
     private Map<String, SQLiteRow.HeaderCell> index;
 
-    private final static Map<Integer, String> mapType = new android.support.v4.util.ArrayMap<>();
-
+    private final static Map<Integer, String> mapType = new LinkedHashMap<>();
+    private final static Map<Integer, Class<?>> mapClass = new LinkedHashMap<>();
     static {
+        // Maping the types
         mapType.put(Cursor.FIELD_TYPE_BLOB, SQLRow.BLOB);
         mapType.put(Cursor.FIELD_TYPE_FLOAT, SQLRow.FLOAT);
         mapType.put(Cursor.FIELD_TYPE_INTEGER, SQLRow.INTEGER);
         mapType.put(Cursor.FIELD_TYPE_STRING, SQLRow.STRING);
         mapType.put(Cursor.FIELD_TYPE_NULL, SQLRow.NULL);
+
+        // Maping the class
+        mapClass.put(Cursor.FIELD_TYPE_BLOB, byte[].class);
+        mapClass.put(Cursor.FIELD_TYPE_FLOAT, float.class);
+        mapClass.put(Cursor.FIELD_TYPE_INTEGER, int.class);
+        mapClass.put(Cursor.FIELD_TYPE_STRING, String.class);
+        mapClass.put(Cursor.FIELD_TYPE_NULL, null);
     }
 
     public Query() {
-        this.query = "";
-        this.arguments = new LinkedList<>();
-        this.tag = Query.class.getSimpleName();
+        super();
     }
 
     public Query(SQLiteDatabase database){
-        this();
-        this.database = database;
+        super(database);
     }
 
     public Query (SQLiteDatabase database, CharSequence query, Object ... arguments) {
-        this(database);
-        if(query instanceof String)
-            execute(String.valueOf(query), arguments);
-        else execute(query);
+        super(database, query, arguments);
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
 
-    /**
-     * Get the SQLiteDataBase
-     * @return sqliteDatabase
-     */
-    public SQLiteDatabase getDatabase() {
-        return database;
-    }
+    @Override
+    protected void prepareFromCharSequence(CharSequence query) {
 
-    public void setDatabase(SQLiteDatabase database) {
-        this.database = database;
-    }
-
-    /**
-     * Execute any sql statement string
-     * @param sql the string of statement
-     * @param arguments the arguments of statements
-     */
-    public Query execute(String sql, Object ... arguments) {
-
-        this.arguments.clear();
-        this.query(sql);
-        this.arguments.addAll(Arrays.asList(arguments));
-        return this.execute();
-    }
-
-    /**
-     * Execute any query
-     * @param query the char sequence query {@link String}, {@link Function}, {@link Select}
-     */
-    public Query execute (CharSequence query) {
-
-        if(query instanceof String) {
-
-            execute(String.valueOf(query), (Object []) null);
-
-        } else if(query instanceof Select){
-
-            this.arguments.clear();
-            this.query(((Select) query).sql());
-            this.arguments.addAll(((Select) query).arguments());
-            execute();
-
-        } else if(query instanceof Function ){
-
-            this.arguments.clear();
-            this.query("SELECT "+((Function) query).name());
-            this.arguments.addAll(((Function) query).arguments());
-            execute();
-
-        }else {
-
-            throw new RuntimeException("Invalid object type query");
-
+        this.clearArguments();
+        if( query instanceof  String ){
+            this.sql(String.valueOf(query));
         }
-        return this;
+        else if( query instanceof  Select ){
+            this.sql(((Select) query).sql());
+            this.arguments().addAll(((Select) query).arguments());
+        }
+        else if( query instanceof Function ){
+            this.sql("SELECT "+((Function) query).name());
+            this.arguments().addAll(((Function) query).arguments());
+        }
+        else {
+            throw  new RuntimeException("unknown charSequence");
+        }
+
     }
 
     /**
-     * Execute the current statement
-     */
-    public Query execute() {
-        return this.execute(this.query, prepareArguments(this.arguments));
-    }
-
-
-    /**
-     * Execute any external statement
-     * @param sqlQuery the query statement
+     * UpdatableSQL any external statement
+     * @param sql the query statement
      * @param arguments the string value statement
      */
-    public Query execute(String sqlQuery, String[] arguments) {
-        if(this.isOpen())
-            this.cursor.close();
-
-        Log.i(tag, "QUERY->>>  "+sqlQuery);
-        Log.i(tag, "ARGUMENTS->>>  "+Arrays.toString(arguments));
-        this.cursor = this.database.rawQuery(sqlQuery, arguments);
-        return this;
+    protected void exec(String sql, Object [] arguments) {
+        Log.i(getTag(), "QUERY->>>  "+sql);
+        Log.i(getTag(), "ARGUMENTS->>>  "+Arrays.toString(arguments));
+        String[] stringArgument = asArrayString(arguments);
+        this.index = null;
+        this.cursor = this.getDatabase().rawQuery(sql, stringArgument);
     }
 
-    /**
-     * Clear all argument list
-     */
-    public Query clearArguments() {
-        this.arguments.clear();
-        return this;
-    }
+    private String[] asArrayString(Object[] arguments) {
 
-    /**
-     * put the sql query stantment
-     * @param query sql
-     */
-    public Query query(String query) {
-        this.query = query;
-        return this;
-    }
+        if( arguments == null || arguments.length == 0 ) return  null;
+        String[] array = new String[arguments.length];
 
-    /**
-     * put the argument for statement
-     * @param arguments the variable array of argument
-     */
-    public void argumets (Object ... arguments) {
-        this.arguments.addAll(Arrays.asList(arguments));
-    }
-
-    /**
-     * prepare the argument list to argument array
-     * @param arguments the list of argument
-     * @return the array of arguments
-     */
-    public static String[] prepareArguments(List<Object> arguments) {
-        String argumentsArray[] = (arguments.size() == 0)? null : new String[arguments.size()];
-        if(argumentsArray != null){
-            for (int i = 0; i<arguments.size(); i++)
-                argumentsArray[i] = String.valueOf(arguments.get(i));
+        Object arg;
+        for ( int i = 0; i < arguments.length; i++ ) {
+            arg = arguments[i];
+            array[i] = ( arg == null )? null : String.valueOf(arg);
         }
-        return argumentsArray;
+        return array;
     }
 
     /**
      * Capture all SQLRow into any list
      * @return the list of SQLRow
      */
-    public List<SQLRow> catchAllRow(){
+    public List<SQLRow> catchAllResult(){
         return catchAllResult(null);
     }
 
@@ -195,30 +118,35 @@ public class Query {
      * @param onCatchResult the functional caching
      * @return the list of SQLRow
      */
-    public List<SQLRow> catchAllResult(OnCatchSQLRow onCatchResult) {
+    public List<SQLRow> catchAllResult(OnQueryResult onCatchResult) {
 
-        if(onCatchResult == null) onCatchResult = new OnCatchSQLRow() {
+        if(onCatchResult == null) onCatchResult = new OnQueryResult() {
             @Override
-            public void accept(SQLRow row) {
-
+            public boolean accept(SQLRow row) {
+                return true;
             }
         };
 
+        List<SQLRow> list = new LinkedList<>();
+        Cursor loopCursor = this.cursor;
+
         if(hasRow()) {
-            this.cursor.moveToFirst();
-            List<SQLRow> list = new LinkedList<>();
+            loopCursor.moveToFirst();
+            Map< String, SQLiteRow.HeaderCell > index = getIndexer();
+
             do{
-                SQLRow row = catchRow(this.cursor);
-                list.add(row);
-                onCatchResult.accept(row);
+                SQLRow row = catchResultRow( loopCursor, index );
+                list.add( row );
+                if( !onCatchResult.accept( row ) )
+                    break;
+            } while ( loopCursor.moveToNext() );
 
-            }while (cursor.moveToNext());
-
-            this.closeCursor();
-            return list;
-        }else {
+            this.closeCursor( loopCursor );
+        }else if( loopCursor.isClosed() ) {
             throw new SQLException("The cursor is closed");
         }
+
+        return list;
     }
 
 
@@ -226,14 +154,18 @@ public class Query {
      * Loop in SQLResult
      * @param onCatchSQLRow lambda of loop code
      */
-    public void forLoopCursor(OnCatchSQLRow onCatchSQLRow) {
+    public void forLoopCursor(OnQueryResult onCatchSQLRow) {
         if(hasRow()) {
-            this.cursor.moveToNext();
+            Cursor loopCursor = this.cursor;
+            loopCursor.moveToNext();
+            Map<String,SQLiteRow.HeaderCell> index = this.getIndexer();
+
             do {
-                SQLRow row = catchRow(this.cursor);
-                onCatchSQLRow.accept(row);
-            }while (cursor.moveToNext());
-            this.closeCursor();
+                SQLRow row = catchResultRow(this.cursor, index);
+                if( ! onCatchSQLRow.accept(row) )
+                    break;
+            }while (loopCursor.moveToNext());
+            this.closeCursor(loopCursor);
         }
     }
 
@@ -242,7 +174,8 @@ public class Query {
      * @return true if as result | false if not has result
      */
     public boolean hasRow() {
-        return isOpen() && this.cursor.getCount()>0;
+        return isOpen()
+                && this.cursor.getCount()>0;
     }
 
     /**
@@ -250,19 +183,17 @@ public class Query {
      * @param cursor the cursor catchable
      * @return the SQLRow for cursor position
      */
-    public SQLRow catchRow(Cursor cursor) {
+    public SQLRow catchResultRow(Cursor cursor, Map<String, SQLiteRow.HeaderCell> indexRow) {
 
-        Map<String, SQLiteRow.HeaderCell> indexH = this.processIndex(cursor);
-        Map<String, SQLiteRow.HeaderCell> headerIndex = Collections.unmodifiableMap(indexH);
 
-        SQLiteRow row = new SQLiteRow(cursor.getColumnCount(), headerIndex);
+
+        SQLiteRow row = new SQLiteRow(cursor.getColumnCount(), indexRow);
         String columnName;
 
         for(int i=0; i<cursor.getColumnCount(); i++) {
 
             columnName = cursor.getColumnName(i);
-            switch (cursor.getType(i))
-            {
+            switch (cursor.getType(i)) {
                 case Cursor.FIELD_TYPE_BLOB:
                     row.blob(columnName, cursor.getBlob(i));
                     break;
@@ -286,63 +217,55 @@ public class Query {
                     row.value(columnName, cursor.getExtras().get(columnName));
             }
         }
-        Log.i(this.tag, row.toString());
+        Log.i(this.getTag(), row.toString());
         return row;
 
     }
 
-    private Map<String, SQLiteRow.HeaderCell> processIndex(Cursor cursor) {
+    private Map<String, SQLiteRow.HeaderCell> getIndexer() {
+        if(this.index == null)
+            this.index();
+        return this.index;
+    }
 
-        Map<String, SQLiteRow.HeaderCell> index = this.index;
-        if(cursor == this.cursor && this.index == null) {
+    private void index() {
+        if( cursor != null
+                && isOpen()) {
             this.index = new LinkedHashMap<>();
-            processIndex(this.cursor, this.index);
 
+            for(int i = 0; i<cursor.getColumnCount(); i++) {
+                String name = cursor.getColumnName(i);
+                String type = this.type(cursor.getType(i));
+                Class<?> classOf = this.classOf(i);
+                SQLiteRow.HeaderCell headerCell = new SQLiteRow.HeaderCell(name, type, i, classOf);
+                index.put(name, headerCell);
+            }
             this.index = Collections.unmodifiableMap(this.index);
-            index = this.index;
-        }
-        else if(cursor != this.cursor){
-            index = new LinkedHashMap<>();
-            processIndex(cursor, index);
-
-            index = Collections.unmodifiableMap(index);
-        }
-        return index;
-    }
-
-    private void processIndex(Cursor cursor, Map<String, SQLiteRow.HeaderCell> index) {
-        for(int i = 0; i<cursor.getColumnCount(); i++){
-            String name = cursor.getColumnName(i);
-            String type = this.type(cursor.getType(i));
-            SQLiteRow.HeaderCell headerCell = new SQLiteRow.HeaderCell(name, type, i);
-            index.put(name, headerCell);
         }
     }
+
 
     private String type(int type) {
         return mapType.get(type);
     }
 
-
-    /**
-     * Close the query and database
-     */
-    public void close() {
-        closeCursor();
-        this.database.close();
+    private Class<?> classOf(int type) {
+        return mapClass.get(type);
     }
+
 
     /**
      * close de query
      */
     public void closeCursor(){
-        if(isOpen()) {
-            this.cursor.close();
-        }
-
+        this.closeCursor(this.cursor);
         this.index = null;
-        this.cursor = null;
+    }
 
+    private void closeCursor(Cursor cursor) {
+        if(isOpen(cursor)) {
+            cursor.close();
+        }
     }
 
     /**
@@ -359,7 +282,7 @@ public class Query {
      * @return the SQLRow of position in cursor
      */
     public SQLRow nextRow() {
-        SQLRow row = catchRow(this.cursor);
+        SQLRow row = catchResultRow(this.cursor, getIndexer());
         this.cursor.moveToNext();
         return row;
     }
@@ -369,8 +292,18 @@ public class Query {
      * @return true if cursor is open
      */
     public boolean isOpen() {
+        return this.isOpen(this.cursor);
+    }
+
+    private boolean isOpen(Cursor cursor) {
         return cursor != null
                 && !cursor.isClosed();
+    }
+
+    @Override
+    public void close() {
+        closeCursor();
+        super.close();
     }
 }
 

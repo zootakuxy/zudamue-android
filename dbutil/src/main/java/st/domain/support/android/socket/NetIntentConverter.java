@@ -31,7 +31,7 @@ public class NetIntentConverter implements Converter, Serializable
 
     private static final String TAG_ROOT = "Content", TAG_SENDER= "Sender",
             TAG_RECIVER="Reciver", TAG_MESSAGE="Message", TAG_DATA="Datas",
-            ATB_TIMESEND = "Time", TAG_ITEM="Item", ATB_TYPE="type", ATB_INTENT="intent",
+            ATB_TIMESEND = "TimeCharSequence", TAG_ITEM="Item", ATB_TYPE="type", ATB_INTENT="intent",
             ATB_KEY="key", ATB_SIZE="size", TAG_GROUPDATA="Grupo-Datas",
             ATB_RESULT = "result";
     public static DateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

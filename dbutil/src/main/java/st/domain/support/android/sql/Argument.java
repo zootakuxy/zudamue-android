@@ -3,6 +3,7 @@ package st.domain.support.android.sql;
 import android.support.annotation.NonNull;
 
 /**
+ *
  * Created by xdata on 12/31/16.
  */
 

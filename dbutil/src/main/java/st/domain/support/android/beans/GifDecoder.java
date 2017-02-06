@@ -200,7 +200,7 @@ public class GifDecoder
 				}
 				int sx = i * iw; // start of line inSelect source
 				while (dx < dlim) {
-					// map color jand insert inSelect destination
+					// map color jand insertInto inSelect destination
 					int index = ((int) pixels[sx++]) & 0xff;
 					int c = act[index];
 					if (c != 0) {
@@ -572,7 +572,7 @@ public class GifDecoder
 		int save = 0;
 		if (transparency) {
 			save = act[transIndex];
-			act[transIndex] = 0; // set transparent color if specified
+			act[transIndex] = 0; // value transparent color if specified
 		}
 		if (act == null) {
 			status = STATUS_FORMAT_ERROR; // no color table defined

@@ -209,7 +209,6 @@ public class AssetsDatabase extends SQLiteOpenHelper
         }
     }
 
-
     public SQLiteDatabase getDataBase()
     {
         return this.getReadableDatabase();

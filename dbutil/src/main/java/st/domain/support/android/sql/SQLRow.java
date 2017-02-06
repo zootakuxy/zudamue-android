@@ -16,7 +16,7 @@ public interface SQLRow {
     String FLOAT = "f";
     String STRING = "t";
     String TIME = "time";
-    String DATE = "date";
+    String DATE = "value";
     String TIMESTAMP = "timestamp";
     String BLOB = "byte";
 
@@ -57,15 +57,15 @@ public interface SQLRow {
 
     /**
      * Get the blob|bye[] value
-     * @param columnName the name of columnName
+     * @param columnName the name of columnNameOf
      * @return byte[]
      */
     byte[] blob(String columnName);
 
     /**
-     * Get the date value
+     * Get the value value
      * @param columnName the name of column
-     * @return Date
+     * @return DateCharSequence
      */
     Date date(String columnName);
 
@@ -73,14 +73,14 @@ public interface SQLRow {
     /**
      * Get the timestamp value
      * @param columnName the name of column
-     * @return Timestamp
+     * @return TimestampCharSequence
      */
     Date timestamp(String columnName);
 
     /**
      * Get the time value
-     * @param columnName the name of columnName
-     * @return Time
+     * @param columnName the name of columnNameOf
+     * @return TimeCharSequence
      */
     Date time (String columnName);
 
@@ -89,5 +89,36 @@ public interface SQLRow {
      * @param columnName the name of column
      * @return {@value NULL} {@value INTEGER} {@value } {@value FLOAT} {@value TIME} {@value DATE} {@value TIMESTAMP} {@value BLOB}
      */
-    String type(String columnName);
+    String typeOf(String columnName);
+
+    /**
+     * Get class of value of column
+     * @param columnName the name of column
+     * @return the classe of column
+     */
+    Class<?> classOf(String columnName );
+
+    /**
+     * Get name of column in index
+     * @param index the index of column
+     * @return the name of column
+     */
+    String columnNameOf(int index );
+
+    /**
+     * Get count of columns in the row
+     * @return the number count of row
+     */
+    int columnsCount();
+
+    /**
+     * Verify if exist one column witch named
+     * @param columnName the name of column find
+     * @return name of column
+     */
+    boolean hasColumn( String columnName );
+
+;
+
+
 }

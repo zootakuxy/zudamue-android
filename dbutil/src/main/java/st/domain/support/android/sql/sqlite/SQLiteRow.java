@@ -3,7 +3,9 @@ package st.domain.support.android.sql.sqlite;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Map;
 
 import st.domain.support.android.sql.SQLRow;
@@ -44,6 +46,8 @@ class SQLiteRow implements SQLRow {
     }
 
     private int indexOf(String columnName) {
+        if( !this.headerIndex.containsKey(columnName) )
+            throw new RuntimeException( "the column " + columnName + " not found" );
         return this.headerIndex.get(columnName).index;
     }
 
@@ -51,10 +55,11 @@ class SQLiteRow implements SQLRow {
     public Integer integer(String columnName) {
 
         Object value = value(columnName);
+        if(value == null) return null;
         try{
             return (Integer) value;
         }catch (Exception ex) {
-            return Integer.valueOf(value.toString());
+            return Integer.valueOf(String.valueOf(value));
         }
 
     }
@@ -63,10 +68,11 @@ class SQLiteRow implements SQLRow {
     public Float real(String columnName) {
 
         Object value = value(columnName);
+        if(value == null) return null;
         try{
             return (Float) value;
         }catch (Exception ex) {
-            return Float.valueOf(value.toString());
+            return Float.valueOf(String.valueOf(value));
         }
 
     }
@@ -75,10 +81,11 @@ class SQLiteRow implements SQLRow {
     public Double realDouble(String columnName) {
 
         Object value = value(columnName);
+        if(value == null) return null;
         try{
             return (Double) value;
         }catch (Exception ex) {
-            return Double.valueOf(value.toString());
+            return Double.valueOf(String.valueOf(value));
         }
     }
 
@@ -89,7 +96,7 @@ class SQLiteRow implements SQLRow {
         try{
             return (String) value;
         }catch (Exception ex) {
-            return String.valueOf(value.toString());
+            return String.valueOf(String.valueOf(value));
         }
     }
 
@@ -97,6 +104,7 @@ class SQLiteRow implements SQLRow {
     public byte[] blob(String columnName) {
 
         Object value = value(columnName);
+        if(value == null) return null;
         try{
             return (byte[]) value;
         }catch (Exception ex) {
@@ -123,17 +131,39 @@ class SQLiteRow implements SQLRow {
     }
 
     @Override
-    public String type(String columnName) {
+    public String typeOf(String columnName) {
         return this.headerIndex.get(columnName).type;
+    }
+
+    @Override
+    public int columnsCount() {
+        return this.headerIndex.size();
+    }
+
+    @Override
+    public boolean hasColumn(String columnName) {
+        return this.headerIndex.containsKey( columnName );
+    }
+
+    @Override
+    public String columnNameOf(int index) {
+        if(index <0 || index >= this.headerIndex.size()) return null;
+        return new LinkedList<>( this.headerIndex.keySet() ).get( index );
+    }
+
+    @Override
+    public Class<?> classOf(String columnName) {
+        return this.headerIndex.get(columnName).classOf;
     }
 
     private Date getDate(String columnName, SimpleDateFormat format) {
         Object value = value(columnName);
-        if(value instanceof Date) return (Date) value;
+        if( value == null ) return null;
+        else if(value instanceof Date) return (Date) value;
         try{
             return format.parse(value.toString());
         }catch (Exception ex) {
-            Log.e( this.tag, "Invalid date convert{formatter:\""+format.toPattern()+"\", value:{\""+ value+"\"}}" );
+            Log.e( this.tag, "Invalid value convert{formatter:\""+format.toPattern()+"\", value:{\""+ value+"\"}}" );
             return null;
         }
     }
@@ -216,11 +246,13 @@ class SQLiteRow implements SQLRow {
         final String name;
         final String type;
         final int index;
+        public Class<?> classOf;
 
-        HeaderCell(String name, String type, int index) {
+        HeaderCell(String name, String type, int index, Class<?> classOf) {
             this.name = name;
             this.type = type;
             this.index = index;
+            this.classOf = classOf;
         }
     }
 }

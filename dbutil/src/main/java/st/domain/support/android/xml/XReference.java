@@ -189,7 +189,7 @@ public class XReference
 //        try
 //        {
 //            f.setAccessible(true);
-//            f.set(cla, vall);
+//            f.value(cla, vall);
 //        } catch (IllegalArgumentException | IllegalAccessException ex)
 //        {
 //        }

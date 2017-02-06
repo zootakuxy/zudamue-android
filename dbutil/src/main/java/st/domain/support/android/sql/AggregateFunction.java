@@ -48,7 +48,6 @@ public class AggregateFunction extends Function {
     }
 
 
-
     public static AggregateFunction function (String name, String ... columns) {
         AggregateFunction aggregateFunction  = new AggregateFunction(name);
         aggregateFunction.columns(columns);

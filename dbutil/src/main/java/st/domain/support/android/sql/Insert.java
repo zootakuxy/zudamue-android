@@ -7,31 +7,27 @@ package st.domain.support.android.sql;
 
 public interface Insert {
 
-    ResultInsertInto insertInto(CharSequence table);
+    ResultInsertInto insertInto(String table);
 
-    interface ResultInsertInto extends Values, Column, Columns, As {
+    interface ResultInsertInto extends Values, Columns, As, CharSequence, SQL {
     }
 
-    interface ResultColumn extends Column {
+    interface ResultColumn extends SQL {
     }
 
     interface As {
         Select as();
     }
 
-    interface Column {
-        ResultColumn column(CharSequence column, CharSequence value);
-    }
-
-    interface ResultColumns extends Values {
+    interface ResultColumns extends Values, SQL {
     }
 
     interface Columns {
-        ResultColumns columns(CharSequence ... columns);
+        ResultColumns columns(String ... columns);
     }
 
     interface Values {
-        void values(Object ... values);
+        SQL values(Object ... values);
     }
 
 }

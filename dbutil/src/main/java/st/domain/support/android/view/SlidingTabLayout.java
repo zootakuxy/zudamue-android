@@ -124,7 +124,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
     /**
      * Set the {@link ViewPager.OnPageChangeListener}. When using {@link SlidingTabLayout} you are
-     * required to set any {@link ViewPager.OnPageChangeListener} through this method. This is so
+     * required to value any {@link ViewPager.OnPageChangeListener} through this method. This is so
      * that the layout can update it's scroll position correctly.
      *
      * @see ViewPager#setOnPageChangeListener(ViewPager.OnPageChangeListener)
@@ -159,7 +159,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * Create a default view to be used for tabs. This is called if a custom tab view is not set via
+     * Create a default view to be used for tabs. This is called if a custom tab view is not value via
      * {@link #setCustomTabView(int, int)}.
      */
     protected TextView createDefaultTabView(Context context) {
@@ -191,7 +191,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             TextView tabTitleView = null;
 
             if (mTabViewLayoutId != 0) {
-                // If there is a custom tab view layout id set, try and inflate it
+                // If there is a custom tab view layout id value, try and inflate it
                 tabView = LayoutInflater.from(getContext()).inflate(mTabViewLayoutId, mTabStrip,
                         false);
                 tabTitleView = (TextView) tabView.findViewById(mTabViewTextViewId);

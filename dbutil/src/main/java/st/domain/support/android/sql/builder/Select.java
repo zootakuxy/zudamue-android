@@ -1,6 +1,7 @@
 package st.domain.support.android.sql.builder;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -244,6 +245,7 @@ public class Select extends SelectInterfaces
 
     @Override
     public st.domain.support.android.sql.Select.WhereOperatorResult equal(CharSequence argument) {
+        Log.i(getTag(), String.valueOf(argument));
         String value = this.processArgument(argument);
         this.query = this.query + " = "+value+"";
         return this;
@@ -357,17 +359,15 @@ public class Select extends SelectInterfaces
         if (column == null) {
             value = this.variable;
             this.arguments.add(null);
-        } else if (column instanceof Identifier){
 
+        } else if (column instanceof Identifier){
             value = ((Identifier) column).name();
             appendArguments(((Identifier) column).arguments());
-
         }
         else if(column instanceof Select) {
             ((Select) column).setLevel(nextLevel());
             value = "("+((SQL) column).sql()+")";
             appendArguments(((SQL) column).arguments());
-
         }
         else {
             value = this.variable;

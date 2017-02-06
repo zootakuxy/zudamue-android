@@ -65,7 +65,7 @@ public class DateChoserDialog extends DialogFragment implements NumberPicker.OnV
     }
 
     /**
-     * Contuir o corpo do date chaser
+     * Contuir o corpo do value chaser
      * @param builder
      * @param inflater
      */
