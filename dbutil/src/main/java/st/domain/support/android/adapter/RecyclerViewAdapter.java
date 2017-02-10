@@ -60,7 +60,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int index) {
 
         //if(holder instanceof ItemViewHolder)
-            ((ItemViewHolder) holder).bind(this.listItem.get(index));
+            ((ItemViewHolder) holder).bind(this.listItem.get(index), index, this.listItem.size());
 
     }
 

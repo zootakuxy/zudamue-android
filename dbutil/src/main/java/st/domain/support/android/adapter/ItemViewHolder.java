@@ -1,5 +1,6 @@
 package st.domain.support.android.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -11,9 +12,16 @@ import android.view.View;
 public abstract class ItemViewHolder extends RecyclerView.ViewHolder {
 
 
+    private Context context;
+
     public ItemViewHolder(View itemView) {
         super(itemView);
+        this.context = this.itemView.getContext();
     }
 
-    public abstract void bind(ItemDataSet dataSet);
+    public Context getContext() {
+        return context;
+    }
+
+    public abstract void bind( ItemDataSet dataSet, int currentAdapterPosition, int totalAdapterItem );
 }
