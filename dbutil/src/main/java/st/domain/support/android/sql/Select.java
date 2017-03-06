@@ -60,6 +60,12 @@ public interface Select  extends SQL {
 
     interface JoinOperatorWhere extends SQL {
 
+        /**
+         * and column
+         * in default de value wait is one column name for value this value require instance of { BaseTypeCharSequence }
+         * @param column
+         * @return
+         */
         WhereOperator and(CharSequence ... column);
         WhereOperator or(CharSequence ... column);
 

@@ -118,7 +118,9 @@ public interface SQLRow {
      */
     boolean hasColumn( String columnName );
 
-;
+    Object get(String value, Class<?> type);
+
+    ;
 
 
 }

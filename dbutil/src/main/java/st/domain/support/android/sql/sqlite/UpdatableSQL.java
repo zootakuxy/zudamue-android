@@ -85,7 +85,7 @@ public class UpdatableSQL extends BaseSQLExecutable {
         Log.i(getTag(), "sql: "+sql);
 
         SQLiteStatement statement = getDatabase().compileStatement(sql);
-        bindArguments(arguments, statement);
+        bindArguments( arguments, statement );
         String checkSqlType = sql.trim();
         checkSqlType = checkSqlType.split(" ")[0];
         checkSqlType = checkSqlType.toUpperCase();

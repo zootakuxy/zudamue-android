@@ -161,7 +161,7 @@ public class Query extends BaseSQLExecutable {
             Map<String,SQLiteRow.HeaderCell> index = this.getIndexer();
 
             do {
-                SQLRow row = catchResultRow(this.cursor, index);
+                SQLRow row = catchResultRow(loopCursor, index);
                 if( ! onCatchSQLRow.accept(row) )
                     break;
             }while (loopCursor.moveToNext());
@@ -174,8 +174,7 @@ public class Query extends BaseSQLExecutable {
      * @return true if as result | false if not has result
      */
     public boolean hasRow() {
-        return isOpen()
-                && this.cursor.getCount()>0;
+        return isOpen() && this.cursor.getCount()>0;
     }
 
     /**
@@ -183,17 +182,15 @@ public class Query extends BaseSQLExecutable {
      * @param cursor the cursor catchable
      * @return the SQLRow for cursor position
      */
-    public SQLRow catchResultRow(Cursor cursor, Map<String, SQLiteRow.HeaderCell> indexRow) {
+    public SQLRow catchResultRow( Cursor cursor, Map<String, SQLiteRow.HeaderCell> indexRow ) {
 
-
-
-        SQLiteRow row = new SQLiteRow(cursor.getColumnCount(), indexRow);
+        SQLiteRow row = new SQLiteRow( cursor.getColumnCount(), indexRow );
         String columnName;
 
-        for(int i=0; i<cursor.getColumnCount(); i++) {
+        for(int i = 0; i<cursor.getColumnCount(); i++) {
 
-            columnName = cursor.getColumnName(i);
-            switch (cursor.getType(i)) {
+            columnName = cursor.getColumnName( i );
+            switch ( cursor.getType( i ) ) {
                 case Cursor.FIELD_TYPE_BLOB:
                     row.blob(columnName, cursor.getBlob(i));
                     break;

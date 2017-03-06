@@ -13,11 +13,14 @@ import st.domain.support.android.sql.sqlite.AssetsDatabase;
 import st.domain.support.android.sql.sqlite.Query;
 import st.domain.support.android.sql.sqlite.SQLResources;
 import st.domain.support.android.sql.sqlite.UpdatableSQL;
+import st.domain.support.android.sql.type.ByteCharSequence;
 import st.domain.support.android.sql.type.DateCharSequence;
 import st.domain.support.android.sql.type.DoubleCharSequence;
 import st.domain.support.android.sql.type.FloatCharSequence;
 import st.domain.support.android.sql.type.IntegerCharSequence;
 import st.domain.support.android.sql.type.LongCharSequence;
+import st.domain.support.android.sql.type.TimeCharSequence;
+import st.domain.support.android.sql.type.TimestampCharSequence;
 
 
 /**
@@ -133,7 +136,7 @@ public class LiteDatabase {
     }
 
     public CharSequence value(Byte value){
-        return String.valueOf(value);
+        return new ByteCharSequence( value );
     }
 
     public CharSequence value(Integer value){
@@ -152,8 +155,16 @@ public class LiteDatabase {
         return new DoubleCharSequence( value );
     }
 
-    public DateCharSequence value(java.util.Date date) {
-        return new DateCharSequence(date.getTime());
+    public DateCharSequence date(java.util.Date date) {
+        return new DateCharSequence( date.getTime() );
+    }
+
+    public TimestampCharSequence timestanp(java.util.Date date) {
+        return new TimestampCharSequence(date.getTime());
+    }
+
+    public TimeCharSequence time(java.util.Date date) {
+        return new TimeCharSequence(date.getTime());
     }
 
     public SQLResources getResources()

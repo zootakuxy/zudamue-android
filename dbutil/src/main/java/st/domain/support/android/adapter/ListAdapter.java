@@ -9,24 +9,25 @@ import android.widget.BaseAdapter;
 
 import st.domain.support.android.model.ItemView;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class ListAdapter extends BaseAdapter
 {
 
-	ArrayList<ItemView> listItems;
+	List<ItemView> listItems;
 	private Context context;
 
 	public ListAdapter(Context context)
 	{
-		this.listItems =  new ArrayList<ItemView>();
+		this.listItems =  new LinkedList<>();
 		this.context = context;
 	}
 	
 	public ListAdapter()
 	{
-		this.listItems = new ArrayList<>();
+		this.listItems = new LinkedList<>();
 	}
 	
 	public void setContext(Context context)
@@ -78,13 +79,13 @@ public class ListAdapter extends BaseAdapter
 		this.listItems.remove(index);
 	}
 
-	protected ArrayList<ItemView> getList()
+	protected List<ItemView> getList()
 	{
 
 		return this.listItems;
 	}
 
-	public void addItems(ArrayList<? extends ItemView> metreages)
+	public void addItems( List<? extends ItemView> metreages)
 	{
 		for(ItemView item: metreages)
 			this.addItem(item);
@@ -95,7 +96,7 @@ public class ListAdapter extends BaseAdapter
 		this.listItems.clear();
 	}
 
-	public void replace(ArrayList<? extends ItemView> listData)
+	public void replace(List <? extends ItemView> listData)
 	{
 		this.clear();
 		this.addItems(listData);

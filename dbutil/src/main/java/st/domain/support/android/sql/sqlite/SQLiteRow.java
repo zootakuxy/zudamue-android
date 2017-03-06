@@ -146,6 +146,11 @@ class SQLiteRow implements SQLRow {
     }
 
     @Override
+    public Object get(String columnName, Class<?> type) {
+        return this.value( columnName );
+    }
+
+    @Override
     public String columnNameOf(int index) {
         if(index <0 || index >= this.headerIndex.size()) return null;
         return new LinkedList<>( this.headerIndex.keySet() ).get( index );

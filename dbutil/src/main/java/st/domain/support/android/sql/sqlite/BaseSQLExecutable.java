@@ -4,9 +4,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import st.domain.support.android.sql.type.BaseTypeCharSequence;
 import st.domain.support.android.sql.type.TypeCharSequence;
 
 /**
@@ -118,6 +120,11 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
         Object argment;
         for(int index = 1; index <= this.arguments().size(); index++ ){
             argment = arguments[index - 1];
+
+            if( argment instanceof BaseTypeCharSequence ){
+                argment = ((BaseTypeCharSequence) argment).value();
+            }
+
             if( argment instanceof byte[] )
                 statement.bindBlob(index, (byte[]) argment);
 
@@ -126,12 +133,19 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
 
             else if( argment instanceof  Double
                     || argment instanceof Float )
-                statement.bindDouble( index, Double.valueOf(String.valueOf(argment)) );
+                statement.bindDouble( index, Double.valueOf( String.valueOf( argment ) ) );
 
             else if( argment instanceof Integer
                     || argment instanceof Long
                     || argment instanceof Byte)
-                statement.bindLong( index, Long.valueOf(String.valueOf(argment)) );
+                statement.bindLong( index, Long.valueOf( String.valueOf( argment ) ) );
+
+            else if ( argment instanceof Date )
+                statement.bindString( index, argment.toString() );
+
+            else if( argment != null )
+                statement.bindString( index, String.valueOf( argment ));
+            else statement.bindNull( index );
         }
     }
 

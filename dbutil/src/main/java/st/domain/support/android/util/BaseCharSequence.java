@@ -1,5 +1,7 @@
 package st.domain.support.android.util;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,6 +30,7 @@ public abstract class BaseCharSequence implements CharSequence, Serializable
         return this.toString().subSequence(beginIndex, endIndex);
     }
 
+    @NonNull
     public abstract String toString();
 
 }
