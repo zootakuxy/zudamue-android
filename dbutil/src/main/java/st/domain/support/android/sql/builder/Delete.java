@@ -3,6 +3,7 @@ package st.domain.support.android.sql.builder;
 import java.util.LinkedList;
 import java.util.List;
 
+import st.domain.support.android.sql.AbstractSQL;
 import st.domain.support.android.sql.SQL;
 
 /**
@@ -10,7 +11,7 @@ import st.domain.support.android.sql.SQL;
  * Created by dchost on 04/02/17.
  */
 
-public class Delete implements SQL {
+public class Delete extends AbstractSQL {
 
     private String sql;
     private List<Object> listArguments;

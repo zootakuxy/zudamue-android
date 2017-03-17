@@ -21,6 +21,7 @@ import st.domain.support.android.sql.type.IntegerCharSequence;
 import st.domain.support.android.sql.type.LongCharSequence;
 import st.domain.support.android.sql.type.TimeCharSequence;
 import st.domain.support.android.sql.type.TimestampCharSequence;
+import st.domain.support.android.sql.type.UpdateLink;
 
 
 /**
@@ -65,6 +66,10 @@ public class LiteDatabase {
 
     public st.domain.support.android.sql.Insert.ResultInsertInto insertInto(String table) {
         return new Insert().insertInto(table);
+    }
+
+    public UpdateLink.UpdateSet update(String tableName) {
+        return new Update().update( tableName );
     }
 
     public void onExecutResult(UpdatableSQL.OnResultExecute onResultExecute) {
@@ -135,6 +140,15 @@ public class LiteDatabase {
         return st.domain.support.android.sql.Column.column(column);
     }
 
+    public CharSequence argumentOperation( CharSequence ... arguments ){
+        return new Operation().argumentsOperation( arguments );
+    }
+
+    public CharSequence columnsOperation( CharSequence ... arguments ){
+        return new Operation().argumentsOperation( arguments );
+    }
+
+
     public CharSequence value(Byte value){
         return new ByteCharSequence( value );
     }
@@ -185,6 +199,8 @@ public class LiteDatabase {
     public void cloneDatabase() {
         this.SQLite.outputDatabase();
     }
+
+
 
     public enum Operaction {
         INSERT
