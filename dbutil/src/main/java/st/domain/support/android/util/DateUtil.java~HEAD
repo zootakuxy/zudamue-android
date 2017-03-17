@@ -7,17 +7,17 @@ import java.util.Date;
  *
  * Created by dchost on 02/02/17.
  */
-public class DataUtil {
+public class DateUtil {
 
     private Date date;
 
-    public DataUtil(Date date){
+    public DateUtil(Date date){
 
         this.date = date;
 
     }
 
-    public DataUtil() {
+    public DateUtil() {
         this.date = Calendar.getInstance().getTime();
     }
 
@@ -152,6 +152,17 @@ public class DataUtil {
         }
 
         return interval;
+    }
+
+    public boolean isToday() {
+        Calendar current = Calendar.getInstance();
+        Calendar  date = Calendar.getInstance();
+        date.setTime( this.date );
+
+        return current.get( Calendar.YEAR ) == date.get( Calendar.YEAR )
+                && current.get( Calendar.MONTH ) == date.get( Calendar.MONTH )
+                && current.get( Calendar.DAY_OF_MONTH ) == date.get( Calendar.DAY_OF_MONTH )
+                ;
     }
 
 
