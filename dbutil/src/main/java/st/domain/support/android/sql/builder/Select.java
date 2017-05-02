@@ -1,14 +1,11 @@
 package st.domain.support.android.sql.builder;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import st.domain.support.android.sql.AbstractSQL;
-import st.domain.support.android.sql.Argument;
-import st.domain.support.android.sql.Identifier;
 import st.domain.support.android.sql.SQL;
 
 /**
@@ -25,7 +22,7 @@ public class Select extends SelectInterfaces
     private String tag;
     String level;
     String variable;
-    String name;
+    public String name;
 
     public Select() {
         this.query = "";
@@ -164,7 +161,7 @@ public class Select extends SelectInterfaces
 
     @Override
     public st.domain.support.android.sql.Select.WhereOperator where(CharSequence ... columns) {
-        String identifier = columnsConjunct(columns);
+        String identifier = processIdentifierConjunct(columns);
         this.query = this.query + "\n  WHERE "+ identifier +"";
         return this;
     }
@@ -196,7 +193,7 @@ public class Select extends SelectInterfaces
 
     @Override
     public SQL limit(CharSequence limit) {
-        String argument = this.processArgument(limit);
+        String argument = this.processIdentifier(limit);
         this.query = query + "\n  LIMIT "+argument;
         return this;
     }
@@ -246,46 +243,46 @@ public class Select extends SelectInterfaces
     @Override
     public st.domain.support.android.sql.Select.WhereOperatorResult equal(CharSequence argument) {
         Log.i(getTag(), String.valueOf(argument));
-        String value = this.processArgument(argument);
+        String value = this.processIdentifier(argument);
         this.query = this.query + " = "+value+"";
         return this;
     }
 
     @Override
     public st.domain.support.android.sql.Select.WhereOperatorResult notEqual(CharSequence argument) {
-        this.query = this.query + " <> "+ processArgument(argument)+"";
+        this.query = this.query + " <> "+ processIdentifier(argument)+"";
         return this;
     }
 
     @Override
     public st.domain.support.android.sql.Select.WhereOperatorResult like(CharSequence argument) {
-        this.query = this.query + " LIKE "+ processArgument(argument)+"";
+        this.query = this.query + " LIKE "+ processIdentifier(argument)+"";
         return this;
     }
 
     @Override
     public WhereOperatorResult in(CharSequence... argument) {
-        String argumentsConjunct = this.argumentsConjunct(argument);
+        String argumentsConjunct = this.processArgumentsConjunct(argument);
         this.query += " IN "+argumentsConjunct;
         return this;
     }
 
     @Override
     public WhereOperatorResult notIn(CharSequence... argument) {
-        String argumentsConjunct = this.argumentsConjunct(argument);
+        String argumentsConjunct = this.processArgumentsConjunct(argument);
         this.query += " NOT IN "+argumentsConjunct;
         return this;
     }
 
     @Override
     public st.domain.support.android.sql.Select.WhereOperatorResult notLike(CharSequence argument) {
-        this.query = this.query + " NOT LIKE "+ processArgument(argument)+"";
+        this.query = this.query + " NOT LIKE "+ processIdentifier(argument)+"";
         return this;
     }
 
     @Override
     public st.domain.support.android.sql.Select.WhereOperatorResult between(CharSequence argumentStart, CharSequence argumetEnd) {
-        this.query = this.query + " BETWEEN "+ processArgument(argumentStart)+" and "+ processArgument(argumetEnd);
+        this.query = this.query + " BETWEEN "+ processIdentifier(argumentStart)+" and "+ processIdentifier(argumetEnd);
         return this;
     }
 
@@ -297,7 +294,7 @@ public class Select extends SelectInterfaces
 
     @Override
     public st.domain.support.android.sql.Select.WhereOperator and(CharSequence ... column) {
-        String identifier = columnsConjunct(column);
+        String identifier = processIdentifierConjunct(column);
         this.query = this.query +" AND "+identifier;
         return this;
     }
@@ -305,34 +302,10 @@ public class Select extends SelectInterfaces
     @Override
     public st.domain.support.android.sql.Select.WhereOperator or(CharSequence ... columns) {
 
-        String identifier = columnsConjunct(columns);
+        String identifier = processIdentifierConjunct(columns);
 
         this.query = this.query +" OR "+identifier;
         return this;
-    }
-
-    @NonNull
-    String columnsConjunct(CharSequence[] columns) {
-        String identifier ="";
-        for(int i = 0; i<columns.length; i++){
-            String aux =  processIdentifier(columns[i]);
-            if(i+1 <columns.length) identifier += " "+aux+",";
-            else identifier +=aux;
-        }
-        if(columns.length >0) identifier = "("+identifier+")";
-        return identifier;
-    }
-
-    @NonNull
-    String argumentsConjunct(CharSequence[] columns) {
-        String identifier ="";
-        for(int i = 0; i<columns.length; i++){
-            String aux =  processArgument(columns[i]);
-            if(i+1 <columns.length) identifier += " "+aux+",";
-            else identifier +=aux;
-        }
-        identifier = "("+identifier+")";
-        return identifier;
     }
 
     @Override
@@ -354,66 +327,6 @@ public class Select extends SelectInterfaces
         return this;
     }
 
-    private String processArgument(CharSequence column) {
-        String value;
-        if (column == null) {
-            value = this.variable;
-            this.arguments.add(null);
-
-        } else if (column instanceof Identifier){
-            value = ((Identifier) column).name();
-            appendArguments(((Identifier) column).arguments());
-        }
-        else if(column instanceof Select) {
-            ((Select) column).setLevel(nextLevel());
-            value = "("+((SQL) column).sql()+")";
-            appendArguments(((SQL) column).arguments());
-        }
-        else {
-            value = this.variable;
-            this.arguments.add(column.toString());
-        }
-        return value;
-    }
-
-    private void appendArguments(List<Object> arguments) {
-        if(arguments != null && arguments.size()>0)
-            this.arguments.addAll(arguments);
-    }
-
-
-    private String processIdentifier(CharSequence column) {
-
-        String value = String.valueOf(column);
-        if (column == null) {
-            value = "NULL";
-
-        } else if(column instanceof Identifier) {
-            value = ((Identifier) column).name();
-            appendArguments(((Identifier) column).arguments());
-
-        }
-        else if(column instanceof Argument) {
-            value = this.variable;
-            String arg = ((Argument) column).argument();
-            arguments.add(arg);
-
-        } else if (column instanceof Select){
-            ((Select) column).setLevel(nextLevel());
-            value = "("+((SQL) column).sql()+")";
-            if(((Select) column).name != null)
-                value += " as "+((Select) column).name;
-            appendArguments(((SQL) column).arguments());
-
-
-        }
-        return value;
-    }
-
-    @NonNull
-    private String nextLevel() {
-        return this.level+"        ";
-    }
 }
 
 abstract class SelectInterfaces extends AbstractSQL implements st.domain.support.android.sql.Select, st.domain.support.android.sql.Select.FromResult, st.domain.support.android.sql.Select.SelectResult,

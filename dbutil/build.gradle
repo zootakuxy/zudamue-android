@@ -28,6 +28,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.1.1'
     compile 'com.android.support:cardview-v7:25.1.1'
 
+
+
     //compile 'com.android.support:design:25.1.1'
 
 
@@ -42,5 +44,4 @@ dependencies {
 
     //DATA PIKER WDULLAER {https://github.com/wdullaer/MaterialDateTimePicker}
     compile 'com.wdullaer:materialdatetimepicker:2.5.0'
-
 }
