@@ -80,9 +80,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
     }
 
     public void clear(){
-        int count = this.getItemCount();
+        int length = this.getItemCount();
         this.listItem.clear();
-        super.notifyItemRangeRemoved(0, count);
+        super.notifyItemRangeRemoved(0, length);
     }
 
     public boolean addItem(ItemDataSet itemDataSet) {
@@ -108,7 +108,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
     }
 
 
-    public boolean addItem(List<ItemDataSet> itemDataSetList) {
+    public boolean addItem( List<ItemDataSet> itemDataSetList ) {
         boolean result = true;
         for (ItemDataSet itemDataSet: itemDataSetList) {
             if( !this.addItem(itemDataSet) )
@@ -117,7 +117,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         return result;
     }
 
-    public boolean setItem(int index, ItemDataSet newItemDataSet) {
+    public boolean setItem( int index, ItemDataSet newItemDataSet) {
 
         if( index < 0 && index >= this.listItem.size() || newItemDataSet == null ) return false;
         ItemDataSet oldItemDataSet = this.listItem.set(index, newItemDataSet);
@@ -186,7 +186,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         };
     }
 
-
+    /**
+     * Get item dataSet at position
+     * @param i
+     * @return
+     */
+    public ItemDataSet getItemAt(int i) {
+        return this.listItem.get( i );
+    }
 
 
     public interface ViewHolderFactory {
