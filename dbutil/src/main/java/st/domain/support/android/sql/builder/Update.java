@@ -51,6 +51,7 @@ public class Update extends AbstractSQL implements UpdateLink.Update, UpdateLink
     public UpdateLinkSet set( CharSequence columnName, CharSequence argument ) {
         if( set ) this.sql = this.sql + ", ";
         else this.sql = this.sql + " set ";
+        this.set = true;
         this.sql = this.sql+ " " + this.processIdentifier( columnName );
 
         this.sql = this.sql + " = ?";
