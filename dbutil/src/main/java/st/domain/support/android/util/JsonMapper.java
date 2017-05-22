@@ -1,7 +1,14 @@
+package st.domain.support.android.util;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -32,7 +39,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @return
      */
     public static  JsonMapper newInstanceMap() {
-        return  new JsonMapper( new  LinkedHashMap<String,  Object>());
+        return  new JsonMapper( new LinkedHashMap<String,  Object>());
     }
 
     /**
