@@ -288,4 +288,15 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>> {
     public Iterator< Map.Entry< String, Object > > iterator() {
         return map.entrySet().iterator();
     }
+
+    public void backRoot() {
+        while ( hasBack() )
+            back();
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new Gson();
+        return gson.toJson( this.rootMap() );
+    }
 }
