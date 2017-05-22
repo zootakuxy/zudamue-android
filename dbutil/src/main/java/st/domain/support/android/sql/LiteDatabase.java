@@ -39,7 +39,7 @@ public class LiteDatabase {
 
     public LiteDatabase(Context context, String dataBaseName, int version) {
         this.context = context;
-        this.SQLite =  new AssetsDatabase(context, dataBaseName, version);
+        this.SQLite =  new AssetsDatabase( context, dataBaseName, version);
         this.liteResources = new SQLResources(this.SQLite.getDataBase());
 
         this.query = new Query(this.getDataBase());

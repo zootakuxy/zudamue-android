@@ -1,5 +1,7 @@
 package st.domain.support.android.sql.builder;
 
+import android.util.Log;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,14 +48,13 @@ public class Update extends AbstractSQL implements UpdateLink.Update, UpdateLink
     }
 
     @Override
-    public UpdateLinkSet set(CharSequence columnName, CharSequence argument ) {
+    public UpdateLinkSet set( CharSequence columnName, CharSequence argument ) {
         if( set ) this.sql = this.sql + ", ";
         else this.sql = this.sql + " set ";
         this.sql = this.sql+ " " + this.processIdentifier( columnName );
 
         this.sql = this.sql + " = ?";
-        String param = this.processArgument(argument);
-        this.arguments().add( param );
+        this.processArgument( argument );
         return this;
     }
 

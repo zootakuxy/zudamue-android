@@ -4,9 +4,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import st.domain.support.android.sql.SQL;
 import st.domain.support.android.sql.builder.Insert;
 
 /**
@@ -64,17 +66,14 @@ public class UpdatableSQL extends BaseSQLExecutable {
 
     @Override
     protected void prepareFromCharSequence(CharSequence sql) {
-        Log.i(getTag(), "-> UpdatableSQL.prepareFromCharSequence");
         this.clearArguments();
         if( sql instanceof  String ) {
             this.sql( String.valueOf(sql) );
         }
 
-        else if( sql instanceof Insert) {
-            Log.i(getTag(), "sql " + sql);
-            Log.i(getTag(), "sql argumets " + ((Insert) sql).arguments());
-            this.sql(((Insert) sql).sql());
-            this.arguments().addAll(((Insert) sql).arguments());
+        else if( sql instanceof SQL) {
+            this.sql((( SQL ) sql).sql());
+            this.arguments().addAll((( SQL ) sql ).arguments());
         }
 
     }
@@ -82,7 +81,9 @@ public class UpdatableSQL extends BaseSQLExecutable {
     @Override
     protected void exec(String sql, Object[] arguments) {
         Log.i(getTag(), "-> UpdatableSQL.exec");
+
         Log.i(getTag(), "sql: "+sql);
+        Log.i(getTag(), "args: " + Arrays.asList( arguments ) );
 
         SQLiteStatement statement = getDatabase().compileStatement(sql);
         bindArguments( arguments, statement );

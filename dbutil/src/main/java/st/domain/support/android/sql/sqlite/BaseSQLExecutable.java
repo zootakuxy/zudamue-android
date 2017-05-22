@@ -2,6 +2,7 @@ package st.domain.support.android.sql.sqlite;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -82,8 +83,8 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
 
 
     @Override
-    public BaseSQLExecutable execute(CharSequence sql) {
-        this.prepareFromCharSequence(sql);
+    public BaseSQLExecutable execute( CharSequence sql ) {
+        this.prepareFromCharSequence( sql );
         return this.execute();
     }
 
@@ -95,9 +96,9 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
      * @param arguments the arguments of statements
      */
     public BaseSQLExecutable execute(String sql, Object ... arguments) {
-        this.arguments().clear();
-        this.sql(sql);
-        this.arguments().addAll(Arrays.asList(arguments));
+        this.arguments( ).clear( );
+        this.sql( sql );
+        this.arguments( ).addAll( Arrays.asList( arguments ) );
         return this.execute();
     }
 
