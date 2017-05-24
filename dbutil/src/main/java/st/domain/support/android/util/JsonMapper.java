@@ -766,7 +766,11 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
 
     @Override
     public String toString() {
-        return this.map.toString();
+        if( this.isInMap() )
+            return this.map.toString();
+        else if( this.isInList() )
+            return  this.list.toString();
+        else return  null;
     }
 
     /**
@@ -774,7 +778,11 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @return
      */
     public int countElement(){
-        return this.map.size();
+        if( this.isInMap() )
+            return this.map.size();
+        else if( this.isInList() )
+            return  this.list.size();
+        else return -1;
     }
 
     //@Override
