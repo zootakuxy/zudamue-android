@@ -129,7 +129,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
 
 
 
-    public String string ( String ... nodes ) {
+    public String string ( Object ... nodes ) {
         Object obj = object( nodes );
         return ( obj != null && (
                 obj instanceof  String
