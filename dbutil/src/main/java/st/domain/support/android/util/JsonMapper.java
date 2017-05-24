@@ -193,7 +193,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param nodes
      * @return
      */
-    public Integer integer( String ... nodes ){
+    public Integer integer( Object ... nodes ){
         Object value = object( nodes );
         return asInteger( value );
     }
