@@ -203,7 +203,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param nodes
      * @return
      */
-    public Long longer( String ... nodes ){
+    public Long longer( Object ... nodes ){
         Object value = object( nodes );
         return  asLong( value );
     }
