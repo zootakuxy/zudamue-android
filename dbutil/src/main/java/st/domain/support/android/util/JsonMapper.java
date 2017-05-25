@@ -2,6 +2,7 @@ package st.domain.support.android.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -18,6 +20,7 @@ import java.util.Map;
 
 public class JsonMapper implements Iterable<Map.Entry<String , Object>>
 {
+    @Expose
     private Object root;
     private Map< String, Object > map;
     private List< Object > list;
@@ -26,10 +29,18 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
 
     public JsonMapper( String json ){
         Gson gson = new Gson();
-        this.root = gson.fromJson( json,  Map.class );
-        if( root instanceof  List )
+        try{
+            this.root = gson.fromJson( json,  Map.class );
+        }catch ( Exception e){
+            this.root = gson.fromJson( json,  List.class );
+        }
+
+        if( root == null ) throw  new RuntimeException( "invalid json" );
+        if( root instanceof  Map )
+            map = (Map<String, Object>) root;
+        else if ( root instanceof List )
             list = (List<Object>) root;
-        else map = (Map<String, Object>) root;
+
         this.point = new LinkedList<Object>();
         this.location = new LinkedList<Object>();
     }
@@ -145,14 +156,14 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         ) ) ? String.valueOf( obj ): null;
     }
 
-    public String stringForce ( String ... nodes ) {
+    public String stringForce ( Object ... nodes ) {
         Object obj = object( nodes );
         return ( obj != null ) ? String.valueOf( obj ): null;
     }
 
 
 
-    public Class<?> classOf(String ... nodes ) {
+    public Class<?> classOf( Object ... nodes ) {
         Object value = this.object( nodes );
         if ( value == null ) return null;
         return value.getClass();
@@ -163,7 +174,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param nodes
      * @return
      */
-    public Boolean booleaner ( String ... nodes ){
+    public Boolean booleaner ( Object ... nodes ){
         String num = string( nodes );
         return num != null  ? Boolean.valueOf( num ) : null;
     }
@@ -173,7 +184,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param nodes
      * @return
      */
-    public Byte byter ( String ... nodes ){
+    public Byte byter ( Object ... nodes ){
         Object value = object( nodes );
         return  asByte( value );
     }
@@ -183,7 +194,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param nodes
      * @return
      */
-    public Short shorter ( String ... nodes ) {
+    public Short shorter ( Object ... nodes ) {
         Object value = object( nodes );
         return asShort( value );
     }
@@ -213,7 +224,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param nodes
      * @return
      */
-    public Float floater ( String ... nodes ){
+    public Float floater ( Object ... nodes ){
         Object value = object( nodes );
         return  asFloat( value );
     }
@@ -223,7 +234,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param nodes
      * @return
      */
-    public Double doubler ( String ... nodes ){
+    public Double doubler ( Object ... nodes ){
         Object value = object( nodes );
         return  asDoubler( value );
     }
@@ -313,7 +324,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param nodes
      * @return
      */
-    public List lister( String ... nodes ){
+    public List lister( Object ... nodes ){
         return (List) object( nodes );
     }
 
@@ -322,7 +333,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param nodes
      * @return
      */
-    public Map<String, Object> mapperNode( String ... nodes ){
+    public Map<String, Object> mapperNode( Object ... nodes ){
         return (Map<String, Object> ) object( nodes );
     }
 
@@ -846,5 +857,20 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
 
     public boolean isInList() {
         return this.list != null;
+    }
+
+    public Object build() {
+        return this.root;
+    }
+
+    public static JsonMapper parse( String jsonText ) {
+        if( jsonText == null ) return null;
+        JsonMapper mapper = null;
+        try { mapper = new JsonMapper( jsonText );}catch ( Exception ignored){}
+        return mapper;
+    }
+
+    public static boolean isJsonFromater(String jsonText) {
+        return parse( jsonText ) != null;
     }
 }

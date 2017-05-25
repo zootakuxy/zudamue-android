@@ -82,7 +82,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
     public void clear(){
         int length = this.getItemCount();
         this.listItem.clear();
-        super.notifyItemRangeRemoved(0, length);
+        super.notifyDataSetChanged();
     }
 
     public boolean addItem(ItemDataSet itemDataSet) {
@@ -162,7 +162,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         if( index <0 || index >= this.listItem.size() ) return null;
         ItemDataSet oldItemDataSet = this.listItem.remove(index);
         ItemViewHolder viewHolder = this.viewHolderMap.get(index);
-        viewHolder.onDataSetRemoved( index, oldItemDataSet );
+        if( viewHolder != null )
+            viewHolder.onDataSetRemoved( index, oldItemDataSet );
 
         this.notifyItemRemoved( index );
         return oldItemDataSet;
