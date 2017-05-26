@@ -28,7 +28,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
     private List< Object > location;
 
     public JsonMapper( String json ){
-        Gson gson = new Gson();
+        Gson gson = JsonMapper.gsonInstance();
         try{
             this.root = gson.fromJson( json,  Map.class );
         }catch ( Exception e){
@@ -872,5 +872,10 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
 
     public static boolean isJsonFromater(String jsonText) {
         return parse( jsonText ) != null;
+    }
+
+    public static Gson gsonInstance() {
+        Gson gson = new Gson();
+        return gson;
     }
 }

@@ -3,6 +3,7 @@ package st.domain.support.android.sql.sqlite;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.Arrays;
@@ -108,7 +109,7 @@ public class Query extends BaseSQLExecutable {
      * Capture all SQLRow into any list
      * @return the list of SQLRow
      */
-    public List<SQLRow> catchAllResult(){
+    public @NonNull List<SQLRow> catchAllResult(){
         return catchAllResult(null);
     }
 
@@ -118,7 +119,7 @@ public class Query extends BaseSQLExecutable {
      * @param onCatchResult the functional caching
      * @return the list of SQLRow
      */
-    public List<SQLRow> catchAllResult(OnQueryResult onCatchResult) {
+    public @NonNull List<SQLRow> catchAllResult(OnQueryResult onCatchResult) {
 
         if(onCatchResult == null) onCatchResult = new OnQueryResult() {
             @Override

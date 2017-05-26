@@ -98,7 +98,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
             ItemViewHolder viewHolder = this.viewHolderMap.get(index);
             viewHolder.onNewDataSetAddInCurrentPosition( index, newItemDataSet, oldDataSet, this.listItem.size() );
         }
-        this.notifyItemInserted(index);
+        this.notifyItemInserted( index );
         return true;
     }
 

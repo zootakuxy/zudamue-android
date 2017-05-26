@@ -3,6 +3,7 @@ package st.domain.support.android.sql;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -92,7 +93,7 @@ public class LiteDatabase {
         return this.query.catchAllResult(onCatchSQLRow);
     }
 
-    public List<SQLRow> catchAllResult () {
+    public @NonNull List<SQLRow> catchAllResult () {
         return this.query.catchAllResult();
     }
 
