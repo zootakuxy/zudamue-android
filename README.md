@@ -11,7 +11,7 @@ Usage
     }
     
     dependencies {
-       compile 'com.github.costa-xdaniel:android-support:1.0'
+       compile 'com.github.costa-xdaniel:android-support:1.0.0'
     }
     
 
