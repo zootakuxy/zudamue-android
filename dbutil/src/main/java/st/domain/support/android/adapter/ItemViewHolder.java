@@ -1,6 +1,7 @@
 package st.domain.support.android.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -107,11 +108,21 @@ public abstract class ItemViewHolder extends RecyclerView.ViewHolder {
     protected void onDataSetMovedTo(int indexFrom, int indexTo, ItemDataSet itemDataSetFrom, ItemDataSet itemDataSetTo, int totalDataSet) {}
 
 
+    protected void onViewDetachedFromWindow(){}
+
+    protected void onViewAttachedToWindow(){}
+
+    protected boolean onFailedToRecycleView(){ return false; }
+
+    protected void onViewRecycled(){ }
+
+    public void onSaveInstanceState(Bundle outState){}
+
     public interface ItemCallback {
         void onCallback(ItemViewHolder itemViewHolder, View view , ItemDataSet itemDataSet, int adapterPosition );
     }
 
-    public abstract static class DataSetCallbak implements ItemCallback {
+    public abstract static class DataSetCallback implements ItemCallback {
 
         @Override
         public void onCallback( ItemViewHolder itemViewHolder, View view, ItemDataSet itemDataSet, int adapterPosition ) {

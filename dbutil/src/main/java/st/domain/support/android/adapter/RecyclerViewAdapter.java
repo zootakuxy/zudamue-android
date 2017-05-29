@@ -1,6 +1,7 @@
 package st.domain.support.android.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         this.factoryMap.put(viewType, viewHolderFactory);
     }
 
+    public void onSaveInstanceState(Bundle outState ){
+        for( Map.Entry<Integer, ItemViewHolder > entry: this.viewHolderMap.entrySet()){
+            entry.getValue().onSaveInstanceState( outState );
+        }
+    }
+
+
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int layoytViewId) {
         ViewHolderFactory factory = this.factoryMap.get(layoytViewId);
@@ -49,7 +58,35 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         return null;
     }
 
+    @Override
+    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+        if( holder instanceof  ItemViewHolder ){
+            ((ItemViewHolder) holder).onViewDetachedFromWindow();
+        }
+    }
 
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        if( holder instanceof ItemViewHolder ){
+            ((ItemViewHolder) holder).onViewAttachedToWindow();
+        }
+    }
+
+    @Override
+    public boolean onFailedToRecycleView(RecyclerView.ViewHolder holder) {
+        if( holder instanceof ItemViewHolder ){
+            return ((ItemViewHolder) holder).onFailedToRecycleView();
+        }
+        return super.onFailedToRecycleView(holder);
+    }
+
+    @Override
+    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+        if( holder instanceof  ItemViewHolder ){
+            ((ItemViewHolder) holder).onViewRecycled();
+        }
+        super.onViewRecycled(holder);
+    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int index) {
@@ -194,6 +231,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
      */
     public ItemDataSet getItemAt(int i) {
         return this.listItem.get( i );
+    }
+
+    public ItemDataSet getLastItem() {
+        return this.listItem.size() > 0 ? this.listItem.get(this.listItem.size() - 1) : null;
     }
 
 

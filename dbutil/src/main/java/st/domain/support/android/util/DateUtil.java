@@ -1,5 +1,7 @@
 package st.domain.support.android.util;
 
+import android.support.annotation.NonNull;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -94,7 +96,8 @@ public class DateUtil {
 
     /**
      * Calcular a diference entra as datas
-     * @param differenceDate
+     * A difirence e entra a data classe - a ountra data ( data do paramentro )
+     * @param differenceDate como outra data
      * @return
      */
     public Interval difference( Date differenceDate ){
@@ -107,6 +110,7 @@ public class DateUtil {
         // this.date =  2016-12-03 08:30:28
         // this.other = 2017-03-04 08:30:28
 
+        interval.intervalInMillis = local.getTimeInMillis() - difference.getTimeInMillis();
         interval.year = local.get( Calendar.YEAR ) - difference.get( Calendar.YEAR ); // ( 2016 - 2017 ) -1 -> 0
         interval.month = local.get( Calendar.MONTH ) - difference.get( Calendar.MONTH );  // (12 - 03) = 9 ->
 
@@ -119,13 +123,36 @@ public class DateUtil {
         return interval;
     }
 
+
+    public Interval differencePositive( Date diferenceDate ){
+        Interval interval = difference( diferenceDate );
+        if( interval.intervalInMillis < 0) {
+            Date aux = this.date;
+            this.date = diferenceDate;
+            interval = difference(aux);
+            this.date = aux;
+        }
+
+        return interval;
+    }
+
     /**
      * Calcular a diferença negativa entre as datas
      * @param date
      * @return
      */
-    public Interval differenceNegative( Date date ) {
+    public Interval differenceNormalized(Date date ) {
         Interval interval = difference( date );
+        return normalize( interval );
+    }
+
+    public Interval differencePositiveNormalized( Date date ){
+        Interval interval = differencePositive( date );
+        return normalize( interval );
+    }
+
+    @NonNull
+    private Interval normalize(Interval interval) {
         if( interval.year < 0 && interval.month > 0) {
             interval.year++;
             interval.month = interval.month - 12;
@@ -174,6 +201,7 @@ public class DateUtil {
         int minute;
         int second;
         int msecond;
+        private long intervalInMillis;
 
         public int getYear() {
             return year;
@@ -216,6 +244,10 @@ public class DateUtil {
             sb.append(", msecond=").append(msecond);
             sb.append('}');
             return sb.toString();
+        }
+
+        public long getIntervalInMillis() {
+            return this.intervalInMillis;
         }
     }
 

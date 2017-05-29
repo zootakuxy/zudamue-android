@@ -3,7 +3,6 @@ package st.domain.support.android.sql.sqlite;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
@@ -42,13 +41,25 @@ class SQLiteRow implements SQLRow {
 
     @Override
     public Object value(String columnName) {
-        return this.row[indexOf(columnName)];
+        return this.row[ indexOf(columnName) ];
     }
 
     private int indexOf(String columnName) {
         if( !this.headerIndex.containsKey(columnName) )
             throw new RuntimeException( "the column " + columnName + " not found" );
         return this.headerIndex.get(columnName).index;
+    }
+
+    @Override
+    public Long longer( String columnName ) {
+
+        Object value = value(columnName);
+        if(value == null) return null;
+        try{
+            return (Long) value;
+        }catch (Exception ex) {
+            return Long.valueOf(String.valueOf(value));
+        }
     }
 
     @Override
@@ -61,8 +72,8 @@ class SQLiteRow implements SQLRow {
         }catch (Exception ex) {
             return Integer.valueOf(String.valueOf(value));
         }
-
     }
+
 
     @Override
     public Float real(String columnName) {
@@ -198,8 +209,9 @@ class SQLiteRow implements SQLRow {
         this.put(columnName, floatValue);
     }
 
-    void integer(String columnName, int integerValue) {
-        this.put(columnName, integerValue);
+
+    public void longer(String columnName, Long longValue) {
+        this.put( columnName, longValue );
     }
 
     void string(String columnName, String stringValue) {
@@ -246,6 +258,8 @@ class SQLiteRow implements SQLRow {
     public String toString() {
         return getClass().getSimpleName()+ text();
     }
+
+
 
     static class HeaderCell {
         final String name;

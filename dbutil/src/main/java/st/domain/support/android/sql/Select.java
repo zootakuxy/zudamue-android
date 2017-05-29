@@ -75,6 +75,35 @@ public interface Select  extends SQL {
     interface WhereOperator extends SQL {
 
         WhereOperatorResult equal(CharSequence argument);
+
+        /**
+         * Menor do que o argumento
+         * @param argument
+         * @return
+         */
+        WhereOperatorResult less(CharSequence argument);
+
+        /**
+         * Menor igual que argumento
+         * @param argument
+         * @return
+         */
+        WhereOperatorResult lessEqual(CharSequence argument);
+
+        /**
+         * Maior que o argumento
+         * @param argument
+         * @return
+         */
+        WhereOperatorResult maior(CharSequence argument);
+
+        /***
+         * Maior igula do que o argumento
+         * @param argument
+         * @return
+         */
+        WhereOperatorResult maiorEqual(CharSequence argument);
+
         WhereOperatorResult notEqual(CharSequence argument);
         WhereOperatorResult like (CharSequence argument);
         WhereOperatorResult in (CharSequence ... argument);

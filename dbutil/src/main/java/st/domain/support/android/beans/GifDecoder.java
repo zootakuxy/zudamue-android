@@ -427,7 +427,7 @@ public class GifDecoder
 	}
 
 	/**
-	 * Reads color table as 256 RGB integer statusValues
+	 * Reads color table as 256 RGB longer statusValues
 	 *
 	 * @param ncolors
 	 *          int number of colors to read

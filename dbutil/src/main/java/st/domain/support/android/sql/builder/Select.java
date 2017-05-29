@@ -240,12 +240,37 @@ public class Select extends SelectInterfaces
         return this;
     }
 
-    @Override
-    public st.domain.support.android.sql.Select.WhereOperatorResult equal(CharSequence argument) {
+    private  st.domain.support.android.sql.Select.WhereOperatorResult whereSignal( CharSequence argument, String signal ){
         Log.i(getTag(), String.valueOf(argument));
         String value = this.processIdentifier(argument);
-        this.query = this.query + " = "+value+"";
+        this.query = this.query + signal +value;
         return this;
+    }
+
+
+    @Override
+    public st.domain.support.android.sql.Select.WhereOperatorResult equal(CharSequence argument) {
+        return whereSignal( argument, " = ");
+    }
+
+    @Override
+    public WhereOperatorResult less(CharSequence argument) {
+        return whereSignal( argument, " < ");
+    }
+
+    @Override
+    public WhereOperatorResult lessEqual(CharSequence argument) {
+        return whereSignal( argument, " <= ");
+    }
+
+    @Override
+    public WhereOperatorResult maior(CharSequence argument) {
+        return whereSignal( argument, " > ");
+    }
+
+    @Override
+    public WhereOperatorResult maiorEqual(CharSequence argument) {
+        return whereSignal( argument, " >= ");
     }
 
     @Override

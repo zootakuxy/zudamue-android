@@ -28,11 +28,18 @@ public interface SQLRow {
     Object value(String columnName);
 
     /**
-     * Get th column integer
+     * Get the column as long
+     * @param columnName the name of column
+     * @return Long
+     */
+    Long longer(String columnName );
+
+    /**
+     * Get the value as integer
      * @param columnName the name of column
      * @return Integer
      */
-    Integer integer(String columnName);
+    Integer integer( String columnName );
 
     /**
      * Get the float value

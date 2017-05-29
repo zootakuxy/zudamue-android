@@ -201,7 +201,7 @@ public class Query extends BaseSQLExecutable {
                     break;
 
                 case Cursor.FIELD_TYPE_INTEGER:
-                    row.integer(columnName, cursor.getInt(i));
+                    row.longer(columnName, cursor.getLong( i ));
                     break;
 
                 case Cursor.FIELD_TYPE_STRING:
