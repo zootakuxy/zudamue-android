@@ -22,6 +22,7 @@ import java.util.Map;
 public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterable<ItemDataSet> {
 
     protected final Context context;
+    private boolean autoNotify;
     LayoutInflater inflater;
     private Map<Integer, ViewHolderFactory> factoryMap;
     private Map<Integer, ItemViewHolder> viewHolderMap;
@@ -33,6 +34,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         this.inflater = LayoutInflater.from(context);
         this.listItem = new LinkedList<>();
         this.viewHolderMap = new LinkedHashMap<>();
+        this.autoNotify = true;
     }
 
 
@@ -119,7 +121,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
     public void clear(){
         int length = this.getItemCount();
         this.listItem.clear();
-        super.notifyDataSetChanged();
+        if( this.autoNotify)
+            super.notifyDataSetChanged();
     }
 
     public boolean addItem(ItemDataSet itemDataSet) {
@@ -135,7 +138,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
             ItemViewHolder viewHolder = this.viewHolderMap.get(index);
             viewHolder.onNewDataSetAddInCurrentPosition( index, newItemDataSet, oldDataSet, this.listItem.size() );
         }
-        this.notifyItemInserted( index );
+        if( this.autoNotify)
+            this.notifyItemInserted( index );
         return true;
     }
 
@@ -161,7 +165,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         ItemViewHolder viewHolder = this.viewHolderMap.get(index);
         viewHolder.onDataSetReplaced( index, oldItemDataSet, newItemDataSet, this.listItem.size() );
 
-        notifyItemChanged( index  );
+        if( this.autoNotify)
+            notifyItemChanged( index  );
         return true;
     }
 
@@ -190,7 +195,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         if( hasViewHolder( realTo ) )
             this.viewHolderMap.get( realTo ).onDataSetMovedTo( realFrom, realTo, itemDataSetFrom, itemDataSetTo, this.listItem.size() );
 
-        this.notifyItemMoved( realFrom, realTo );
+        if( this.autoNotify)
+            this.notifyItemMoved( realFrom, realTo );
         return true;
     }
 
@@ -202,7 +208,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         if( viewHolder != null )
             viewHolder.onDataSetRemoved( index, oldItemDataSet );
 
-        this.notifyItemRemoved( index );
+        if( this.autoNotify)
+            this.notifyItemRemoved( index );
         return oldItemDataSet;
     }
 
@@ -235,6 +242,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
 
     public ItemDataSet getLastItem() {
         return this.listItem.size() > 0 ? this.listItem.get(this.listItem.size() - 1) : null;
+    }
+
+    public void setAoutoNotify(boolean aoutoNotify) {
+        this.autoNotify = aoutoNotify;
     }
 
 

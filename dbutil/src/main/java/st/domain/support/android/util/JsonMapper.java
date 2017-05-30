@@ -1,5 +1,7 @@
 package st.domain.support.android.util;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
@@ -134,7 +136,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
             value = this.map.get( String.valueOf( field ) );
         else if( mapper != null && isInList() )
             value = this.list.get( Integer.valueOf( String.valueOf( field ) ) );
-        this.backAt(currentPoint);
+        this.backAt( currentPoint );
         return value;
     }
 
@@ -447,25 +449,28 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         return mapper != null ? this : null;
     }
 
-    private JsonMapper enter(Object field, Object value) {
+    private JsonMapper enter( Object field, Object value ) {
         if( value == null ) return  null;
-        if( isInMap() )
-            this.point.add( 0, this.map );
+        if( isInMap() )  {
+            Object add = this.map;
+            return addPoint(field, value, add);
+        }
         else if( isInList() )
-            point.add(0, this.list);
+            return this.addPoint( field, value, this.list );
         else return null;
+    }
 
-        if( value instanceof Map ){
+    @NonNull
+    private JsonMapper addPoint(Object field, Object value, Object addValue) {
+        this.point.add( 0, addValue );
+        this.location.add( field );
+        if( value instanceof Map){
             this.map((Map<String, Object>) value);
-            this.location.add( field );
-            return this;
         }
-        else if( value instanceof  List ){
+        else if( value instanceof  List ) {
             this.list( (List<Object>) value );
-            this.location.add( field );
-            return this;
         }
-        return null;
+        return this;
     }
 
 
@@ -496,7 +501,8 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @return
      */
     public boolean hasBack(){
-        return  !this.point.isEmpty();
+        return  !this.point.isEmpty()
+                && !this.location.isEmpty();
     }
 
     /**
@@ -535,7 +541,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      */
     public JsonMapper backAt( int startPoint ) {
         if( startPoint < 0 || startPoint > this.point.size() ) return null;
-        while ( getCurrentPoint() > startPoint ){
+        while ( getCurrentPoint() > startPoint && hasBack() ){
             this.back();
         }
         return this;
