@@ -11,12 +11,12 @@ import android.view.View;
  * Created by xdata on 12/25/16.
  */
 
-public abstract class ItemViewHolder extends RecyclerView.ViewHolder {
+public abstract class ItemViewHolder< I extends ItemDataSet > extends RecyclerView.ViewHolder {
 
 
     private Context context;
     private ItemCallback callBack;
-    private ItemDataSet dataSet;
+    private I dataSet;
 
     public ItemViewHolder(View itemView) {
         super(itemView);
@@ -33,18 +33,21 @@ public abstract class ItemViewHolder extends RecyclerView.ViewHolder {
      * @param currentAdapterPosition
      * @param totalDataSet
      */
-    public abstract void onBind(ItemDataSet dataSet, int currentAdapterPosition, int totalDataSet );
+    public abstract void onBind( I dataSet, int currentAdapterPosition, int totalDataSet );
 
-    public void dataSet(ItemDataSet dataSet) {
+    protected void dataSet(I dataSet) {
         this.dataSet = dataSet;
     }
 
+    public I getDataSet() {
+        return dataSet;
+    }
 
     /**
      * Execute any ItemCallback
      * @param callBack
      */
-    protected void callback( ItemCallback callBack ){
+    protected void callback( ItemCallback< I > callBack ){
         if( callBack != null )
             callBack.onCallback( this, this.itemView, this.dataSet, this.getAdapterPosition() );
     }
@@ -72,14 +75,14 @@ public abstract class ItemViewHolder extends RecyclerView.ViewHolder {
      * @param oldItemDataSet
      * @param newItemDataSet
      */
-    protected void onDataSetReplaced(int index, ItemDataSet oldItemDataSet, ItemDataSet newItemDataSet, int totalDataSet) {}
+    protected void onDataSetReplaced(int index, I oldItemDataSet, I newItemDataSet, int totalDataSet) {}
 
     /**
      *
      * @param index
      * @param oldItemDataSet
      */
-    protected void onDataSetRemoved(int index, ItemDataSet oldItemDataSet) {}
+    protected void onDataSetRemoved(int index, I oldItemDataSet) {}
 
     /**
      *
@@ -87,7 +90,7 @@ public abstract class ItemViewHolder extends RecyclerView.ViewHolder {
      * @param newItemDataSet
      * @param oldDataSet
      */
-    protected void onNewDataSetAddInCurrentPosition(int index, ItemDataSet newItemDataSet, ItemDataSet oldDataSet, int totalDataSet) {}
+    protected void onNewDataSetAddInCurrentPosition(int index, I newItemDataSet, I oldDataSet, int totalDataSet) {}
 
     /**
      *
@@ -96,7 +99,7 @@ public abstract class ItemViewHolder extends RecyclerView.ViewHolder {
      * @param itemDataSetFrom
      * @param itemDataSetTo
      */
-    protected void onDataSetMovedFrom(int indexFrom, int indexTo, ItemDataSet itemDataSetFrom, ItemDataSet itemDataSetTo, int totalDataSet) {}
+    protected void onDataSetMovedFrom(int indexFrom, int indexTo, ItemDataSet itemDataSetFrom, I itemDataSetTo, int totalDataSet) {}
 
     /**
      *
@@ -105,7 +108,7 @@ public abstract class ItemViewHolder extends RecyclerView.ViewHolder {
      * @param itemDataSetFrom
      * @param itemDataSetTo
      */
-    protected void onDataSetMovedTo(int indexFrom, int indexTo, ItemDataSet itemDataSetFrom, ItemDataSet itemDataSetTo, int totalDataSet) {}
+    protected void onDataSetMovedTo(int indexFrom, int indexTo, ItemDataSet itemDataSetFrom, I itemDataSetTo, int totalDataSet) {}
 
 
     protected void onViewDetachedFromWindow(){}
@@ -118,24 +121,24 @@ public abstract class ItemViewHolder extends RecyclerView.ViewHolder {
 
     public void onSaveInstanceState(Bundle outState){}
 
-    public interface ItemCallback {
-        void onCallback(ItemViewHolder itemViewHolder, View view , ItemDataSet itemDataSet, int adapterPosition );
+    public interface ItemCallback < I extends  ItemDataSet > {
+        void onCallback(ItemViewHolder itemViewHolder, View view , I itemDataSet, int adapterPosition );
     }
 
-    public abstract static class DataSetCallback implements ItemCallback {
+    public abstract static class DataSetCallback < I extends ItemDataSet > implements ItemCallback< I > {
 
         @Override
-        public void onCallback( ItemViewHolder itemViewHolder, View view, ItemDataSet itemDataSet, int adapterPosition ) {
+        public void onCallback( ItemViewHolder itemViewHolder, View view, I itemDataSet, int adapterPosition ) {
             onDataSetCallback( itemDataSet, adapterPosition );
         }
 
-        protected abstract void onDataSetCallback(ItemDataSet itemDataSet, int adapterPosition);
+        protected abstract void onDataSetCallback( I itemDataSet, int adapterPosition);
     }
 
-    public abstract static class ViewHolderCallback implements  ItemCallback {
+    public abstract static class ViewHolderCallback < I extends ItemDataSet > implements ItemCallback< I > {
 
         @Override
-        public void onCallback( ItemViewHolder itemViewHolder, View view, ItemDataSet itemDataSet, int adapterPosition ) {
+        public void onCallback( ItemViewHolder itemViewHolder, View view, I itemDataSet, int adapterPosition ) {
             onViewHolderCallback( itemViewHolder, view, adapterPosition );
         }
 
