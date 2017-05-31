@@ -47,9 +47,12 @@ public abstract class ItemViewHolder< I extends ItemDataSet > extends RecyclerVi
      * Execute any ItemCallback
      * @param callBack
      */
-    protected void callback( ItemCallback< I > callBack ){
-        if( callBack != null )
+    protected boolean callback( ItemCallback< I > callBack ){
+        if( callBack != null ){
             callBack.onCallback( this, this.itemView, this.dataSet, this.getAdapterPosition() );
+            return true;
+        }
+        return false;
     }
 
     protected void onPreBind() {}
