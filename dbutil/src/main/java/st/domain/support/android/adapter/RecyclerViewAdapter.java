@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterable<ItemDataSet> {
 
-    protected final Context context;
+    protected  Context context;
     private boolean autoNotify;
     LayoutInflater inflater;
     private Map<Integer, ViewHolderFactory> factoryMap;
@@ -29,14 +29,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
     protected List<ItemDataSet> listItem;
 
     public  RecyclerViewAdapter (Context context) {
+        this();
         this.context = context;
-        this.factoryMap = new LinkedHashMap<>();
         this.inflater = LayoutInflater.from(context);
+    }
+
+    public RecyclerViewAdapter (){
+        this.factoryMap = new LinkedHashMap<>();
         this.listItem = new LinkedList<>();
         this.viewHolderMap = new LinkedHashMap<>();
         this.autoNotify = true;
     }
 
+    @Override
+    public void onAttachedToRecyclerView( RecyclerView recyclerView )  {
+        super.onAttachedToRecyclerView(recyclerView);
+        if( this.context == null ) this.context = recyclerView.getContext();
+        if( inflater == null ) this.inflater = LayoutInflater.from(context);
+    }
 
     public void addItemFactory(int viewType, ViewHolderFactory viewHolderFactory){
         this.factoryMap.put(viewType, viewHolderFactory);

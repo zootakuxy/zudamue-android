@@ -16,7 +16,7 @@ public abstract class ItemViewHolder< I extends ItemDataSet > extends RecyclerVi
 
     private Context context;
     private ItemCallback callBack;
-    private I dataSet;
+    protected I dataSet;
 
     public ItemViewHolder(View itemView) {
         super(itemView);
