@@ -162,6 +162,10 @@ public class LiteDatabase {
         return new LongCharSequence(value);
     }
 
+    public CharSequence value(boolean b) {
+        return String.valueOf( b );
+    }
+
     public CharSequence value(Float value){
         return new FloatCharSequence( value );
     }
@@ -200,7 +204,6 @@ public class LiteDatabase {
     public void cloneDatabase() {
         this.SQLite.outputDatabase();
     }
-
 
 
     public enum Operaction {
