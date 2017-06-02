@@ -254,7 +254,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         return this.listItem.size() > 0 ? this.listItem.get(this.listItem.size() - 1) : null;
     }
 
-    public RecyclerViewAdapter setAoutoNotify(boolean aoutoNotify) {
+    public RecyclerViewAdapter setAoutoNotified(boolean aoutoNotify) {
         this.autoNotify = aoutoNotify;
         return this;
     }
