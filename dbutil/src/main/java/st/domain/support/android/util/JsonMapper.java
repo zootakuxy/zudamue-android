@@ -885,7 +885,8 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         return gson;
     }
 
-    public static JsonMapper from(Object data) {
+    public static JsonMapper from( Object data ) {
+        if( data == null ) return null;
         return JsonMapper.parse( JsonMapper.gsonInstance().toJson( data ) );
     }
 }
