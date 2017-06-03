@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import st.domain.support.android.sql.builder.Select;
+import st.domain.support.android.sql.object.Identifier;
 
 /**
  *
@@ -50,7 +51,7 @@ public abstract class AbstractSQL implements SQL {
             this.arguments().add(null);
 
         } else if (column instanceof Identifier){
-            value = ((Identifier) column).name();
+            value = ( ( Identifier ) column).name();
             appendArguments( ((Identifier) column).arguments());
         }
         else if(column instanceof Select) {

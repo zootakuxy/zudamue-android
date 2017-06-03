@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import st.domain.support.android.sql.AbstractSQL;
+import st.domain.support.android.sql.object.Identifier;
 import st.domain.support.android.sql.type.UpdateLink;
 
 /**
@@ -42,7 +43,8 @@ public class Update extends AbstractSQL implements UpdateLink.Update, UpdateLink
 
 
     @Override
-    public UpdateLink.UpdateSet update(CharSequence tableName) {
+    public UpdateLink.UpdateSet update( CharSequence table ) {
+        String tableName = ( table instanceof Identifier )? ((Identifier) table).name() : String.valueOf( table );
         this.sql = "UPDATE "+tableName;
         return this;
     }

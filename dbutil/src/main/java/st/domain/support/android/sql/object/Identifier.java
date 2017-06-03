@@ -1,4 +1,4 @@
-package st.domain.support.android.sql;
+package st.domain.support.android.sql.object;
 
 import java.util.List;
 
@@ -26,6 +26,6 @@ public abstract class Identifier extends BaseCharSequence {
 
     @Override
     public String toString() {
-        return this.name;
+        return  this.name();
     }
 }

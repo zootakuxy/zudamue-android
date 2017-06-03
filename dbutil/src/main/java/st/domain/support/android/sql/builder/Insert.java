@@ -7,6 +7,7 @@ import java.util.List;
 
 import st.domain.support.android.sql.AbstractSQL;
 import st.domain.support.android.sql.Select;
+import st.domain.support.android.sql.object.Identifier;
 
 /**
  *
@@ -29,10 +30,13 @@ public class Insert  extends AbstractSQL implements st.domain.support.android.sq
     }
 
     @Override
-    public ResultInsertInto insertInto(String table) {
+    public ResultInsertInto insertInto( CharSequence table ) {
         this.listColumns.clear();
         this.list.clear();
-        this.table = table;
+        if( table instanceof Identifier )
+            this.table = ((Identifier) table).name();
+        else table = String.valueOf( table );
+
         this.sql = "INSERT INTO "+table;
         return this;
     }
@@ -43,10 +47,11 @@ public class Insert  extends AbstractSQL implements st.domain.support.android.sq
     }
 
     @Override
-    public ResultColumns columns(String ... columns) {
+    public ResultColumns columns( CharSequence ... columns) {
         this.sql += "( ";
         int count = 0;
-        for(String column: columns) {
+        for( CharSequence col: columns) {
+            String column = ( col instanceof  Identifier )? ((Identifier) col ).name() : String.valueOf( col );
             this.listColumns.add(column);
             this.sql += column;
             if(++count < columns.length)

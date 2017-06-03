@@ -7,7 +7,7 @@ package st.domain.support.android.sql;
 
 public interface Insert {
 
-    ResultInsertInto insertInto(String table);
+    ResultInsertInto insertInto( CharSequence table );
 
     interface ResultInsertInto extends Values, Columns, As, CharSequence, SQL {
     }
@@ -23,7 +23,7 @@ public interface Insert {
     }
 
     interface Columns {
-        ResultColumns columns(String ... columns);
+        ResultColumns columns( CharSequence  ... columns );
     }
 
     interface Values {

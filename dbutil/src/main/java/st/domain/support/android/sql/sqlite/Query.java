@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import st.domain.support.android.sql.Function;
+import st.domain.support.android.sql.object.Function;
 import st.domain.support.android.sql.OnQueryResult;
 import st.domain.support.android.sql.SQLRow;
 import st.domain.support.android.sql.builder.Select;
