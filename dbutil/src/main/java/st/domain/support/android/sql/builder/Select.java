@@ -7,6 +7,7 @@ import java.util.List;
 
 import st.domain.support.android.sql.AbstractSQL;
 import st.domain.support.android.sql.SQL;
+import st.domain.support.android.sql.object.Identifier;
 
 /**
  *
@@ -112,7 +113,7 @@ public class Select extends SelectInterfaces
     @Override
     public st.domain.support.android.sql.Select.FromResult from(CharSequence tableQuery) {
 
-        String query = this.processIdentifier(tableQuery);
+        String query = this.processIdentifier( tableQuery );
         this.query = this.query + "\n  FROM "+query;
         if(name == null && tableQuery instanceof Select)
             this.name = ((Select) tableQuery).name;
@@ -242,7 +243,7 @@ public class Select extends SelectInterfaces
 
     private  st.domain.support.android.sql.Select.WhereOperatorResult whereSignal( CharSequence argument, String signal ){
         Log.i(getTag(), String.valueOf(argument));
-        String value = this.processIdentifier(argument);
+        String value = this.processArgument( argument );
         this.query = this.query + signal +value;
         return this;
     }
@@ -334,13 +335,16 @@ public class Select extends SelectInterfaces
     }
 
     @Override
-    public st.domain.support.android.sql.Select.OrderByModeResult asc(String column) {
+    public st.domain.support.android.sql.Select.OrderByModeResult asc( CharSequence col) {
+
+        String column = col instanceof Identifier? ((Identifier) col).name() : String.valueOf( col );
         this.query = this.query + " "+column+" ASC";
         return this;
     }
 
     @Override
-    public st.domain.support.android.sql.Select.OrderByModeResult desc(String column) {
+    public st.domain.support.android.sql.Select.OrderByModeResult desc( CharSequence col ) {
+        String column = col instanceof Identifier? ((Identifier) col).name() : String.valueOf( col );
         this.query = query + " "+column+" DESC";
         return this;
     }

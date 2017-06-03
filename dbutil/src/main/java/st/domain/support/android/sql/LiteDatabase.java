@@ -10,6 +10,8 @@ import java.util.List;
 import st.domain.support.android.sql.builder.*;
 import st.domain.support.android.sql.builder.Insert;
 import st.domain.support.android.sql.builder.Select;
+import st.domain.support.android.sql.object.Column;
+import st.domain.support.android.sql.object.Function;
 import st.domain.support.android.sql.sqlite.AssetsDatabase;
 import st.domain.support.android.sql.sqlite.Query;
 import st.domain.support.android.sql.sqlite.SQLResources;
@@ -65,11 +67,11 @@ public class LiteDatabase {
         this.updatableSQL.execute( sql, argments );
     }
 
-    public st.domain.support.android.sql.Insert.ResultInsertInto insertInto(String table) {
+    public st.domain.support.android.sql.Insert.ResultInsertInto insertInto( CharSequence table) {
         return new Insert().insertInto(table);
     }
 
-    public UpdateLink.UpdateSet update(String tableName) {
+    public UpdateLink.UpdateSet update( CharSequence tableName) {
         return new Update().update( tableName );
     }
 
@@ -138,7 +140,7 @@ public class LiteDatabase {
     }
 
     public CharSequence column (String column){
-        return st.domain.support.android.sql.Column.column(column);
+        return Column.column(column);
     }
 
     public CharSequence argumentOperation( CharSequence ... arguments ){

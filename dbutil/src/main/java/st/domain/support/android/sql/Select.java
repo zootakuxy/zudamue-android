@@ -163,9 +163,9 @@ public interface Select  extends SQL {
     interface OrderByModeResult extends OrderByMode, Limit {}
     interface OrderByMode extends SQL {
 
-        OrderByModeResult asc(String column);
+        OrderByModeResult asc( CharSequence column);
 
-        OrderByModeResult desc(String column);
+        OrderByModeResult desc( CharSequence column);
 
     }
 

@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import st.domain.support.android.sql.SQLRow;
+import st.domain.support.android.sql.object.Identifier;
 
 /**
  *
@@ -40,18 +41,19 @@ class SQLiteRow implements SQLRow {
     }
 
     @Override
-    public Object value(String columnName) {
+    public Object value(CharSequence columnName) {
         return this.row[ indexOf(columnName) ];
     }
 
-    private int indexOf(String columnName) {
+    private int indexOf(CharSequence coll) {
+        String columnName = coll instanceof Identifier ? ((Identifier) coll).name() : String.valueOf( coll );
         if( !this.headerIndex.containsKey(columnName) )
             throw new RuntimeException( "the column " + columnName + " not found" );
         return this.headerIndex.get(columnName).index;
     }
 
     @Override
-    public Long longer( String columnName ) {
+    public Long longer( CharSequence columnName ) {
 
         Object value = value(columnName);
         if(value == null) return null;
@@ -63,7 +65,7 @@ class SQLiteRow implements SQLRow {
     }
 
     @Override
-    public Integer integer(String columnName) {
+    public Integer integer(CharSequence columnName) {
 
         Object value = value(columnName);
         if(value == null) return null;
@@ -76,7 +78,7 @@ class SQLiteRow implements SQLRow {
 
 
     @Override
-    public Float real(String columnName) {
+    public Float real(CharSequence columnName) {
 
         Object value = value(columnName);
         if(value == null) return null;
@@ -89,7 +91,7 @@ class SQLiteRow implements SQLRow {
     }
 
     @Override
-    public Double realDouble(String columnName) {
+    public Double realDouble(CharSequence columnName) {
 
         Object value = value(columnName);
         if(value == null) return null;
@@ -101,7 +103,7 @@ class SQLiteRow implements SQLRow {
     }
 
     @Override
-    public String string(String columnName) {
+    public String string(CharSequence columnName) {
 
         Object value = value(columnName);
         try{
@@ -112,7 +114,7 @@ class SQLiteRow implements SQLRow {
     }
 
     @Override
-    public byte[] blob(String columnName) {
+    public byte[] blob(CharSequence columnName) {
 
         Object value = value(columnName);
         if(value == null) return null;
@@ -125,24 +127,24 @@ class SQLiteRow implements SQLRow {
     }
 
     @Override
-    public Date date(String columnName) {
+    public Date date(CharSequence columnName) {
 
         return this.getDate(columnName, this.dateFormat);
     }
 
     @Override
-    public Date timestamp(String columnName) {
+    public Date timestamp(CharSequence columnName) {
         return this.getDate(columnName, this.timestampFormant);
     }
 
     @Override
-    public Date time(String columnName) {
+    public Date time(CharSequence columnName) {
 
         return getDate(columnName, this.timeFormat);
     }
 
     @Override
-    public String typeOf(String columnName) {
+    public String typeOf(CharSequence columnName) {
         return this.headerIndex.get(columnName).type;
     }
 
@@ -152,12 +154,12 @@ class SQLiteRow implements SQLRow {
     }
 
     @Override
-    public boolean hasColumn(String columnName) {
+    public boolean hasColumn(CharSequence columnName) {
         return this.headerIndex.containsKey( columnName );
     }
 
     @Override
-    public Object get(String columnName, Class<?> type) {
+    public Object get( CharSequence columnName, Class<?> type) {
         return this.value( columnName );
     }
 
@@ -168,11 +170,11 @@ class SQLiteRow implements SQLRow {
     }
 
     @Override
-    public Class<?> classOf(String columnName) {
+    public Class<?> classOf(CharSequence columnName) {
         return this.headerIndex.get(columnName).classOf;
     }
 
-    private Date getDate(String columnName, SimpleDateFormat format) {
+    private Date getDate(CharSequence columnName, SimpleDateFormat format) {
         Object value = value(columnName);
         if( value == null ) return null;
         else if(value instanceof Date) return (Date) value;

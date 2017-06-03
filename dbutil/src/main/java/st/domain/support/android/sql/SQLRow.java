@@ -25,56 +25,56 @@ public interface SQLRow {
      * @param columnName the name of column
      * @return Object
      */
-    Object value(String columnName);
+    Object value( CharSequence columnName);
 
     /**
      * Get the column as long
      * @param columnName the name of column
      * @return Long
      */
-    Long longer(String columnName );
+    Long longer( CharSequence columnName );
 
     /**
      * Get the value as integer
      * @param columnName the name of column
      * @return Integer
      */
-    Integer integer( String columnName );
+    Integer integer( CharSequence columnName );
 
     /**
      * Get the float value
      * @param columnName the name of column
      * @return Float
      */
-    Float real(String columnName);
+    Float real( CharSequence columnName);
 
     /**
      * Get de double value
      * @param columnName the name of column
      * @return Double
      */
-    Double realDouble(String columnName);
+    Double realDouble( CharSequence columnName);
 
     /**
      * get the String value
      * @param columnName the name of column
      * @return String
      */
-    String string(String columnName);
+    String string( CharSequence columnName);
 
     /**
      * Get the blob|bye[] value
      * @param columnName the name of columnNameOf
      * @return byte[]
      */
-    byte[] blob(String columnName);
+    byte[] blob( CharSequence columnName);
 
     /**
      * Get the value value
      * @param columnName the name of column
      * @return DateCharSequence
      */
-    Date date(String columnName);
+    Date date( CharSequence columnName);
 
 
     /**
@@ -82,28 +82,28 @@ public interface SQLRow {
      * @param columnName the name of column
      * @return TimestampCharSequence
      */
-    Date timestamp(String columnName);
+    Date timestamp( CharSequence columnName);
 
     /**
      * Get the time value
      * @param columnName the name of columnNameOf
      * @return TimeCharSequence
      */
-    Date time (String columnName);
+    Date time ( CharSequence columnName);
 
     /**
      * Get the type of one cell in row
      * @param columnName the name of column
      * @return {@value NULL} {@value INTEGER} {@value } {@value FLOAT} {@value TIME} {@value DATE} {@value TIMESTAMP} {@value BLOB}
      */
-    String typeOf(String columnName);
+    String typeOf( CharSequence columnName);
 
     /**
      * Get class of value of column
      * @param columnName the name of column
      * @return the classe of column
      */
-    Class<?> classOf(String columnName );
+    Class<?> classOf( CharSequence columnName );
 
     /**
      * Get name of column in index
@@ -123,11 +123,9 @@ public interface SQLRow {
      * @param columnName the name of column find
      * @return name of column
      */
-    boolean hasColumn( String columnName );
+    boolean hasColumn( CharSequence columnName );
 
-    Object get(String value, Class<?> type);
-
-    ;
+    Object get( CharSequence columnName, Class<?> type);
 
 
 }
