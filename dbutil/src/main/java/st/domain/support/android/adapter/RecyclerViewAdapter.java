@@ -48,7 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         if( inflater == null ) this.inflater = LayoutInflater.from(context);
     }
 
-    public void addItemFactory(int viewType, ViewHolderFactory viewHolderFactory){
+    public void registerFactory(int viewType, ViewHolderFactory viewHolderFactory){
         this.factoryMap.put(viewType, viewHolderFactory);
     }
 
