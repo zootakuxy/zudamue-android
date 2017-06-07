@@ -1,6 +1,7 @@
 package st.domain.support.android.util;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -176,9 +177,16 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param nodes
      * @return
      */
+    @Nullable
     public Boolean booleaner ( Object ... nodes ){
         String num = string( nodes );
         return num != null  ? Boolean.valueOf( num ) : null;
+    }
+
+    public boolean bool( Object ... nodes ){
+        String bool = string( nodes );
+        if( bool == null ) return  false;
+        return Boolean.parseBoolean( bool );
     }
 
     /**
@@ -887,6 +895,8 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
 
     public static JsonMapper from( Object data ) {
         if( data == null ) return null;
+        if( data instanceof  Map ) return new JsonMapper((Map<String, Object>) data);
+        if( data instanceof  List ) return new JsonMapper((List<Object>) data);
         return JsonMapper.parse( JsonMapper.gsonInstance().toJson( data ) );
     }
 }
