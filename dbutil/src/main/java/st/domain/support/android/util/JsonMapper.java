@@ -1,19 +1,22 @@
 package st.domain.support.android.util;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
+import com.google.gson.stream.JsonReader;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 
 /**
@@ -789,6 +792,15 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         return gson.toJson(this.getRoot());
     }
 
+    public String toJsonOfCurrentLocation() {
+        GsonBuilder builder = new GsonBuilder()
+                .setLenient();
+        Gson gson = builder.create();
+        if( this.isInMap() ) return gson.toJson( this.map );
+        if( this.isInList() ) return gson.toJson( this.list );
+        return gson.toJson( this.root );
+    }
+
     @Override
     public String toString() {
         if( this.isInMap() )
@@ -874,6 +886,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
     }
 
     public Object build() {
+        root();
         return this.root;
     }
 
@@ -898,5 +911,39 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         if( data instanceof  Map ) return new JsonMapper((Map<String, Object>) data);
         if( data instanceof  List ) return new JsonMapper((List<Object>) data);
         return JsonMapper.parse( JsonMapper.gsonInstance().toJson( data ) );
+    }
+
+    public static JsonMapper fromRaw(Context context, int rawId) {
+        InputStream input = context.getResources().openRawResource(rawId);
+        Gson gson = new Gson();
+        JsonReader read = new JsonReader( new InputStreamReader( input ) );
+        Object o = gson.fromJson(read, Object.class);
+        if( o == null ) return  null;
+        if( o instanceof Map ) return new JsonMapper((Map<String, Object>) o);
+        if( o instanceof List ) return new JsonMapper((List<Object>) o );
+        return null;
+    }
+
+    public void forEach( Consumer consumer ) {
+        if( this.isInMap() ) this.forEachMap( consumer );
+        else if( this.isInList() ) this.forEachList( consumer );
+    }
+
+    private void forEachMap(Consumer consumer) {
+        for( Map.Entry<String, Object > entry: this.map.entrySet() ){
+            consumer.accept( this, entry.getKey(), -1, entry.getValue() );
+        }
+    }
+
+    private void forEachList(Consumer consumer) {
+        int iCount = 0;
+        for( Object value: this.list ){
+            consumer.accept( this, null, iCount++, value );
+        }
+    }
+
+
+    public interface Consumer {
+        void accept( JsonMapper mapperPoint, String key, int index, Object value );
     }
 }

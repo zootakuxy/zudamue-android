@@ -259,6 +259,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         return this;
     }
 
+    public boolean exist(ItemDataSet dataSet) {
+        return this.listItem.contains( dataSet );
+    }
+
 
     public interface ViewHolderFactory {
         ItemViewHolder factory(View view);
