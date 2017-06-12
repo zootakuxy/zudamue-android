@@ -23,7 +23,7 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
     private SQLiteDatabase database;
     private List<Object> arguments;
 
-    public BaseSQLExecutable() {
+    BaseSQLExecutable() {
         this.sql = "";
         this.arguments = new LinkedList<>();
         this.tag = this.getClass().getSimpleName();
@@ -31,7 +31,7 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
 
 
 
-    public BaseSQLExecutable(SQLiteDatabase database) {
+    BaseSQLExecutable(SQLiteDatabase database) {
         this();
         this.database = database;
     }
@@ -61,7 +61,7 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
     /**
      * Clear all argument list
      */
-    public BaseSQLExecutable clearArguments() {
+    BaseSQLExecutable clearArguments() {
         this.arguments.clear();
         return this;
     }
@@ -74,7 +74,7 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
         this.arguments.addAll(Arrays.asList(arguments));
     }
 
-    public BaseSQLExecutable(SQLiteDatabase database, CharSequence sql, Object ... arguments) {
+    BaseSQLExecutable(SQLiteDatabase database, CharSequence sql, Object... arguments) {
         this(database);
         if (sql instanceof String)
             this.execute(String.valueOf(sql), arguments);
@@ -108,7 +108,7 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
     public BaseSQLExecutable execute() {
         if( this.sql() == null || this.sql().length() == 0 )
             throw new RuntimeException( "No sql for execute" );
-        this.exec(this.sql(), ( Object [] ) processArguments());
+        this.exec(this.sql(), processArguments());
         this.onPosExec();
         return this;
     }
@@ -117,41 +117,41 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
 
     protected abstract void exec(String sql, Object[] arguments);
 
-    protected void bindArguments(Object[] arguments, SQLiteStatement statement) {
-        Object argment;
+    void bindArguments(Object[] arguments, SQLiteStatement statement) {
+        Object argument;
         for(int index = 1; index <= this.arguments().size(); index++ ){
-            argment = arguments[index - 1];
+            argument = arguments[index - 1];
 
-            if( argment instanceof BaseTypeCharSequence ){
-                argment = ((BaseTypeCharSequence) argment).value();
+            if( argument instanceof BaseTypeCharSequence ){
+                argument = ((BaseTypeCharSequence) argument).value();
             }
 
-            if( argment instanceof byte[] )
-                statement.bindBlob(index, (byte[]) argment);
+            if( argument instanceof byte[] )
+                statement.bindBlob(index, (byte[]) argument);
 
-            else if( argment instanceof  String )
-                statement.bindString( index, String.valueOf( argment ) );
+            else if( argument instanceof  String )
+                statement.bindString( index, String.valueOf( argument ) );
 
-            else if( argment instanceof  Double
-                    || argment instanceof Float )
-                statement.bindDouble( index, Double.valueOf( String.valueOf( argment ) ) );
+            else if( argument instanceof  Double
+                    || argument instanceof Float )
+                statement.bindDouble( index, Double.valueOf( String.valueOf( argument ) ) );
 
-            else if( argment instanceof Integer
-                    || argment instanceof Long
-                    || argment instanceof Byte)
-                statement.bindLong( index, Long.valueOf( String.valueOf( argment ) ) );
+            else if( argument instanceof Integer
+                    || argument instanceof Long
+                    || argument instanceof Byte)
+                statement.bindLong( index, Long.valueOf( String.valueOf( argument ) ) );
 
-            else if ( argment instanceof Date )
-                statement.bindString( index, argment.toString() );
+            else if ( argument instanceof Date )
+                statement.bindString( index, argument.toString() );
 
-            else if( argment != null )
-                statement.bindString( index, String.valueOf( argment ));
+            else if( argument != null )
+                statement.bindString( index, String.valueOf( argument ));
             else statement.bindNull( index );
         }
     }
 
 
-    public Object [] processArguments() {
+    private Object [] processArguments() {
         Object [] arguments =  new Object[this.arguments.size()];
 
         for (int i = 0; i < arguments.length; i++ ) {

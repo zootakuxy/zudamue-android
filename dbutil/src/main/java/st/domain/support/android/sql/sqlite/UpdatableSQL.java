@@ -96,7 +96,7 @@ public class UpdatableSQL extends BaseSQLExecutable {
             throw  new RuntimeException( "Invalid sql statement ");
         }
 
-        execute.execute(statement);
+        execute.execute( statement );
     }
 
 

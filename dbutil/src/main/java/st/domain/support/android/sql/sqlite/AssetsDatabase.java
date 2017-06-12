@@ -78,14 +78,11 @@ public class AssetsDatabase extends SQLiteOpenHelper
     public final void setUpDataBase()
     {
         SQLiteDatabase data = this.getWritableDatabase();
-        if(this.execute == ActionExecute.CREATE)
-        {
+        if(this.execute == ActionExecute.CREATE) {
             Log.i(getTag(), "SET UP -> CREATING DATA BASE");
             this.createFromAssets(data);
             Log.i(getTag(), "SET UP -> DATABASE CREATED");
-        }
-        else if(this.execute == ActionExecute.UPGRADE)
-        {
+        } else if(this.execute == ActionExecute.UPGRADE) {
             Log.i(getTag(), "SET UP -> UPGRADE DATABASE");
             upgradeFromAssets(data);
             Log.i(getTag(), "SET UP -> DATABASE UPGRADED");
