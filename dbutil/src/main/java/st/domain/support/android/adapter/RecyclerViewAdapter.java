@@ -263,6 +263,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         return this.listItem.contains( dataSet );
     }
 
+    public int findIndexOf(ItemDataSet itemDataSet) {
+        return this.listItem.indexOf( itemDataSet );
+    }
+
+    public void notifyItemChanged(ItemDataSet itemDataSet) {
+        int index = this.findIndexOf( itemDataSet );
+        if( index != -1 ){
+            this.notifyItemChanged( index +1 );
+        }
+    }
+
 
     public interface ViewHolderFactory {
         ItemViewHolder factory(View view);

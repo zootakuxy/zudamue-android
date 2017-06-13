@@ -67,12 +67,12 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         return new JsonMapper( new LinkedList<Object>());
     }
 
-    public JsonMapper(Map<String, Object> object) {
+    public JsonMapper( Map<String, Object> object ) {
         this.root = object;
         this.map = object;
         this.list = null;
-        this.point = new LinkedList<Object>();
-        this.location = new LinkedList<Object>();
+        this.point = new LinkedList<>();
+        this.location = new LinkedList<>();
     }
 
     public JsonMapper( List<Object> list ){
@@ -746,17 +746,25 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         return this;
     }
 
-    public JsonMapper addPairsValues(Object ... pairs ){
+    public JsonMapper addPairsValues( Object ... pairs ){
         //Quando os valores nao for par
-        if( !isInList() ) return null;
-        if( pairs.length % 2 != 0 ) return null;
+        if( isInList() ) {
+            throw new RuntimeException( "Current location in list" );
+        }
+
+        if( pairs.length % 2 != 0 ){
+            throw new RuntimeException( "values no pair" );
+        }
+
         Object key;
         Object value;
         Map<String, Object> pair = new  LinkedHashMap<String,Object>();
         for ( int i = 0; i < pairs.length;  i = i + 2 ){
             key = pairs[ i ];
             value = pairs [ i+1 ];
-            if( key == null || !( key instanceof  CharSequence ) ) return null;
+            if( key == null || !( key instanceof  CharSequence ) ) {
+                throw new RuntimeException("Invalid key");
+            }
             pair.put( String.valueOf(key), value);
         }
         this.addSingle( pair );
