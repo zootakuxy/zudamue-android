@@ -38,7 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         this.factoryMap = new LinkedHashMap<>();
         this.listItem = new LinkedList<>();
         this.viewHolderMap = new LinkedHashMap<>();
-        this.autoNotify = true;
+        this.autoNotify = false;
     }
 
     @Override
@@ -254,8 +254,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         return this.listItem.size() > 0 ? this.listItem.get(this.listItem.size() - 1) : null;
     }
 
-    public RecyclerViewAdapter setAoutoNotified(boolean aoutoNotify) {
-        this.autoNotify = aoutoNotify;
+    public RecyclerViewAdapter setAutoNotify(boolean autoNotify ) {
+        this.autoNotify = autoNotify;
         return this;
     }
 
@@ -272,6 +272,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         if( index != -1 ){
             this.notifyItemChanged( index +1 );
         }
+        else throw  new RuntimeException( "Item not found exception" );
     }
 
 

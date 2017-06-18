@@ -18,6 +18,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import st.domain.support.android.exception.JsonMapperException;
+
 
 /**
  *
@@ -136,11 +138,21 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         int currentPoint = this.getCurrentPoint();
         JsonMapper mapper = this.enter( asList );
 
+        if( this.isInList() && !(
+                    field.getClass().equals( Long.class )
+                || field.getClass().equals( Integer.class )
+                || field.getClass().equals( Short.class )
+                || field.getClass().equals( Byte.class )
+                )
+        )
+            throw new RuntimeException( "Invalid index integer" );
+
         if ( mapper != null && isInMap() )
             value = this.map.get( String.valueOf( field ) );
         else if( mapper != null && isInList() )
             value = this.list.get( Integer.valueOf( String.valueOf( field ) ) );
         this.backAt( currentPoint );
+
         return value;
     }
 
