@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql.annnotation;
+package st.zudamue.support.android.sql.annnotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

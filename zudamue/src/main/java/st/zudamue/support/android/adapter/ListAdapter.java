@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.adapter;
+package st.zudamue.support.android.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import st.zudamoe.support.android.model.ItemView;
+import st.zudamue.support.android.model.ItemView;
 
 import java.util.LinkedList;
 import java.util.List;

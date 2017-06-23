@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql.sqlite;
+package st.zudamue.support.android.sql.sqlite;
 
 import android.database.Cursor;
 import android.database.SQLException;
@@ -13,10 +13,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import st.zudamoe.support.android.sql.object.Function;
-import st.zudamoe.support.android.sql.OnQueryResult;
-import st.zudamoe.support.android.sql.SQLRow;
-import st.zudamoe.support.android.sql.builder.Select;
+import st.zudamue.support.android.sql.object.Function;
+import st.zudamue.support.android.sql.OnQueryResult;
+import st.zudamue.support.android.sql.SQLRow;
+import st.zudamue.support.android.sql.builder.Select;
 
 /**
  *

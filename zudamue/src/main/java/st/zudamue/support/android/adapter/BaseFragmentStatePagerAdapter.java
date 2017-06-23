@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.adapter;
+package st.zudamue.support.android.adapter;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -10,7 +10,7 @@ import android.text.SpannableString;
 import android.text.style.ImageSpan;
 import android.util.Log;
 
-import st.zudamoe.support.android.model.ItemFragment;
+import st.zudamue.support.android.model.ItemFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;

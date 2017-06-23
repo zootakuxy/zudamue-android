@@ -1,11 +1,11 @@
-package st.zudamoe.support.android.socket.client;
+package st.zudamue.support.android.socket.client;
 
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.util.Map;
 
-import st.zudamoe.support.android.socket.model.Packager;
-import st.zudamoe.support.android.util.JsonMapper;
+import st.zudamue.support.android.socket.model.Packager;
+import st.zudamue.support.android.util.JsonMapper;
 
 /**
  * Lista de eventos do socket

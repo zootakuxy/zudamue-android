@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql;
+package st.zudamue.support.android.sql;
 
 
 import android.content.Context;
@@ -7,24 +7,24 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import st.zudamoe.support.android.sql.builder.*;
-import st.zudamoe.support.android.sql.builder.Insert;
-import st.zudamoe.support.android.sql.builder.Select;
-import st.zudamoe.support.android.sql.object.Column;
-import st.zudamoe.support.android.sql.object.Function;
-import st.zudamoe.support.android.sql.sqlite.AssetsDatabase;
-import st.zudamoe.support.android.sql.sqlite.Query;
-import st.zudamoe.support.android.sql.sqlite.SQLResources;
-import st.zudamoe.support.android.sql.sqlite.UpdatableSQL;
-import st.zudamoe.support.android.sql.type.ByteCharSequence;
-import st.zudamoe.support.android.sql.type.DateCharSequence;
-import st.zudamoe.support.android.sql.type.DoubleCharSequence;
-import st.zudamoe.support.android.sql.type.FloatCharSequence;
-import st.zudamoe.support.android.sql.type.IntegerCharSequence;
-import st.zudamoe.support.android.sql.type.LongCharSequence;
-import st.zudamoe.support.android.sql.type.TimeCharSequence;
-import st.zudamoe.support.android.sql.type.TimestampCharSequence;
-import st.zudamoe.support.android.sql.type.UpdateLink;
+import st.zudamue.support.android.sql.builder.*;
+import st.zudamue.support.android.sql.builder.Insert;
+import st.zudamue.support.android.sql.builder.Select;
+import st.zudamue.support.android.sql.object.Column;
+import st.zudamue.support.android.sql.object.Function;
+import st.zudamue.support.android.sql.sqlite.AssetsDatabase;
+import st.zudamue.support.android.sql.sqlite.Query;
+import st.zudamue.support.android.sql.sqlite.SQLResources;
+import st.zudamue.support.android.sql.sqlite.UpdatableSQL;
+import st.zudamue.support.android.sql.type.ByteCharSequence;
+import st.zudamue.support.android.sql.type.DateCharSequence;
+import st.zudamue.support.android.sql.type.DoubleCharSequence;
+import st.zudamue.support.android.sql.type.FloatCharSequence;
+import st.zudamue.support.android.sql.type.IntegerCharSequence;
+import st.zudamue.support.android.sql.type.LongCharSequence;
+import st.zudamue.support.android.sql.type.TimeCharSequence;
+import st.zudamue.support.android.sql.type.TimestampCharSequence;
+import st.zudamue.support.android.sql.type.UpdateLink;
 
 
 /**
@@ -68,7 +68,7 @@ public class LiteDatabase {
         this.updatableSQL.execute( sql, argments );
     }
 
-    public st.zudamoe.support.android.sql.Insert.ResultInsertInto insertInto(CharSequence table) {
+    public st.zudamue.support.android.sql.Insert.ResultInsertInto insertInto(CharSequence table) {
         return new Insert().insertInto(table);
     }
 

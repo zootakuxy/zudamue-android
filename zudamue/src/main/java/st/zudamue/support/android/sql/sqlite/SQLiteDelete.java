@@ -1,6 +1,6 @@
-package st.zudamoe.support.android.sql.sqlite;
+package st.zudamue.support.android.sql.sqlite;
 
-import st.zudamoe.support.android.sql.Delete;
+import st.zudamue.support.android.sql.Delete;
 
 /**
  *

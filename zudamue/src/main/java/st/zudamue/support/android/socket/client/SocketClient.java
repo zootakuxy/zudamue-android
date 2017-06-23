@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.socket.client;
+package st.zudamue.support.android.socket.client;
 
 
 import android.util.Log;
@@ -15,10 +15,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import st.zudamoe.support.android.socket.model.SocketReceiver;
-import st.zudamoe.support.android.socket.model.Packager;
-import st.zudamoe.support.android.socket.model.SocketIntent;
-import st.zudamoe.support.android.util.JsonMapper;
+import st.zudamue.support.android.socket.model.SocketReceiver;
+import st.zudamue.support.android.socket.model.Packager;
+import st.zudamue.support.android.socket.model.SocketIntent;
+import st.zudamue.support.android.util.JsonMapper;
 
 
 /**

@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql.exception;
+package st.zudamue.support.android.sql.exception;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;

@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.socket.model;
+package st.zudamue.support.android.socket.model;
 
 
 import com.google.gson.GsonBuilder;

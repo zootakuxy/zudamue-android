@@ -1,11 +1,11 @@
-package st.zudamoe.support.android.sql;
+package st.zudamue.support.android.sql;
 
 import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import st.zudamoe.support.android.sql.builder.Select;
-import st.zudamoe.support.android.sql.object.Identifier;
+import st.zudamue.support.android.sql.builder.Select;
+import st.zudamue.support.android.sql.object.Identifier;
 
 /**
  *

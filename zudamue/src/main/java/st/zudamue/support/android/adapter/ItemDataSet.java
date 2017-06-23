@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.adapter;
+package st.zudamue.support.android.adapter;
 
 /**
  * Created by xdata on 12/25/16.

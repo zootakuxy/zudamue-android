@@ -1,10 +1,10 @@
-package st.zudamoe.support.android.sql;
+package st.zudamue.support.android.sql;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import st.zudamoe.support.android.sql.object.Function;
+import st.zudamue.support.android.sql.object.Function;
 
 /**
  *

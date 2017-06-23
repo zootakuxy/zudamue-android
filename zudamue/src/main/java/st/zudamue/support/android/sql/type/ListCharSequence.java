@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql.type;
+package st.zudamue.support.android.sql.type;
 
 import java.util.Collection;
 import java.util.Collections;

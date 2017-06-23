@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.model;
+package st.zudamue.support.android.model;
 
 import java.io.Serializable;
 

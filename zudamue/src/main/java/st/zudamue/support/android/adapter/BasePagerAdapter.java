@@ -1,11 +1,11 @@
-package st.zudamoe.support.android.adapter;
+package st.zudamue.support.android.adapter;
 
 import android.support.v4.app.Fragment;
 
 import java.util.List;
 import java.util.Map;
 
-import st.zudamoe.support.android.model.ItemFragment;
+import st.zudamue.support.android.model.ItemFragment;
 
 /**
  *

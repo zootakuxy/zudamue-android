@@ -3,7 +3,7 @@
  * Original source: http://code.google.com/p/animated-gifs-in-android/source/browse/trunk/AnimatedGifs/src/eu/andlabs/tutorial/animatedgifs/decoder/GifDecoder.java
  *
  */
-package st.zudamoe.support.android.drawable;
+package st.zudamue.support.android.drawable;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;

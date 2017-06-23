@@ -1,13 +1,13 @@
-package st.zudamoe.support.android.sql.builder;
+package st.zudamue.support.android.sql.builder;
 
 import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import st.zudamoe.support.android.sql.AbstractSQL;
-import st.zudamoe.support.android.sql.SQL;
-import st.zudamoe.support.android.sql.object.Identifier;
+import st.zudamue.support.android.sql.AbstractSQL;
+import st.zudamue.support.android.sql.SQL;
+import st.zudamue.support.android.sql.object.Identifier;
 
 /**
  *
@@ -78,7 +78,7 @@ public class Select extends SelectInterfaces
 
 
     @Override
-    public st.zudamoe.support.android.sql.Select.SelectResult select(CharSequence ... columns) {
+    public st.zudamue.support.android.sql.Select.SelectResult select(CharSequence ... columns) {
 
         initQuery();
         for (int i = 0; i < columns.length; i++) {
@@ -111,7 +111,7 @@ public class Select extends SelectInterfaces
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.FromResult from(CharSequence tableQuery) {
+    public st.zudamue.support.android.sql.Select.FromResult from(CharSequence tableQuery) {
 
         String query = this.processIdentifier( tableQuery );
         this.query = this.query + "\n  FROM "+query;
@@ -131,44 +131,44 @@ public class Select extends SelectInterfaces
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.Join innerJoin(String tableName) {
+    public st.zudamue.support.android.sql.Select.Join innerJoin(String tableName) {
         this.query = this.query + "\n    INNER JOIN "+tableName;
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.Join leftJoin(String tableName) {
+    public st.zudamue.support.android.sql.Select.Join leftJoin(String tableName) {
         this.query = this.query + "\n    LEFT JOIN "+tableName;
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.Join rightJoin(String tableName) {
+    public st.zudamue.support.android.sql.Select.Join rightJoin(String tableName) {
         this.query = this.query + "\n    RIGHT JOIN "+tableName;
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.Join fullJoin(String tableName) {
+    public st.zudamue.support.android.sql.Select.Join fullJoin(String tableName) {
         this.query = query +"\n    FULL JOIN "+tableName;
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.WhereResult where(boolean result) {
+    public st.zudamue.support.android.sql.Select.WhereResult where(boolean result) {
         this.query = this.query +"\n  WHERE "+result;
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.WhereOperator where(CharSequence ... columns) {
+    public st.zudamue.support.android.sql.Select.WhereOperator where(CharSequence ... columns) {
         String identifier = processIdentifierConjunct(columns);
         this.query = this.query + "\n  WHERE "+ identifier +"";
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.GroupByResult groupBy(String... columns) {
+    public st.zudamue.support.android.sql.Select.GroupByResult groupBy(String... columns) {
 
         for (int i = 0; i < columns.length; i++) {
             this.query = query + columns[i];
@@ -180,7 +180,7 @@ public class Select extends SelectInterfaces
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.OrderByMode orderBy() {
+    public st.zudamue.support.android.sql.Select.OrderByMode orderBy() {
 
         this.query = this.query +"\n  ORDER BY";
         return this;
@@ -200,48 +200,48 @@ public class Select extends SelectInterfaces
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.JoinOperator on (CharSequence column) {
+    public st.zudamue.support.android.sql.Select.JoinOperator on (CharSequence column) {
         this.query = this.query +" "+column+"";
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.JoinOperatorResult jEqual(CharSequence column) {
+    public st.zudamue.support.android.sql.Select.JoinOperatorResult jEqual(CharSequence column) {
         this.equal(column);
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.JoinOperatorResult jNotEqual(CharSequence column) {
+    public st.zudamue.support.android.sql.Select.JoinOperatorResult jNotEqual(CharSequence column) {
         this.notEqual(column);
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.JoinOperatorResult jLike(CharSequence column) {
+    public st.zudamue.support.android.sql.Select.JoinOperatorResult jLike(CharSequence column) {
         this.like(column);
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.JoinOperatorResult jNotLike(CharSequence column) {
+    public st.zudamue.support.android.sql.Select.JoinOperatorResult jNotLike(CharSequence column) {
         this.like(column);
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.JoinOperatorResult jIsNull() {
+    public st.zudamue.support.android.sql.Select.JoinOperatorResult jIsNull() {
         this.isNull();
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.JoinOperatorResult jIsNotNUll() {
+    public st.zudamue.support.android.sql.Select.JoinOperatorResult jIsNotNUll() {
         this.isNotNull();
         return this;
     }
 
-    private  st.zudamoe.support.android.sql.Select.WhereOperatorResult whereSignal(CharSequence argument, String signal ){
+    private  st.zudamue.support.android.sql.Select.WhereOperatorResult whereSignal(CharSequence argument, String signal ){
         Log.i(getTag(), String.valueOf(argument));
         String value = this.processArgument( argument );
         this.query = this.query + signal +value;
@@ -250,7 +250,7 @@ public class Select extends SelectInterfaces
 
 
     @Override
-    public st.zudamoe.support.android.sql.Select.WhereOperatorResult equal(CharSequence argument) {
+    public st.zudamue.support.android.sql.Select.WhereOperatorResult equal(CharSequence argument) {
         return whereSignal( argument, " = ");
     }
 
@@ -275,13 +275,13 @@ public class Select extends SelectInterfaces
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.WhereOperatorResult notEqual(CharSequence argument) {
+    public st.zudamue.support.android.sql.Select.WhereOperatorResult notEqual(CharSequence argument) {
         this.query = this.query + " <> "+ processIdentifier(argument)+"";
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.WhereOperatorResult like(CharSequence argument) {
+    public st.zudamue.support.android.sql.Select.WhereOperatorResult like(CharSequence argument) {
         this.query = this.query + " LIKE "+ processIdentifier(argument)+"";
         return this;
     }
@@ -301,32 +301,32 @@ public class Select extends SelectInterfaces
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.WhereOperatorResult notLike(CharSequence argument) {
+    public st.zudamue.support.android.sql.Select.WhereOperatorResult notLike(CharSequence argument) {
         this.query = this.query + " NOT LIKE "+ processIdentifier(argument)+"";
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.WhereOperatorResult between(CharSequence argumentStart, CharSequence argumetEnd) {
+    public st.zudamue.support.android.sql.Select.WhereOperatorResult between(CharSequence argumentStart, CharSequence argumetEnd) {
         this.query = this.query + " BETWEEN "+ processIdentifier(argumentStart)+" and "+ processIdentifier(argumetEnd);
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.WhereOperatorResult isNull() {
+    public st.zudamue.support.android.sql.Select.WhereOperatorResult isNull() {
         this.query = this.query + " IS NULL";
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.WhereOperator and(CharSequence ... column) {
+    public st.zudamue.support.android.sql.Select.WhereOperator and(CharSequence ... column) {
         String identifier = processIdentifierConjunct(column);
         this.query = this.query +" AND "+identifier;
         return this;
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.WhereOperator or(CharSequence ... columns) {
+    public st.zudamue.support.android.sql.Select.WhereOperator or(CharSequence ... columns) {
 
         String identifier = processIdentifierConjunct(columns);
 
@@ -335,7 +335,7 @@ public class Select extends SelectInterfaces
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.OrderByModeResult asc(CharSequence col) {
+    public st.zudamue.support.android.sql.Select.OrderByModeResult asc(CharSequence col) {
 
         String column = col instanceof Identifier? ((Identifier) col).name() : String.valueOf( col );
         this.query = this.query + " "+column+" ASC";
@@ -343,7 +343,7 @@ public class Select extends SelectInterfaces
     }
 
     @Override
-    public st.zudamoe.support.android.sql.Select.OrderByModeResult desc(CharSequence col ) {
+    public st.zudamue.support.android.sql.Select.OrderByModeResult desc(CharSequence col ) {
         String column = col instanceof Identifier? ((Identifier) col).name() : String.valueOf( col );
         this.query = query + " "+column+" DESC";
         return this;
@@ -351,17 +351,17 @@ public class Select extends SelectInterfaces
 
 
     @Override
-    public st.zudamoe.support.android.sql.Select.WhereOperatorResult isNotNull() {
+    public st.zudamue.support.android.sql.Select.WhereOperatorResult isNotNull() {
         this.query = this.query + " IS NOT NULL ";
         return this;
     }
 
 }
 
-abstract class SelectInterfaces extends AbstractSQL implements st.zudamoe.support.android.sql.Select, st.zudamoe.support.android.sql.Select.FromResult, st.zudamoe.support.android.sql.Select.SelectResult,
-        st.zudamoe.support.android.sql.Select.Join, st.zudamoe.support.android.sql.Select.GroupByResult, st.zudamoe.support.android.sql.Select.OrderByMode, st.zudamoe.support.android.sql.Select.WhereResult,
-        st.zudamoe.support.android.sql.Select.WhereOperator, st.zudamoe.support.android.sql.Select.JoinOperator, st.zudamoe.support.android.sql.Select.OrderByModeResult,
-        st.zudamoe.support.android.sql.Select.WhereOperatorResult, st.zudamoe.support.android.sql.Select.JoinOperatorResult
+abstract class SelectInterfaces extends AbstractSQL implements st.zudamue.support.android.sql.Select, st.zudamue.support.android.sql.Select.FromResult, st.zudamue.support.android.sql.Select.SelectResult,
+        st.zudamue.support.android.sql.Select.Join, st.zudamue.support.android.sql.Select.GroupByResult, st.zudamue.support.android.sql.Select.OrderByMode, st.zudamue.support.android.sql.Select.WhereResult,
+        st.zudamue.support.android.sql.Select.WhereOperator, st.zudamue.support.android.sql.Select.JoinOperator, st.zudamue.support.android.sql.Select.OrderByModeResult,
+        st.zudamue.support.android.sql.Select.WhereOperatorResult, st.zudamue.support.android.sql.Select.JoinOperatorResult
 {
 
 

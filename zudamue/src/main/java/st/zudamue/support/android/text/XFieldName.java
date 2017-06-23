@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.text;
+package st.zudamue.support.android.text;
 
 
 /**

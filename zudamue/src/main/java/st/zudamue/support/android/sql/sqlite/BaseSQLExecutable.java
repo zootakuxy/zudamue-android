@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql.sqlite;
+package st.zudamue.support.android.sql.sqlite;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import st.zudamoe.support.android.sql.type.BaseTypeCharSequence;
-import st.zudamoe.support.android.sql.type.TypeCharSequence;
+import st.zudamue.support.android.sql.type.BaseTypeCharSequence;
+import st.zudamue.support.android.sql.type.TypeCharSequence;
 
 /**
  *

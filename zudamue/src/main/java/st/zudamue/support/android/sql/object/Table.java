@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql.object;
+package st.zudamue.support.android.sql.object;
 
 import android.util.Log;
 

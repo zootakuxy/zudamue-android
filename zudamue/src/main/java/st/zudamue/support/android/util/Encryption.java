@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.util;
+package st.zudamue.support.android.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

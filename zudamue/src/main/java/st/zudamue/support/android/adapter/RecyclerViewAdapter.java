@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.adapter;
+package st.zudamue.support.android.adapter;
 
 import android.content.Context;
 import android.os.Bundle;

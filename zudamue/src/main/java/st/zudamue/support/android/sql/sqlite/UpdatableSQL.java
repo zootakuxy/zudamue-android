@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql.sqlite;
+package st.zudamue.support.android.sql.sqlite;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import st.zudamoe.support.android.sql.SQL;
+import st.zudamue.support.android.sql.SQL;
 
 /**
  *

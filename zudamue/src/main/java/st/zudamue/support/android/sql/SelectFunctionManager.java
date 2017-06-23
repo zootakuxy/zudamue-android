@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql;
+package st.zudamue.support.android.sql;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;

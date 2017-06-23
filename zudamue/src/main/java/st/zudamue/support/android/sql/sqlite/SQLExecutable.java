@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql.sqlite;
+package st.zudamue.support.android.sql.sqlite;
 
 /**
  * Created by dchost on 03/02/17.

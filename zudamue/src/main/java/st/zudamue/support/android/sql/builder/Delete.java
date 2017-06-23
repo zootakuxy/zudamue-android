@@ -1,9 +1,9 @@
-package st.zudamoe.support.android.sql.builder;
+package st.zudamue.support.android.sql.builder;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import st.zudamoe.support.android.sql.AbstractSQL;
+import st.zudamue.support.android.sql.AbstractSQL;
 
 /**
  *

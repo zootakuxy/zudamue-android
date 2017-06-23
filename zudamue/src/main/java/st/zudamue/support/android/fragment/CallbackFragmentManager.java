@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.fragment;
+package st.zudamue.support.android.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

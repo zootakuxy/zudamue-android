@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql;
+package st.zudamue.support.android.sql;
 
 /**
  * Reciver the result from any query

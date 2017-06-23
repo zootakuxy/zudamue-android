@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.adapter;
+package st.zudamue.support.android.adapter;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import st.zudamoe.support.android.model.ItemFragment;
+import st.zudamue.support.android.model.ItemFragment;
 
 public class BaseFragmentPagerAdapter extends FragmentPagerAdapter implements Serializable, BasePagerAdapter
 {

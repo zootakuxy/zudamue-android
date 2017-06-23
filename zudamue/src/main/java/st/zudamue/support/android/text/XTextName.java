@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package st.zudamoe.support.android.text;
+package st.zudamue.support.android.text;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

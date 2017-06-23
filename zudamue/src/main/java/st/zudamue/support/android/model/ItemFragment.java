@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.model;
+package st.zudamue.support.android.model;
 
 
 import android.support.v4.app.Fragment;

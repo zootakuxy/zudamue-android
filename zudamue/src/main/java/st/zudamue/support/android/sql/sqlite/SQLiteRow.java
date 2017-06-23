@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql.sqlite;
+package st.zudamue.support.android.sql.sqlite;
 
 import android.util.Log;
 
@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 
-import st.zudamoe.support.android.sql.SQLRow;
-import st.zudamoe.support.android.sql.object.Identifier;
+import st.zudamue.support.android.sql.SQLRow;
+import st.zudamue.support.android.sql.object.Identifier;
 
 /**
  *

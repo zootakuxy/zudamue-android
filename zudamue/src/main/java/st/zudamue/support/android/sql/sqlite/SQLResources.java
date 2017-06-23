@@ -1,9 +1,9 @@
-package st.zudamoe.support.android.sql.sqlite;
+package st.zudamue.support.android.sql.sqlite;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import st.zudamoe.support.android.sql.SelectFunctionManager;
+import st.zudamue.support.android.sql.SelectFunctionManager;
 
 /**
  *

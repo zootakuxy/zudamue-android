@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.exception;
+package st.zudamue.support.android.exception;
 
 /**
  * Created by xdaniel on 6/18/17.

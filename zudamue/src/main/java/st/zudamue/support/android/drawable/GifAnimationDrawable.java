@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions jand
  * limitations under the License.
  */
-package st.zudamoe.support.android.drawable;
+package st.zudamue.support.android.drawable;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;

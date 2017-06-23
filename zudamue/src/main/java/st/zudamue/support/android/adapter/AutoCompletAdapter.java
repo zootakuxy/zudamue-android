@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.adapter;
+package st.zudamue.support.android.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,8 +8,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import st.zudamoe.support.android.R;
-import st.zudamoe.support.android.model.ItemView;
+import st.zudamue.support.android.R;
+import st.zudamue.support.android.model.ItemView;
 
 import java.util.ArrayList;
 

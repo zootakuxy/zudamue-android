@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.fragment;
+package st.zudamue.support.android.fragment;
 
 import android.support.design.widget.BottomSheetDialogFragment;
 

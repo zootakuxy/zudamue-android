@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.socket.model;
+package st.zudamue.support.android.socket.model;
 
 /**
  * Created by siie2 on 4/24/17.

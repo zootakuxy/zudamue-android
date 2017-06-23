@@ -1,8 +1,8 @@
-package st.zudamoe.support.android.sql.object;
+package st.zudamue.support.android.sql.object;
 
 import java.util.List;
 
-import st.zudamoe.support.android.util.BaseCharSequence;
+import st.zudamue.support.android.util.BaseCharSequence;
 
 /**
  *

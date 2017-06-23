@@ -1,18 +1,18 @@
-package st.zudamoe.support.android.sql.builder;
+package st.zudamue.support.android.sql.builder;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import st.zudamoe.support.android.sql.AbstractSQL;
-import st.zudamoe.support.android.sql.Select;
-import st.zudamoe.support.android.sql.object.Identifier;
+import st.zudamue.support.android.sql.AbstractSQL;
+import st.zudamue.support.android.sql.Select;
+import st.zudamue.support.android.sql.object.Identifier;
 
 /**
  *
  * Created by xdata on 1/7/17.
  */
 
-public class Insert  extends AbstractSQL implements st.zudamoe.support.android.sql.Insert, st.zudamoe.support.android.sql.Insert.ResultInsertInto, st.zudamoe.support.android.sql.Insert.ResultColumn, st.zudamoe.support.android.sql.Insert.ResultColumns
+public class Insert  extends AbstractSQL implements st.zudamue.support.android.sql.Insert, st.zudamue.support.android.sql.Insert.ResultInsertInto, st.zudamue.support.android.sql.Insert.ResultColumn, st.zudamue.support.android.sql.Insert.ResultColumns
 {
 
     private Select select;
@@ -22,7 +22,7 @@ public class Insert  extends AbstractSQL implements st.zudamoe.support.android.s
     private String table;
 
     public Insert() {
-        this.select = new st.zudamoe.support.android.sql.builder.Select();
+        this.select = new st.zudamue.support.android.sql.builder.Select();
         this.list = new LinkedList<>();
         this.listColumns = new LinkedList<>();
     }

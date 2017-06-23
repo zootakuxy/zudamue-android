@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.sql;
+package st.zudamue.support.android.sql;
 
 import java.util.LinkedList;
 import java.util.List;

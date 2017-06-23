@@ -1,4 +1,4 @@
-package st.zudamoe.support.android.util;
+package st.zudamue.support.android.util;
 
 /**
  * Created by xdaniel on 6/8/17.

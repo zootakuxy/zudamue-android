@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package st.zudamoe.support.android.view;
+package st.zudamue.support.android.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -1,6 +1,6 @@
-package st.zudamoe.support.android.sql.type;
+package st.zudamue.support.android.sql.type;
 
-import st.zudamoe.support.android.util.BaseCharSequence;
+import st.zudamue.support.android.util.BaseCharSequence;
 
 /**
  *
