@@ -1,0 +1,62 @@
+{
+  "[opc - 1] - reciver as straing":
+  {
+    "group":["server", "service-academic", "scanner", "my-ustp", "my-ustp-app", "my-ustp-teacher", "department", "administration", "teacher-secretary"],
+    "client":["user-sender-key"],
+    "key":"key",
+    "intent":["register", "unregister", "send", "fetch"],
+    "receiver":"client",
+    "content":{/*content value*/},
+    "timeout":"the send time in mills agg:74764747334",
+    "timeserver":"the receive time in mills agg:7373736353"
+  },
+
+
+  "[opc - 2] - reciver as other goup":
+  {
+    "group":["server", "service-academic", "scanner", "my-ustp", "my-ustp-app", "my-ustp-teacher", "department", "administration", "teacher-secretary"],
+    "client":["user-sender-key"],
+    "key":"key",
+    "intent":["connect", "disconnect", "send-to", "send-all", "send-all-in-zone", "send-multiples", "fetch"],
+    "reciver":{
+      "group":"group",
+      "client":"client"
+    },
+    "content":{/*content value*/},
+    "timeout":"the send time in mills agg:74764747334",
+    "timeserver":"the receive time in mills agg:7373736353"
+  },
+
+
+  "[opc - 3] - Enviar para desconhecido":
+  {
+    "group":["server", "service-academic", "scanner", "my-ustp", "my-ustp-app", "my-ustp-teacher", "department", "administration", "teacher-secretary"],
+    "client":["user-sender-key"],
+    "key":"key",
+    "intent":["connect", "disconnect", "send-to", "send-all", "send-all-in-zone", "send-multiples", "fetch"],
+    "reciver":{
+      "group":"*",
+      "client":"*"
+    },
+    "content":{/*content value*/},
+    "timeout":"the send time in mills agg:74764747334",
+    "timeserver":"the receive time in mills agg:7373736353"
+  },
+
+  "[opc - 4]":
+  {
+    "group":["server", "service-academic", "scanner", "my-ustp", "my-ustp-app", "my-ustp-teacher", "department", "administration", "teacher-secretary"],
+    "client":["user-sender-key"],
+    "key":"key",
+    "intent":["connect", "disconnect", "send-to", "send-all", "send-all-in-zone", "send-multiples", "fetch"],
+    "reciver":[
+      {"group":"grop", "client":"client"},
+      {"group":"grop", "client":"client"},
+      {"group":"grop", "client":"client"},
+      {"group":"grop", "client":"client"}
+    ],
+    "content":{/*content value*/},
+    "timeout":"the send time in mills agg:74764747334",
+    "timeserver":"the receive time in mills agg:7373736353"
+  }
+}
