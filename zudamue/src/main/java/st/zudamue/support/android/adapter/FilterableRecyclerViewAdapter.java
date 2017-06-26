@@ -23,31 +23,37 @@ public class FilterableRecyclerViewAdapter  extends RecyclerViewAdapter {
     }
 
     @Override
+    @Deprecated
     public boolean addItem(ItemDataSet itemDataSet) {
         return false;
     }
 
     @Override
+    @Deprecated
     public boolean addItem(int index, ItemDataSet newItemDataSet) {
         return false;
     }
 
     @Override
+    @Deprecated
     public boolean addItem(List<ItemDataSet> itemDataSetList) {
         return false;
     }
 
     @Override
+    @Deprecated
     public boolean setItem(int index, ItemDataSet newItemDataSet) {
         return false;
     }
 
     @Override
+    @Deprecated
     public boolean moveDataSet(int indexFrom, int indexTo) {
         return false;
     }
 
     @Override
+    @Deprecated
     public ItemDataSet removeItem(int index) {
         return null;
     }
