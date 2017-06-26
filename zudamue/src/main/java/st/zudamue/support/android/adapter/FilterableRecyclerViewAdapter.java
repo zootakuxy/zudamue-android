@@ -71,6 +71,8 @@ public class FilterableRecyclerViewAdapter  extends RecyclerViewAdapter {
     public void setNewDataSet(List<ItemDataSet> list ){
         super.clear();
         super.addItem( list );
+        if( filter == null ) this.unFilter();
+        else filter();
     }
 
     public FilterableRecyclerViewAdapter setFilter(RecyclerViewFilter filter) {
