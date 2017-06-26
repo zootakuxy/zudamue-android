@@ -1,8 +1,4 @@
 /**
-nanhe
-quanon
-plundado
-matabala
-zudamo
-*/
+ * @author Daniel Costa
+ */
 package st.zudamue;
