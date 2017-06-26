@@ -14,7 +14,9 @@ import st.zudamue.support.android.model.ItemView;
 import java.util.ArrayList;
 
 /**
- * Created by xdata on 7/22/16.
+ * Created by xdaniel on 7/22/16.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public class AutoCompletAdapter extends ListAdapter implements Filterable
 {

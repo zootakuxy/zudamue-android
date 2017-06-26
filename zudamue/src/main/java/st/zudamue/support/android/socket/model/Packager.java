@@ -6,8 +6,12 @@ import com.google.gson.annotations.Expose;
 
 import java.util.Calendar;
 
+import st.zudamue.support.android.exception.ZudamueException;
+
 /**
- * Created by siie2 on 4/24/17.
+ * Created by xdaniel on 4/24/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class Packager {
@@ -48,9 +52,9 @@ public class Packager {
     private long timeserver;
 
     public Packager(String group, String client, SocketIntent intent, Object receiver, String otherIntentName) {
-        if( intent == null ) throw  new RuntimeException( "Intent can not be null ");
+        if( intent == null ) throw  new ZudamueException( "Intent can not be null ");
         if( intent == SocketIntent.OTHER && (otherIntentName == null || otherIntentName.length() == 0) )
-            throw new RuntimeException("Other intent require name");
+            throw new ZudamueException( "Other intent require name" );
         this.group = group;
         this.client = client;
         this.receiver = receiver;
@@ -96,7 +100,7 @@ public class Packager {
     Packager setIntent(String intent) {
         if( this.socketIntent == SocketIntent.OTHER )
             this.intent = intent;
-        else throw new RuntimeException("The current socketIntent is not OTHER socketIntent");
+        else throw new ZudamueException("The current socketIntent is not OTHER socketIntent");
         return this;
     }
 

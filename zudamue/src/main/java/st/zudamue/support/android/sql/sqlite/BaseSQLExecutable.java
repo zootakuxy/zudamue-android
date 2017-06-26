@@ -8,12 +8,15 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import st.zudamue.support.android.exception.ZudamueException;
 import st.zudamue.support.android.sql.type.BaseTypeCharSequence;
 import st.zudamue.support.android.sql.type.TypeCharSequence;
 
 /**
  *
- * Created by dchost on 03/02/17.
+ * Created by xdaniel on 03/02/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public abstract class BaseSQLExecutable implements SQLExecutable {
 
@@ -106,7 +109,7 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
      */
     public BaseSQLExecutable execute() {
         if( this.sql() == null || this.sql().length() == 0 )
-            throw new RuntimeException( "No sql for execute" );
+            throw new ZudamueException( "No sql for execute" );
         this.exec(this.sql(), processArguments());
         this.onPosExec();
         return this;

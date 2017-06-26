@@ -7,8 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Created by xdaniel on 12/24/16.
  *
- * Created by xdata on 12/24/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class SelectFunctionManager {

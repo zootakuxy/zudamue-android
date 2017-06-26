@@ -8,11 +8,13 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import st.zudamue.support.android.exception.ZudamueException;
 import st.zudamue.support.android.sql.SQL;
 
 /**
+ * Created by xdaniel on 03/02/17.
  *
- * Created by dchost on 03/02/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class UpdatableSQL extends BaseSQLExecutable {
@@ -92,7 +94,7 @@ public class UpdatableSQL extends BaseSQLExecutable {
 
         Execute execute = this.mapExecutor.get(checkSqlType);
         if(execute == null) {
-            throw  new RuntimeException( "Invalid sql statement ");
+            throw  new ZudamueException( "Invalid sql statement ");
         }
 
         execute.execute( statement );

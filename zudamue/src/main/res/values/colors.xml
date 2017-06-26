@@ -10,4 +10,5 @@
 
     <color name="lib_cizent">#cac8c8</color>
     <color name="lib_aba_unselected">#CDE</color>
+    <color name="primary_text">#212121</color>
 </resources>

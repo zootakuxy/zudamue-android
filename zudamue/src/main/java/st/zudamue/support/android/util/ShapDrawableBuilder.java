@@ -5,8 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 
 /**
+ * Created by xdaniel on 27/01/17.
  *
- * Created by dchost on 27/01/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class ShapDrawableBuilder {

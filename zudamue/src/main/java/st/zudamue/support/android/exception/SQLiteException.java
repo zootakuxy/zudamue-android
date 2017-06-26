@@ -1,16 +1,16 @@
-package st.zudamue.support.android.sql.exception;
+package st.zudamue.support.android.exception;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 /**
+ * Created by xdaniel on 7/23/16.
  *
- * Created by xdata on 7/23/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
-public class SQLiteException extends RuntimeException {
+public class SQLiteException extends ZudamueException {
 
-    public SQLiteException() {
-    }
+    public SQLiteException() { }
 
     public SQLiteException(String message) {
         super(message);

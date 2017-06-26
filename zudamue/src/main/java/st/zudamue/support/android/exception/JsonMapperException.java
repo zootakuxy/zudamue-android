@@ -2,9 +2,11 @@ package st.zudamue.support.android.exception;
 
 /**
  * Created by xdaniel on 6/18/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
-public class JsonMapperException extends RuntimeException {
+public class JsonMapperException extends ZudamueException {
     public JsonMapperException() {
     }
 

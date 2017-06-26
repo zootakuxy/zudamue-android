@@ -5,6 +5,8 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by xdaniel on 6/7/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class Encryption {

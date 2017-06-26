@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Created by xdaniel on 6/2/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class ClassIdentifier extends Identifier {

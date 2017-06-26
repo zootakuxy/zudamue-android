@@ -7,8 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 /**
+ * Created by xdaniel on 12/25/16.
  *
- * Created by xdata on 12/25/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public abstract class ItemViewHolder< I extends ItemDataSet > extends RecyclerView.ViewHolder {

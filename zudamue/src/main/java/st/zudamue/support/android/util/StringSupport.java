@@ -2,6 +2,8 @@ package st.zudamue.support.android.util;
 
 /**
  * Created by xdaniel on 6/8/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class StringSupport {

@@ -18,10 +18,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import st.zudamue.support.android.exception.ZudamueException;
+
 
 /**
+ * Created by xdaniel on 4/29/17.
  *
- * Created by siie2 on 4/29/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class JsonMapper implements Iterable<Map.Entry<String , Object>>
@@ -41,7 +44,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
             this.root = gson.fromJson( json,  List.class );
         }
 
-        if( root == null ) throw  new RuntimeException( "invalid json" );
+        if( root == null ) throw  new ZudamueException( "invalid json" );
         if( root instanceof  Map )
             map = (Map<String, Object>) root;
         else if ( root instanceof List )
@@ -82,7 +85,6 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         this.point = new LinkedList<Object>();
         this.location = new LinkedList<Object>();
     }
-
 
     /**
      * Replace root to map
@@ -143,7 +145,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
                 || field.getClass().equals( Byte.class )
                 )
         )
-            throw new RuntimeException( "Invalid index integer" );
+            throw new ZudamueException( "Invalid index integer" );
 
         if ( mapper != null && isInMap() )
             value = this.map.get( String.valueOf( field ) );
@@ -153,8 +155,6 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
 
         return value;
     }
-
-
 
     public String string ( Object ... nodes ) {
         Object obj = object( nodes );
@@ -177,8 +177,6 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         return ( obj != null ) ? String.valueOf( obj ): null;
     }
 
-
-
     public Class<?> classOf( Object ... nodes ) {
         Object value = this.object( nodes );
         if ( value == null ) return null;
@@ -196,6 +194,11 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         return num != null  ? Boolean.valueOf( num ) : null;
     }
 
+    /**
+     * Read boolean
+     * @param nodes
+     * @return false if null
+     */
     public boolean bool( Object ... nodes ){
         String bool = string( nodes );
         if( bool == null ) return  false;
@@ -292,7 +295,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param value
      * @return
      */
-    private Integer asInteger(Object value) {
+    private Integer asInteger( Object value ) {
         if( value == null ) return null;
         try {
             if( value instanceof  Integer ) return (Integer) value;
@@ -318,7 +321,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param value
      * @return
      */
-    private Float asFloat(Object value) {
+    private Float asFloat( Object value ) {
 
         if( value == null ) return null;
         try {
@@ -332,7 +335,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @param value
      * @return
      */
-    private Double asDoubler(Object value) {
+    private Double asDoubler( Object value ) {
         if( value == null ) return null;
         try {
             if( value instanceof  Double ) return ( Double) value;
@@ -360,9 +363,11 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         return (Map<String, Object> ) object( nodes );
     }
 
-
-
-
+    /**
+     * Verify if has nodes
+     * @param nodes
+     * @return
+     */
     public boolean has( Object ... nodes) {
         boolean  result = false;
         List<Object> asList = this.asList(nodes);
@@ -655,7 +660,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
             this.list.set((Integer) key, value );
         else if( key instanceof  Integer && isInList() && (Integer) key == list.size() )
             list.add(value);
-        else throw  new RuntimeException( "Algo deu erado ao adicionar ");
+        else throw  new ZudamueException( "Algo deu erado ao adicionar" );
 
         this.backAt( startPoint );
         return this;
@@ -704,7 +709,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
                 list.add( startContainer =  new LinkedHashMap<String, Object>());
             else if( node instanceof  Integer && nextNode instanceof Integer && list != null )
                 list.add( startContainer =  new LinkedList<Object>());
-            else throw  new RuntimeException( "Algo deu erado ! ");
+            else throw  new ZudamueException( "Algo deu erado !" );
             return create( nodes, startContainer );
         }
         return true;
@@ -759,11 +764,11 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
     public JsonMapper addPairsValues( Object ... pairs ){
         //Quando os valores nao for par
         if( isInList() ) {
-            throw new RuntimeException( "Current location in list" );
+            throw new ZudamueException( "Current location in list" );
         }
 
         if( pairs.length % 2 != 0 ){
-            throw new RuntimeException( "values no pair" );
+            throw new ZudamueException( "values no pair" );
         }
 
         Object key;
@@ -773,7 +778,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
             key = pairs[ i ];
             value = pairs [ i+1 ];
             if( key == null || !( key instanceof  CharSequence ) ) {
-                throw new RuntimeException("Invalid key");
+                throw new ZudamueException( "Invalid key" );
             }
             pair.put( String.valueOf(key), value);
         }

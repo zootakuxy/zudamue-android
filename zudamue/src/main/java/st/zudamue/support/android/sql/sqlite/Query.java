@@ -13,14 +13,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import st.zudamue.support.android.exception.ZudamueException;
 import st.zudamue.support.android.sql.object.Function;
 import st.zudamue.support.android.sql.OnQueryResult;
 import st.zudamue.support.android.sql.SQLRow;
 import st.zudamue.support.android.sql.builder.Select;
 
 /**
+ * Created by xdaniel on 1/1/17.
  *
- * Created by xdata on 1/1/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public class Query extends BaseSQLExecutable {
 
@@ -74,7 +76,7 @@ public class Query extends BaseSQLExecutable {
             this.arguments().addAll(((Function) query).arguments());
         }
         else {
-            throw  new RuntimeException("unknown charSequence");
+            throw  new ZudamueException( "unknown charSequence" );
         }
 
     }

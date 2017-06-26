@@ -1,7 +1,9 @@
 package st.zudamue.support.android.model;
 
 /**
- * Created by xdata on 7/24/16.
+ * Created by xdaniel on 7/24/16.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public interface Consumer<T>
 {

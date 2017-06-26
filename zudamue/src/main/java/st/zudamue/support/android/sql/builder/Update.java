@@ -8,7 +8,9 @@ import st.zudamue.support.android.sql.object.Identifier;
 import st.zudamue.support.android.sql.type.UpdateLink;
 
 /**
- * Created by daniel on 3/14/17.
+ * Created by xdaniel on 3/14/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class Update extends AbstractSQL implements UpdateLink.Update, UpdateLink.UpdateSet, UpdateLink.UpdateLinkSet, UpdateLink.WhereOperator, UpdateLink.WhereOperatorResult {

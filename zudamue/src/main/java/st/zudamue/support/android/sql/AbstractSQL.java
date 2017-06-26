@@ -8,8 +8,9 @@ import st.zudamue.support.android.sql.builder.Select;
 import st.zudamue.support.android.sql.object.Identifier;
 
 /**
+ * Created by xdaniel on 12/31/16.
  *
- * Created by xdata on 12/31/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public abstract class AbstractSQL implements SQL {

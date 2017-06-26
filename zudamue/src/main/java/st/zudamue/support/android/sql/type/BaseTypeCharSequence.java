@@ -3,8 +3,9 @@ package st.zudamue.support.android.sql.type;
 import st.zudamue.support.android.util.BaseCharSequence;
 
 /**
+ * Created by xdaniel on 03/02/17.
  *
- * Created by dchost on 03/02/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class BaseTypeCharSequence<E> extends BaseCharSequence implements TypeCharSequence<E> {

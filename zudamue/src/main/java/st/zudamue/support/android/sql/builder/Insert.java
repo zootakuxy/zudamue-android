@@ -8,8 +8,9 @@ import st.zudamue.support.android.sql.Select;
 import st.zudamue.support.android.sql.object.Identifier;
 
 /**
+ * Created by xdaniel on 1/7/17.
  *
- * Created by xdata on 1/7/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class Insert  extends AbstractSQL implements st.zudamue.support.android.sql.Insert, st.zudamue.support.android.sql.Insert.ResultInsertInto, st.zudamue.support.android.sql.Insert.ResultColumn, st.zudamue.support.android.sql.Insert.ResultColumns

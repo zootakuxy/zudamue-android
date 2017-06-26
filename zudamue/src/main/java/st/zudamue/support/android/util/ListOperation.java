@@ -6,8 +6,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
+ * Created by xdaniel on 29/01/17.
  *
- * Created by dchost on 29/01/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class ListOperation <T>{

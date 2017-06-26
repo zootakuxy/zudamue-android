@@ -2,7 +2,10 @@ package st.zudamue.support.android.sql;
 
 /**
  * Reciver the result from any query
- * Created by xdata on 12/30/16.
+ *
+ * Created by xdaniel on 12/30/16.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public interface OnQueryResult {
 

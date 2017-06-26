@@ -5,7 +5,9 @@ import java.util.List;
 
 /**
  *
- * Created by daniel on 3/14/17.
+ * Created by xdaniel on 3/14/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class Operation extends AbstractSQL {

@@ -3,7 +3,9 @@ package st.zudamue.support.android.model;
 import java.io.Serializable;
 
 /**
- * Created by xdata on 7/26/16.
+ * Created by xdaniel on 7/26/16.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public interface Identified extends Serializable
 {

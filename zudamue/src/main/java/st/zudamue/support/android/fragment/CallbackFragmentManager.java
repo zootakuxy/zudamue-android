@@ -8,7 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Created by dchost on 05/03/17.
+ * Created by xdaniel on 05/03/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public final class CallbackFragmentManager {

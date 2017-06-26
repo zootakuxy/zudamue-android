@@ -6,8 +6,9 @@ import java.util.List;
 import st.zudamue.support.android.sql.AbstractSQL;
 
 /**
+ * Created by xdaniel on 04/02/17.
  *
- * Created by dchost on 04/02/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class Delete extends AbstractSQL {

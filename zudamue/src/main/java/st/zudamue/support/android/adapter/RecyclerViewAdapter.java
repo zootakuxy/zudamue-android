@@ -13,16 +13,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import st.zudamue.support.android.exception.ZudamueException;
+
 
 /**
+ * Created by xdaniel on 12/25/16.
  *
- * Created by xdata on 12/25/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterable<ItemDataSet> {
 
     protected  Context context;
-    private boolean autoNotify;
+    protected boolean autoNotify;
     LayoutInflater inflater;
     private Map<Integer, ViewHolderFactory> factoryMap;
     private Map<Integer, ItemViewHolder> viewHolderMap;
@@ -43,7 +46,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
 
     @Override
     public void onAttachedToRecyclerView( RecyclerView recyclerView )  {
-        super.onAttachedToRecyclerView(recyclerView);
+        super.onAttachedToRecyclerView( recyclerView );
         if( this.context == null ) this.context = recyclerView.getContext();
         if( inflater == null ) this.inflater = LayoutInflater.from(context);
     }
@@ -62,12 +65,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int layoytViewId) {
-        ViewHolderFactory factory = this.factoryMap.get(layoytViewId);
-        View view = inflater.inflate(layoytViewId, parent, false);
+        ViewHolderFactory factory = this.factoryMap.get( layoytViewId );
 
-        if(factory != null)
-            return factory.factory(view);
-        return null;
+        if( factory == null ) throw new ZudamueException( "View Holder factory not found for layout "+ this.context.getResources().getResourceName( layoytViewId ) );
+
+        View view = inflater.inflate( layoytViewId, parent, false );
+        return factory.factory( view );
     }
 
     @Override
@@ -101,18 +104,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int index) {
-
+    public void onBindViewHolder( RecyclerView.ViewHolder holder, int index) {
         if( holder instanceof ItemViewHolder ){
-
             ((ItemViewHolder) holder).onPreBind();
-            ((ItemViewHolder) holder).onBind( this.listItem.get( index ), index, this.listItem.size());
-            ((ItemViewHolder) holder).dataSet( this.listItem.get( index ) );
+            ((ItemViewHolder) holder).dataSet(getItemDataSet(index));
+            ((ItemViewHolder) holder).onBind(getItemDataSet(index), index, this.listItem.size());
             ((ItemViewHolder) holder).onPosBind();
             this.viewHolderMap.remove( holder.getOldPosition() );
             this.viewHolderMap.put( index, (ItemViewHolder) holder);
         }
+    }
 
+    protected ItemDataSet getItemDataSet(int index) {
+        return this.listItem.get( index );
     }
 
     @Override
@@ -123,13 +127,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
 
     @Override
     public int getItemViewType(int index) {
-
-        return this.listItem.get(index).getLayoutId();
-
+        return getItemDataSet(index).getLayoutId();
     }
 
     public void clear(){
-        int length = this.getItemCount();
         this.listItem.clear();
         if( this.autoNotify)
             super.notifyDataSetChanged();
@@ -144,11 +145,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         ItemDataSet oldDataSet = index < this.listItem.size() ? this.listItem.get(index) : null;
         this.listItem.add(index, newItemDataSet);
 
-        if( oldDataSet != null && hasViewHolder(index) ) {
-            ItemViewHolder viewHolder = this.viewHolderMap.get(index);
+        if( oldDataSet != null && hasViewHolder( index ) ) {
+            ItemViewHolder viewHolder = this.viewHolderMap.get( index );
             viewHolder.onNewDataSetAddInCurrentPosition( index, newItemDataSet, oldDataSet, this.listItem.size() );
         }
-        if( this.autoNotify)
+        if( this.autoNotify )
             this.notifyItemInserted( index );
         return true;
     }
@@ -272,10 +273,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         if( index != -1 ){
             this.notifyItemChanged( index +1 );
         }
-        else throw  new RuntimeException( "Item not found exception" );
+        else throw  new ZudamueException( "Item not found exception" );
     }
 
 
+    /**
+     * View holder factory
+     */
     public interface ViewHolderFactory {
         ItemViewHolder factory(View view);
     }

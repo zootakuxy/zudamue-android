@@ -9,7 +9,10 @@ import st.zudamue.support.android.util.JsonMapper;
 
 /**
  * Lista de eventos do socket
- * Created by siie2 on 4/25/17.
+ *
+ * Created by xdaniel on 4/25/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public interface SocketListiner {
 

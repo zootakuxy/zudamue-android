@@ -1,8 +1,9 @@
 package st.zudamue.support.android.sql;
 
 /**
+ * Created by xdaniel on 1/7/17.
  *
- * Created by xdata on 1/7/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public interface Insert {

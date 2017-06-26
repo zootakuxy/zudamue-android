@@ -7,7 +7,9 @@ import java.util.Currency;
 import java.util.Locale;
 
 /**
- * Created by xdata on 7/26/16.
+ * Created by xdaniel on 7/26/16.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public class Money extends Number implements Comparable<Money>, CharSequence, Serializable
 {

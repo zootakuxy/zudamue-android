@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
+ * Created by xdaniel on 03/02/17.
  *
- * Created by dchost on 03/02/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class ListCharSequence extends BaseTypeCharSequence<List<CharSequence>>{

@@ -7,8 +7,9 @@ import java.util.List;
 import st.zudamue.support.android.sql.object.Function;
 
 /**
+ * Created by xdaniel on 12/31/16.
  *
- * Created by xdata on 12/31/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class AggregateFunction extends Function {

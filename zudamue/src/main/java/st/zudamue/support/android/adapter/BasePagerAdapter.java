@@ -8,8 +8,9 @@ import java.util.Map;
 import st.zudamue.support.android.model.ItemFragment;
 
 /**
+ * Created by xdaniel on 30/01/17.
  *
- * Created by dchost on 30/01/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public interface BasePagerAdapter{

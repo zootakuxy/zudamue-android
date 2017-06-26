@@ -3,7 +3,9 @@ package st.zudamue.support.android.socket.model;
 import com.google.gson.annotations.Expose;
 
 /**
- * Created by daniel on 5/25/17.
+ * Created by xdaniel on 5/25/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class SocketReceiver {

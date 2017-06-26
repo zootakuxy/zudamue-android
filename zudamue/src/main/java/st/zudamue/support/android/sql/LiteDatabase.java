@@ -28,8 +28,9 @@ import st.zudamue.support.android.sql.type.UpdateLink;
 
 
 /**
+ * Created by xdaniel on 7/25/16.
  *
- * Created by xdata on 7/25/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public class LiteDatabase {
 

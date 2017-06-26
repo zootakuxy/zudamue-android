@@ -2,8 +2,9 @@ package st.zudamue.support.android.fragment;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 /**
+ * Created by xdaniel on 07/03/17.
  *
- * Created by dchost on 07/03/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class DatePickerDialogSupport extends DatePickerDialog {

@@ -10,8 +10,9 @@ import st.zudamue.support.android.sql.SQL;
 import st.zudamue.support.android.sql.object.Identifier;
 
 /**
+ * Created by xdaniel on 12/25/16.
  *
- * Created by xdata on 12/25/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 
@@ -358,6 +359,9 @@ public class Select extends SelectInterfaces
 
 }
 
+/**
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
+ */
 abstract class SelectInterfaces extends AbstractSQL implements st.zudamue.support.android.sql.Select, st.zudamue.support.android.sql.Select.FromResult, st.zudamue.support.android.sql.Select.SelectResult,
         st.zudamue.support.android.sql.Select.Join, st.zudamue.support.android.sql.Select.GroupByResult, st.zudamue.support.android.sql.Select.OrderByMode, st.zudamue.support.android.sql.Select.WhereResult,
         st.zudamue.support.android.sql.Select.WhereOperator, st.zudamue.support.android.sql.Select.JoinOperator, st.zudamue.support.android.sql.Select.OrderByModeResult,

@@ -11,11 +11,16 @@ import android.util.Log;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import st.zudamue.support.android.exception.TextException;
+
 
 /**
  * Essa classe permite recriar um ficeiro xml baseando da estrutura de uma classe em java
  * desde que essa implemente a interface ClassXML
- * @author Servidor
+ *
+ * Created by xdaniel
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public class XTextName
 {

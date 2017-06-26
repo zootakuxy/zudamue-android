@@ -3,8 +3,9 @@ package st.zudamue.support.android.sql.sqlite;
 import st.zudamue.support.android.sql.Delete;
 
 /**
+ * Created by xdaniel on 12/31/16.
  *
- * Created by xdata on 12/31/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class SQLiteDelete implements Delete, Delete.Where, Delete.WhereOperator, Delete.JoinWhereOperator {

@@ -14,8 +14,9 @@ import java.io.InputStream;
 import java.util.Calendar;
 
 /**
+ * Created by xdaniel on 7/22/16.
  *
- * Created by xdata on 7/22/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public class AssetsDatabase extends SQLiteOpenHelper
 {

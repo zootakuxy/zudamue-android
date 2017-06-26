@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by xdata on 12/31/16.
+ * Created by xdaniel on 12/31/16.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class Function extends Identifier {

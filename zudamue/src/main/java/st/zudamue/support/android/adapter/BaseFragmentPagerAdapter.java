@@ -17,6 +17,11 @@ import java.util.Map;
 
 import st.zudamue.support.android.model.ItemFragment;
 
+/**
+ * Created by xdaniel
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
+ */
 public class BaseFragmentPagerAdapter extends FragmentPagerAdapter implements Serializable, BasePagerAdapter
 {
 	private final Rect defaultBounds;

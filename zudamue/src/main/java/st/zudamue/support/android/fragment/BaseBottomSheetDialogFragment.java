@@ -5,7 +5,9 @@ import android.support.design.widget.BottomSheetDialogFragment;
 import java.util.Map;
 
 /**
- * Created by dchost on 05/03/17.
+ * Created by xdaniel on 05/03/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class BaseBottomSheetDialogFragment extends BottomSheetDialogFragment  implements CallbackFragmentManager.BaseFragment {

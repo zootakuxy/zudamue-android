@@ -3,8 +3,9 @@ package st.zudamue.support.android.sql;
 import android.support.annotation.NonNull;
 
 /**
+ * Created by xdaniel on 12/31/16.
  *
- * Created by xdata on 12/31/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public abstract class Argument implements CharSequence {

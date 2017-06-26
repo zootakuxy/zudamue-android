@@ -6,6 +6,11 @@ import android.view.ViewGroup;
 
 import java.io.Serializable;
 
+/**
+ * Created by xdaniel
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
+ */
 public interface ItemView extends Serializable
 {
 	public View createView(int position, LayoutInflater inflater, View view, ViewGroup viewGroup);

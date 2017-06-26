@@ -11,7 +11,10 @@ import java.util.HashMap;
 /**
  * Essa classe representa a estrutura de XML das referencia
  * E a classe onde possui as regras de referencias das classe e os seu atributos e relacao ao XML
- * @author Servidor
+ *
+ * Created by xdaniel
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public class References
 {

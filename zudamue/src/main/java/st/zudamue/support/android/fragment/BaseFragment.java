@@ -5,7 +5,9 @@ import android.support.v4.app.Fragment;
 import java.util.Map;
 
 /**
- * Created by dchost on 04/03/17.
+ * Created by xdaniel on 04/03/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class BaseFragment extends Fragment implements CallbackFragmentManager.BaseFragment {

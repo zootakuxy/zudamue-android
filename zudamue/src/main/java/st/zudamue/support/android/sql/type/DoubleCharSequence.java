@@ -1,7 +1,9 @@
 package st.zudamue.support.android.sql.type;
 
 /**
- * Created by dchost on 03/02/17.
+ * Created by xdaniel on 03/02/17.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public class DoubleCharSequence extends BaseTypeCharSequence<Double> {

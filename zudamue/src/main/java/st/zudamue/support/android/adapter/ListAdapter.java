@@ -12,7 +12,11 @@ import st.zudamue.support.android.model.ItemView;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * Created by xdaniel
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
+ */
 public class ListAdapter extends BaseAdapter
 {
 
@@ -54,10 +58,8 @@ public class ListAdapter extends BaseAdapter
 	}
 
 	@Override
-	public View getView(int position, View view, ViewGroup viewGroup) 
-	{
+	public View getView(int position, View view, ViewGroup viewGroup) {
 		ItemView item = this.getItemView(position);
-		Log.i("APP", "CONTEXT = "+context);
 		LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View itemView  = item.createView(position, inflater, view, viewGroup);
 		return itemView;

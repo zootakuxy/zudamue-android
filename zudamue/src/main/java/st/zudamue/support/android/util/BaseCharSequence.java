@@ -5,8 +5,9 @@ import android.support.annotation.NonNull;
 import java.io.Serializable;
 
 /**
+ * Created by xdaniel on 8/9/16.
  *
- * Created by xdata on 8/9/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public abstract class BaseCharSequence implements CharSequence, Serializable
 {

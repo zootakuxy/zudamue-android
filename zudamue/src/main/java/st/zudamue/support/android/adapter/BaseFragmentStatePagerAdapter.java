@@ -17,6 +17,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Created by xdaniel
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
+ */
 public class BaseFragmentStatePagerAdapter extends FragmentStatePagerAdapter implements Serializable, BasePagerAdapter
 {
 	private final Rect defaultBounds;

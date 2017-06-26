@@ -13,7 +13,9 @@ import st.zudamue.support.android.model.ItemViewExpand;
 import java.util.ArrayList;
 
 /**
- * Created by xdata on 8/2/16.
+ * Created by xdaniel on 8/2/16.
+ *
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 public class ExpandAdapter extends BaseExpandableListAdapter
 {

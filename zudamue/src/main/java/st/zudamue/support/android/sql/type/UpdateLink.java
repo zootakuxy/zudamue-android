@@ -3,8 +3,9 @@ package st.zudamue.support.android.sql.type;
 import st.zudamue.support.android.sql.SQL;
 
 /**
+ * Created by xdaniel on 3/14/17.
  *
- * Created by daniel on 3/14/17.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 public interface UpdateLink {

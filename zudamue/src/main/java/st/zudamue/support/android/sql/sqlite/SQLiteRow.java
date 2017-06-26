@@ -7,12 +7,14 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Map;
 
+import st.zudamue.support.android.exception.ZudamueException;
 import st.zudamue.support.android.sql.SQLRow;
 import st.zudamue.support.android.sql.object.Identifier;
 
 /**
+ * Created by xdaniel on 12/25/16.
  *
- * Created by xdata on 12/25/16.
+ * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
 class SQLiteRow implements SQLRow {
@@ -48,7 +50,7 @@ class SQLiteRow implements SQLRow {
     private int indexOf(CharSequence coll) {
         String columnName = coll instanceof Identifier ? ((Identifier) coll).name() : String.valueOf( coll );
         if( !this.headerIndex.containsKey(columnName) )
-            throw new RuntimeException( "the column " + columnName + " not found" );
+            throw new ZudamueException( "the column " + columnName + " not found" );
         return this.headerIndex.get(columnName).index;
     }
 
