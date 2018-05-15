@@ -126,7 +126,7 @@ public abstract class ItemViewHolder< I extends ItemDataSet > extends RecyclerVi
     public void onSaveInstanceState(Bundle outState){}
 
     public interface ItemCallback < I extends  ItemDataSet > {
-        void onCallback(ItemViewHolder itemViewHolder, View view , I itemDataSet, int adapterPosition );
+        void onCallback( ItemViewHolder itemViewHolder, View view , I itemDataSet, int adapterPosition );
     }
 
     public abstract static class DataSetCallback < I extends ItemDataSet > implements ItemCallback< I > {

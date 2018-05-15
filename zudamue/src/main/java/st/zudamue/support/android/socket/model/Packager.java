@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose;
 
 import java.util.Calendar;
 
-import st.zudamue.support.android.exception.ZudamueException;
+import st.zudamue.support.android.util.exception.ZudamueException;
 
 /**
  * Created by xdaniel on 4/24/17.

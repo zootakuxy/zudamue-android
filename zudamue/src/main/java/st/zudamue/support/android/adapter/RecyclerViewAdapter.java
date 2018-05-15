@@ -26,7 +26,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
 
     protected  Context context;
     protected boolean autoNotify;
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
     private Map<Integer, ViewHolderFactory> factoryMap;
     private Map<Integer, ItemViewHolder> viewHolderMap;
     protected List<ItemDataSet> listItem;
@@ -51,8 +51,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
         if( inflater == null ) this.inflater = LayoutInflater.from(context);
     }
 
-    public void registerFactory(int viewType, ViewHolderFactory viewHolderFactory){
+    public RecyclerViewAdapter registerFactory(int viewType, ViewHolderFactory viewHolderFactory){
         this.factoryMap.put(viewType, viewHolderFactory);
+        return this;
     }
 
     public void onSaveInstanceState(Bundle outState ){
@@ -107,8 +108,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
     public void onBindViewHolder( RecyclerView.ViewHolder holder, int index) {
         if( holder instanceof ItemViewHolder ){
             ((ItemViewHolder) holder).onPreBind();
-            ((ItemViewHolder) holder).dataSet(getItemDataSet(index));
-            ((ItemViewHolder) holder).onBind(getItemDataSet(index), index, this.listItem.size());
+            ((ItemViewHolder) holder).dataSet( getItemDataSet(index) );
+            ((ItemViewHolder) holder).onBind( getItemDataSet(index), index, this.listItem.size());
             ((ItemViewHolder) holder).onPosBind();
             this.viewHolderMap.remove( holder.getOldPosition() );
             this.viewHolderMap.put( index, (ItemViewHolder) holder);
