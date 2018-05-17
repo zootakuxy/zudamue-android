@@ -81,11 +81,11 @@ public class AssetsDatabase extends SQLiteOpenHelper
         SQLiteDatabase data = this.getWritableDatabase();
         if(this.execute == ActionExecute.CREATE) {
             Log.i(getTag(), "SET UP -> CREATING DATA BASE");
-            this.createFromAssets(data);
+            this.createFromAssets( data );
             Log.i(getTag(), "SET UP -> DATABASE CREATED");
         } else if(this.execute == ActionExecute.UPGRADE) {
             Log.i(getTag(), "SET UP -> UPGRADE DATABASE");
-            upgradeFromAssets(data);
+            upgradeFromAssets( data );
             Log.i(getTag(), "SET UP -> DATABASE UPGRADED");
         }
 
@@ -99,7 +99,7 @@ public class AssetsDatabase extends SQLiteOpenHelper
     protected void upgradeFromAssets(SQLiteDatabase data)
     {
         Log.i(getTag(), "DROPING CURRENT DATABASE");
-        boolean result = SQLiteDatabase.deleteDatabase(new File(data.getPath()));
+        boolean result = SQLiteDatabase.deleteDatabase( new File( data.getPath() ) );
         if(result)
             Log.i(getTag(), "CURRENTE DATABASE DROPED");
         else Log.i(getTag(), "CAN NOT DROPED DATABASE");
