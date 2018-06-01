@@ -9,6 +9,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.stream.JsonReader;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
@@ -58,7 +61,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * Create new instace JsonMapper basede in map root
      * @return
      */
-    public static  JsonMapper newInstanceMap() {
+    public static  JsonMapper newObjectInstance() {
         return  new JsonMapper( new LinkedHashMap<String,  Object>());
     }
 
@@ -139,12 +142,12 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         JsonMapper mapper = this.enter( asList );
 
         if( this.isInList() && !(
-                    field.getClass().equals( Long.class )
-                || field.getClass().equals( Integer.class )
-                || field.getClass().equals( Short.class )
-                || field.getClass().equals( Byte.class )
-                )
+                field.getClass().equals( Long.class )
+                        || field.getClass().equals( Integer.class )
+                        || field.getClass().equals( Short.class )
+                        || field.getClass().equals( Byte.class )
         )
+                )
             throw new ZudamueException( "Invalid index integer" );
 
         if ( mapper != null && isInMap() )
@@ -160,14 +163,14 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         Object obj = object( nodes );
         return ( obj != null && (
                 obj instanceof  String
-                || obj instanceof  Boolean
-                || obj instanceof  Byte
-                || obj instanceof  Short
-                || obj instanceof  Integer
-                || obj instanceof  Long
-                || obj instanceof  Float
-                || obj instanceof  Double
-                || obj instanceof  CharSequence
+                        || obj instanceof  Boolean
+                        || obj instanceof  Byte
+                        || obj instanceof  Short
+                        || obj instanceof  Integer
+                        || obj instanceof  Long
+                        || obj instanceof  Float
+                        || obj instanceof  Double
+                        || obj instanceof  CharSequence
 
         ) ) ? String.valueOf( obj ): null;
     }
@@ -291,59 +294,59 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         } catch ( Exception ex ){}
         return  null;
     }    /**
-     * Conver value as number
-     * @param value
-     * @return
-     */
-    private Integer asInteger( Object value ) {
-        if( value == null ) return null;
-        try {
-            if( value instanceof  Integer ) return (Integer) value;
-            else if( value instanceof Number ) return ((Number) value).intValue();
-            else if( value instanceof  String ) return Integer.parseInt( String.valueOf(  value ));
-        } catch ( Exception ex ){}
-        return  null;
-    }    /**
-     * Conver value as number
-     * @param value
-     * @return
-     */
-    private Long asLong( Object value) {
-        if( value == null ) return null;
-        try {
-            if( value instanceof  Long ) return (Long) value;
-            else if( value instanceof Number ) return ((Number) value).longValue();
-            else if( value instanceof  String ) return Long.parseLong( String.valueOf(  value ));
-        } catch ( Exception ex ){}
-        return  null;
-    }    /**
-     * Conver value as number
-     * @param value
-     * @return
-     */
-    private Float asFloat( Object value ) {
+ * Conver value as number
+ * @param value
+ * @return
+ */
+private Integer asInteger( Object value ) {
+    if( value == null ) return null;
+    try {
+        if( value instanceof  Integer ) return (Integer) value;
+        else if( value instanceof Number ) return ((Number) value).intValue();
+        else if( value instanceof  String ) return Integer.parseInt( String.valueOf(  value ));
+    } catch ( Exception ex ){}
+    return  null;
+}    /**
+ * Conver value as number
+ * @param value
+ * @return
+ */
+private Long asLong( Object value) {
+    if( value == null ) return null;
+    try {
+        if( value instanceof  Long ) return (Long) value;
+        else if( value instanceof Number ) return ((Number) value).longValue();
+        else if( value instanceof  String ) return Long.parseLong( String.valueOf(  value ));
+    } catch ( Exception ex ){}
+    return  null;
+}    /**
+ * Conver value as number
+ * @param value
+ * @return
+ */
+private Float asFloat( Object value ) {
 
-        if( value == null ) return null;
-        try {
-            if( value instanceof  Float ) return ( Float ) value;
-            else if( value instanceof Number ) return ((Number) value).floatValue();
-            else if( value instanceof  String ) return Float.parseFloat( String.valueOf(  value ));
-        } catch ( Exception ex ){}
-        return  null;
-    }    /**
-     * Conver value as number
-     * @param value
-     * @return
-     */
-    private Double asDoubler( Object value ) {
-        if( value == null ) return null;
-        try {
-            if( value instanceof  Double ) return ( Double) value;
-            else if( value instanceof Number ) return ((Number) value).doubleValue();
-            else if( value instanceof  String ) return Double.parseDouble( String.valueOf(  value ));
-        } catch ( Exception ex ){}
-        return  null;
-    }
+    if( value == null ) return null;
+    try {
+        if( value instanceof  Float ) return ( Float ) value;
+        else if( value instanceof Number ) return ((Number) value).floatValue();
+        else if( value instanceof  String ) return Float.parseFloat( String.valueOf(  value ));
+    } catch ( Exception ex ){}
+    return  null;
+}    /**
+ * Conver value as number
+ * @param value
+ * @return
+ */
+private Double asDoubler( Object value ) {
+    if( value == null ) return null;
+    try {
+        if( value instanceof  Double ) return ( Double) value;
+        else if( value instanceof Number ) return ((Number) value).doubleValue();
+        else if( value instanceof  String ) return Double.parseDouble( String.valueOf(  value ));
+    } catch ( Exception ex ){}
+    return  null;
+}
 
     /**
      * Read list
@@ -580,20 +583,32 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      */
     public JsonMapper root() {
         if( !this.isInRoot() ) {
-            this.map = this.getRootAsMap();
-            this.list = this.getRootAsList();
+            this.map = this.rootAsObject();
+            this.list = this.rootAsList();
             this.point.clear();
         }
         return this;
+    }
+
+
+
+    /**
+     *
+     * @return
+     */
+    public Map<String, Object> asObject() {
+        return this.map;
     }
 
     /**
      *
      * @return
      */
-    public Map<String, Object> rootMap() {
-        return this.map;
+    public List< Object> asList() {
+        return this.list;
     }
+
+
 
 
     /**
@@ -606,7 +621,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         if (nodesLastValue == null || nodesLastValue.length < 2 ) return null;
 
         List<Object> asList =  this.asList( nodesLastValue );
-        List<Object> canEnter = new LinkedList<Object>();
+        List<Object> canEnter = new LinkedList<>();
 
         int lastCan = 0;
         Object value = asList.remove( asList.size() -1 );
@@ -649,7 +664,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         if( ( key instanceof  String && !isInMap() )
                 || ( key instanceof  Integer && !isInList() )
                 || ( key instanceof  Integer && ( ( Integer ) key< 0 || ( Integer ) key > list.size()) )
-        ){
+                ){
             backAt(startPoint);
             return null;
         }
@@ -715,29 +730,29 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         return true;
     }
 
-    public JsonMapper putSingle( String key, Object value ){
+    public JsonMapper set( String key, Object value ){
         this.map.put( key, value);
         return this;
     }
 
 
-    public JsonMapper setSingle( int index, Object value ){
+    public JsonMapper set( int index, Object value ){
         if( ! isInList() )return  null;
         if( index < 0 || index > list.size() -1 ) return  null;
         this.list.set( index , value );
         return  this;
     }
 
-    public JsonMapper addSingle( int index, Object value ){
+    public JsonMapper add( int index, Object value ){
         if( ! isInList() )return  null;
         if( index < 0 || index > list.size() ) return  null;
         this.list.add( index , value );
         return  this;
     }
 
-    public  JsonMapper addSingle( Object value ){
+    public  JsonMapper add( Object value ){
         if( ! isInList() ) return  null;
-        return this.addSingle( this.list.size(), value );
+        return this.add( this.list.size(), value );
     }
 
 
@@ -756,7 +771,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
             key = pairs[ i ];
             value = pairs [ i+1 ];
             if( key == null || !( key instanceof  CharSequence ) ) return null;
-            this.putSingle( String.valueOf(key), value);
+            this.set( String.valueOf(key), value);
         }
         return this;
     }
@@ -782,7 +797,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
             }
             pair.put( String.valueOf(key), value);
         }
-        this.addSingle( pair );
+        this.add( pair );
         return this;
     }
 
@@ -806,13 +821,21 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      *
      * @return
      */
-    public String toJson(){
+    public String rootAsJson(){
         GsonBuilder builder = new GsonBuilder()
                 .setLenient()
-
                 ;
         Gson gson = builder.create();
         return gson.toJson(this.getRoot());
+    }
+
+    public JSONObject rootAsJSONObject(){
+        try {
+            return new JSONObject( this.rootAsJson() );
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String toJsonOfCurrentLocation() {
@@ -858,7 +881,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * Get root as map if root as one map
      * @return
      */
-    public Map<String, Object> getRootAsMap() {
+    public Map<String, Object> rootAsObject() {
         return ( this.root != null && root instanceof  Map )? (Map<String, Object>) root: null;
     }
 
@@ -866,7 +889,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * Get root as list if roos as one list
      * @return
      */
-    public List<Object> getRootAsList() {
+    public List<Object> rootAsList() {
         return ( this.root != null && root instanceof  List )? (List<Object>) root : null;
     }
 
