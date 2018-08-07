@@ -31,13 +31,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements Iterabl
     private Map<Integer, ItemViewHolder> viewHolderMap;
     private List<ItemDataSet> listItem;
 
-    RecyclerViewAdapter(Context context) {
+    public RecyclerViewAdapter(Context context) {
         this();
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
 
-    RecyclerViewAdapter(){
+    public RecyclerViewAdapter(){
         this.factoryMap = new LinkedHashMap<>();
         this.listItem = new LinkedList<>();
         this.viewHolderMap = new LinkedHashMap<>();
