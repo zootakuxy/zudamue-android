@@ -104,6 +104,7 @@ public class SocketClient {
     }
 
     private void createClientSocket(final URI uri) {
+        /*
         webSocketClient = new WebSocketClient(uri, new Draft_10(), null, this.timeOut ) {
             @Override
             public void onOpen( ServerHandshake handshakedata ) {
@@ -134,6 +135,7 @@ public class SocketClient {
                     onSocketClientError.onSocketError( ex );
             }
         };
+        */
     }
 
     private boolean send( String text) {
