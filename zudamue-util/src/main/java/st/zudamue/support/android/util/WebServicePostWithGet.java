@@ -6,18 +6,19 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-public class WebServiceGet extends WebService {
+public class WebServicePostWithGet extends WebServicePost {
 
     private List< Parameter > gets;
 
-    public WebServiceGet(String url) {
+    public WebServicePostWithGet(String url) {
         super(url);
         this.method( "GET" );
         this.gets = new LinkedList<>();
     }
 
-    public void get( String name, String value ){
+    public WebServicePostWithGet get(String name, String value  ){
         this.gets.add( new Parameter( name, value ) );
+        return this;
     }
 
     @Override
@@ -30,4 +31,5 @@ public class WebServiceGet extends WebService {
         }
         return new URL( this.getUrl()  + query );
     }
+
 }

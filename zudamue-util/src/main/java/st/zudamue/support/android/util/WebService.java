@@ -1,6 +1,9 @@
 package st.zudamue.support.android.util;
 
 import android.os.AsyncTask;
+import android.util.Log;
+
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,11 +25,12 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
 
 
     private String url;
+    private URL createdUrl;
     private String encode = "UTF-8";
     private String method;
     private List< OnReadLine > onReadLines;
-    private List< OnException > onExceptions;
-    private List< OnFinish > onFinishes;
+    private List<OnSuccess> onSuccesses;
+    private List<OnFail> onFail;
 
     private int responseCode;
     private String responseMessage;
@@ -34,8 +38,8 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
     WebService(String url) {
         this.url = url;
         this.onReadLines = new LinkedList<>();
-        this.onExceptions = new LinkedList<>();
-        this.onFinishes = new LinkedList<>();
+        this.onSuccesses = new LinkedList<>();
+        this.onFail = new LinkedList<>();
     }
 
     public WebService encode( String encode ) {
@@ -69,13 +73,18 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
         return this;
     }
 
-    public WebService onException( OnException onException  ){
-        this.onExceptions.add( onException );
+    public URL getCreatedUrl() {
+        return createdUrl;
+    }
+
+
+    public WebService onSuccess(OnSuccess onSuccess){
+        this.onSuccesses.add(onSuccess);
         return this;
     }
 
-    public WebService onFinish( OnFinish onFinish ){
-        this.onFinishes.add( onFinish );
+     public WebService onFail( OnFail onFail ){
+        this.onFail.add(onFail);
         return this;
     }
 
@@ -85,23 +94,26 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
      */
     @Override
     protected Void doInBackground(Void... voids) {
-        URL url = this.createURL();
         HttpURLConnection request = null;
         String line;
         BufferedReader reader = null;
+        StringBuilder builder;
+        InputStream in = null;
 
-        StringBuilder builder = new StringBuilder();
         try {
-            assert url != null;
-            request = (HttpURLConnection) url.openConnection();
+            Log.i( this.getClass().getName(), "doInBackground start" );
+            this.createdUrl = this.createURL();
+
+            builder = new StringBuilder();
+            request = (HttpURLConnection) createdUrl.openConnection();
             request.setRequestMethod( this.getMethod() );
-            request.connect();
             this.processParameter( request );
 
-            InputStream in = request.getInputStream();
+            request.connect();
+            in = request.getInputStream();
             reader = new BufferedReader(new InputStreamReader(in));
             while ( ( line = reader.readLine() ) != null ){
-                builder.append( line).append( "\n");
+                builder.append( line).append( "\n" );
                 for( OnReadLine onReadLine: this.onReadLines ){
                     onReadLine.onReadLine( line );
                 }
@@ -114,26 +126,42 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
             request.disconnect();
 
             String text = builder.toString();
-            for( OnFinish onReadText: this.onFinishes ){
-                onReadText.onFinish( text, this.responseCode, this.responseMessage );
+            for( OnSuccess onReadText: this.onSuccesses){
+                onReadText.onSuccess( text, this.responseCode, this.responseMessage );
             }
 
-        } catch ( IOException e ) {
-            if( request != null  ){
-                request.disconnect();
+        } catch ( Exception e ) {
+            e.printStackTrace();
+
+            for( OnFail onFail: this.onFail){
+                onFail.onFail( e );
             }
 
             if( reader != null ){
                 try {
                     reader.close();
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    for( OnFail onFail: this.onFail){
+                        onFail.onFail( ex );
+                    }
                 }
             }
-            for( OnException onException: this.onExceptions ){
-                onException.onException( e );
+
+            if ( in != null ){
+                try {
+                    in.close();
+                } catch (IOException e1) {
+                    for( OnFail onFail: this.onFail){
+                        onFail.onFail( e1 );
+                    }
+                }
+            }
+
+            if( request != null  ){
+                request.disconnect();
             }
         }
+        Log.i( "siie-scanner", "doInBackground end" );
         return null;
     }
 
@@ -141,18 +169,17 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
      *
      * @param request
      */
-    protected void processParameter(HttpURLConnection request) { }
+    protected void processParameter(HttpURLConnection request) throws IOException { }
+
 
     /**
+     *
      * @return
+     * @throws UnsupportedEncodingException
+     * @throws MalformedURLException
      */
-    protected URL createURL() {
-        try {
-            return new URL( this.url );
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    protected URL createURL() throws UnsupportedEncodingException, MalformedURLException {
+        return new URL( this.url );
     }
 
 
@@ -161,21 +188,16 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
      * @return
      * @throws UnsupportedEncodingException
      */
-    String encodeParams( List< Parameter> params ) {
+    String encodeParams( List< Parameter> params ) throws UnsupportedEncodingException {
         StringBuilder combinedParams = new StringBuilder();
-        String addOperator = "";
+        String moreAttribute = "";
+        String paramString;
+
         if(!params.isEmpty()){
-            combinedParams.append("?");
             for( Parameter p : params) {
-                String paramString = null;
-                try {
-                    paramString = p.getName() + "=" + URLEncoder.encode( p.getValue(),this.encode );
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-                combinedParams.append( addOperator ).append( paramString );
-                addOperator = "&";
+                paramString = p.getName() + "=" + URLEncoder.encode( p.getValue(),this.getEncode() );
+                combinedParams.append( moreAttribute ).append( paramString );
+                moreAttribute = "&";
             }
         }
         return combinedParams.toString();
@@ -212,13 +234,16 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
     }
 
 
-    public interface OnFinish {
-        void onFinish( String text, int resultCode, String message );
+    public interface OnSuccess {
+        void onSuccess(String text, int resultCode, String message );
     }
 
+    public interface OnFail {
+        void onFail( Exception ex );
+    }
 
-    public interface OnException {
-        void onException(Exception text );
+    public interface OnFinish {
+        void onFinish(  );
     }
 
 

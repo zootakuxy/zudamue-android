@@ -24,35 +24,18 @@ public class WebServicePost extends WebService {
     }
 
     @Override
-    protected void processParameter(HttpURLConnection request) {
-        OutputStream out = null;
-        BufferedWriter writer = null;
+    protected void processParameter(HttpURLConnection request) throws IOException {
+        OutputStream out;
+        BufferedWriter writer;
 
-        try {
-            out = request.getOutputStream();
-            writer = new BufferedWriter( new OutputStreamWriter( out, this.getEncode() ) );
-            writer.write( super.encodeParams( this.posts) );
-            writer.flush();
-            writer.close();
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            if( writer != null ){
-                try {
-                    writer.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-
-            if( out != null ){
-                try {
-                    out.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
+        request.setDoInput( true );
+        request.setDoOutput( true );
+        out = request.getOutputStream();
+        writer = new BufferedWriter( new OutputStreamWriter( out, this.getEncode() ) );
+        writer.write( super.encodeParams( this.posts ) );
+        writer.flush();
+        writer.close();
+        out.close();
 
     }
 }
