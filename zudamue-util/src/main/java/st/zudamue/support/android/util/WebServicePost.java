@@ -18,8 +18,8 @@ public class WebServicePost extends WebService {
         this.posts = new LinkedList<>();
     }
 
-    public WebServicePost post( String name, String value ){
-        this.posts.add( new Parameter( name, value ) );
+    public WebServicePost post( String name, Object value ){
+        this.posts.add( new Parameter( name, String.valueOf( value ) ) );
         return this;
     }
 

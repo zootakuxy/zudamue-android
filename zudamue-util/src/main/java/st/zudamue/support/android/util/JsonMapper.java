@@ -58,7 +58,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
     }
 
     /**
-     * Create new instace JsonMapper basede in map root
+     * Create new instace JsonMapper basede in map backToRoot
      * @return
      */
     public static  JsonMapper newObjectInstance() {
@@ -66,7 +66,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
     }
 
     /**
-     * Create new instance of JsonMapper basede in list root
+     * Create new instance of JsonMapper basede in list backToRoot
      * @return
      */
     public static JsonMapper newInstanceList( ){
@@ -90,7 +90,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
     }
 
     /**
-     * Replace root to map
+     * Replace backToRoot to map
      * @param map
      * @return
      */
@@ -112,7 +112,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
     }
 
     /**
-     * Replace root to list
+     * Replace backToRoot to list
      * @param list
      * @return
      */
@@ -133,12 +133,17 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         return this;
     }
 
-    public Object object( Object ... nodes) {
+    /**
+     * Devolver um elemento do mapper
+     * @param nodes
+     * @return
+     */
+    public Object element(Object ... nodes) {
 
         Object value = null;
         List< Object > asList = asList( nodes );
         Object field = asList.remove(asList.size() - 1);
-        int currentPoint = this.getCurrentPoint();
+        int currentPoint = this.getCheckPoint();
         JsonMapper mapper = this.enter( asList );
 
         if( this.isInList() && !(
@@ -159,8 +164,29 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
         return value;
     }
 
+
+    /**
+     * Delevolver um elemento como json
+     * @param nodes
+     * @return
+     */
+    public String elementAsJson(Object ... nodes) {
+        return new Gson().toJson( element( nodes ) );
+    }
+
+    /**
+     * Obter o submapper de um elemento
+     * @param nodes
+     * @return
+     */
+    public JsonMapper suMapper( Object ... nodes ) {
+        return JsonMapper.parse( elementAsJson( nodes ) );
+    }
+
+
+
     public String string ( Object ... nodes ) {
-        Object obj = object( nodes );
+        Object obj = element( nodes );
         return ( obj != null && (
                 obj instanceof  String
                         || obj instanceof  Boolean
@@ -176,12 +202,12 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
     }
 
     public String stringForce ( Object ... nodes ) {
-        Object obj = object( nodes );
+        Object obj = element( nodes );
         return ( obj != null ) ? String.valueOf( obj ): null;
     }
 
     public Class<?> classOf( Object ... nodes ) {
-        Object value = this.object( nodes );
+        Object value = this.element( nodes );
         if ( value == null ) return null;
         return value.getClass();
     }
@@ -214,7 +240,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @return
      */
     public Byte byter ( Object ... nodes ){
-        Object value = object( nodes );
+        Object value = element( nodes );
         return  asByte( value );
     }
 
@@ -224,7 +250,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @return
      */
     public Short shorter ( Object ... nodes ) {
-        Object value = object( nodes );
+        Object value = element( nodes );
         return asShort( value );
     }
 
@@ -234,7 +260,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @return
      */
     public Integer integer( Object ... nodes ){
-        Object value = object( nodes );
+        Object value = element( nodes );
         return asInteger( value );
     }
 
@@ -244,7 +270,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @return
      */
     public Long longer( Object ... nodes ){
-        Object value = object( nodes );
+        Object value = element( nodes );
         return  asLong( value );
     }
 
@@ -254,7 +280,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @return
      */
     public Float floater ( Object ... nodes ){
-        Object value = object( nodes );
+        Object value = element( nodes );
         return  asFloat( value );
     }
 
@@ -264,7 +290,7 @@ public class JsonMapper implements Iterable<Map.Entry<String , Object>>
      * @return
      */
     public Double doubler ( Object ... nodes ){
-        Object value = object( nodes );
+        Object value = element( nodes );
         return  asDoubler( value );
     }
 
@@ -354,7 +380,7 @@ private Double asDoubler( Object value ) {
      * @return
      */
     public List lister( Object ... nodes ){
-        return (List) object( nodes );
+        return (List) element( nodes );
     }
 
     /**
@@ -363,7 +389,7 @@ private Double asDoubler( Object value ) {
      * @return
      */
     public Map<String, Object> mapperNode( Object ... nodes ){
-        return (Map<String, Object> ) object( nodes );
+        return (Map<String, Object> ) element( nodes );
     }
 
     /**
@@ -376,7 +402,7 @@ private Double asDoubler( Object value ) {
         List<Object> asList = this.asList(nodes);
         Object field = asList.remove(asList.size() - 1 );
 
-        int startPoint = this.getCurrentPoint();
+        int startPoint = this.getCheckPoint();
         JsonMapper mapper = this.enter(asList);
         result =  mapper != null  && mapper.contains( field );
         this.backAt( startPoint );
@@ -449,7 +475,7 @@ private Double asDoubler( Object value ) {
      */
     public JsonMapper enter ( Object ... nodesLocations ){
         if( ! canEnter( nodesLocations ) ) return null;
-        int startPoint = this.getCurrentPoint();
+        int startPoint = this.getCheckPoint();
         JsonMapper mapper = enter( asList( nodesLocations ) );
         if( mapper == null ) this.backAt( startPoint );
 
@@ -570,7 +596,7 @@ private Double asDoubler( Object value ) {
      */
     public JsonMapper backAt( int startPoint ) {
         if( startPoint < 0 || startPoint > this.point.size() ) return null;
-        while ( getCurrentPoint() > startPoint && hasBack() ){
+        while ( getCheckPoint() > startPoint && hasBack() ){
             this.back();
         }
         return this;
@@ -578,10 +604,10 @@ private Double asDoubler( Object value ) {
 
 
     /**
-     * Back to root rootMap
+     * Back to backToRoot rootMap
      * @return
      */
-    public JsonMapper root() {
+    public JsonMapper backToRoot() {
         if( !this.isInRoot() ) {
             this.map = this.rootAsObject();
             this.list = this.rootAsList();
@@ -626,7 +652,7 @@ private Double asDoubler( Object value ) {
         int lastCan = 0;
         Object value = asList.remove( asList.size() -1 );
         Object key = asList.remove( asList.size() -1 );
-        int startPoint = this.getCurrentPoint();
+        int startPoint = this.getCheckPoint();
 
         if( key == null ) return  null;
         else if ( ! ( ( key instanceof String) || ( key instanceof Integer ) ) ) return null;
@@ -878,7 +904,7 @@ private Double asDoubler( Object value ) {
     }
 
     /**
-     * Get root as map if root as one map
+     * Get backToRoot as map if backToRoot as one map
      * @return
      */
     public Map<String, Object> rootAsObject() {
@@ -886,7 +912,7 @@ private Double asDoubler( Object value ) {
     }
 
     /**
-     * Get root as list if roos as one list
+     * Get backToRoot as list if roos as one list
      * @return
      */
     public List<Object> rootAsList() {
@@ -906,7 +932,7 @@ private Double asDoubler( Object value ) {
      * Get the current point entred
      * @return
      */
-    public int getCurrentPoint() {
+    public int getCheckPoint() {
         return this.point.size();
     }
 
@@ -932,7 +958,7 @@ private Double asDoubler( Object value ) {
     }
 
     public Object build() {
-        root();
+        backToRoot();
         return this.root;
     }
 
@@ -986,6 +1012,10 @@ private Double asDoubler( Object value ) {
         for( Object value: this.list ){
             consumer.accept( this, null, iCount++, value );
         }
+    }
+
+    public boolean isEmpty() {
+        return this.countElement() == 0;
     }
 
 
