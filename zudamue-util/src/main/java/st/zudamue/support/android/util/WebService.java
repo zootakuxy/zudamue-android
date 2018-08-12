@@ -235,7 +235,7 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
 
 
     public interface OnSuccess {
-        void onSuccess(String text, int resultCode, String message );
+        void onSuccess(String textResult, int resultCode, String message );
     }
 
     public interface OnFail {
