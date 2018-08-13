@@ -34,6 +34,7 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
 
     private int responseCode;
     private String responseMessage;
+    private int timeOut = 0;
 
     WebService(String url) {
         this.url = url;
@@ -73,6 +74,15 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
         return this;
     }
 
+    public int getTimeOut() {
+        return timeOut;
+    }
+
+    public WebService timeOut(int timeOut) {
+        this.timeOut = timeOut;
+        return this;
+    }
+
     public URL getCreatedUrl() {
         return createdUrl;
     }
@@ -107,6 +117,7 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
             builder = new StringBuilder();
             request = (HttpURLConnection) createdUrl.openConnection();
             request.setRequestMethod( this.getMethod() );
+            request.setConnectTimeout( this.timeOut);
             this.processParameter( request );
 
             request.connect();
@@ -125,10 +136,15 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
             in.close();
             request.disconnect();
 
-            String text = builder.toString();
-            for( OnSuccess onReadText: this.onSuccesses){
-                onReadText.onSuccess( text, this.responseCode, this.responseMessage );
+            try {
+                String text = builder.toString();
+                for( OnSuccess onReadText: this.onSuccesses){
+                    onReadText.onSuccess( text, this.responseCode, this.responseMessage );
+                }
+            } catch ( Exception ex ){
+                ex.printStackTrace();
             }
+
 
         } catch ( Exception e ) {
             e.printStackTrace();

@@ -22,11 +22,15 @@ public class FileUtil {
         if( file.isDirectory() ){
 
             int total = 0;
-            for ( File child : file.listFiles() ){
-                total += FileUtil.deleteRecursive( child );
+            File[] files = file.listFiles();
+            if( files != null ){
+                for ( File child : file.listFiles() ){
+                    total += FileUtil.deleteRecursive( child );
+                }
+                if( file.delete() ) return total + 1;
+                else return total;
             }
-            if( file.delete() ) return total + 1;
-            else return total;
+
         }
         return 0;
     }

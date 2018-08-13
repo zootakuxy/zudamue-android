@@ -282,7 +282,11 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
     public synchronized boolean bool(Object... nodes) {
         String bool = string(nodes);
         if (bool == null) return false;
-        return Boolean.parseBoolean(bool);
+        if( bool.equalsIgnoreCase("t") ) bool = "true";
+        if( bool.equalsIgnoreCase("1") ) bool = "true";
+        if( bool.equalsIgnoreCase("f") ) bool = "false";
+        if( bool.equalsIgnoreCase("0") ) bool = "false";
+        return Boolean.parseBoolean( bool );
     }
 
     /**
