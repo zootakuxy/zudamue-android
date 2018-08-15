@@ -30,14 +30,14 @@ import st.zudamue.support.android.util.exception.ZudamueException;
  * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
-public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
+public class Packer implements Iterable<Map.Entry<String, Object>> {
 
 
-    public static JsonMapper parse(String jsonText) {
+    public static Packer parse(String jsonText) {
         if (jsonText == null) return null;
-        JsonMapper mapper = null;
+        Packer mapper = null;
         try {
-            mapper = new JsonMapper(jsonText);
+            mapper = new Packer(jsonText);
         } catch (Exception ignored) {
         }
         return mapper;
@@ -52,21 +52,21 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
         return gson;
     }
 
-    public static JsonMapper from(Object data) {
+    public static Packer from(Object data) {
         if (data == null) return null;
-        if (data instanceof Map) return new JsonMapper((Map<String, Object>) data);
-        if (data instanceof List) return new JsonMapper((List<Object>) data);
-        return JsonMapper.parse(JsonMapper.gsonInstance().toJson(data));
+        if (data instanceof Map) return new Packer((Map<String, Object>) data);
+        if (data instanceof List) return new Packer((List<Object>) data);
+        return Packer.parse(Packer.gsonInstance().toJson(data));
     }
 
-    public static JsonMapper fromRaw(Context context, int rawId) {
+    public static Packer fromRaw(Context context, int rawId) {
         InputStream input = context.getResources().openRawResource(rawId);
         Gson gson = new Gson();
         JsonReader read = new JsonReader(new InputStreamReader(input));
         Object o = gson.fromJson(read, Object.class);
         if (o == null) return null;
-        if (o instanceof Map) return new JsonMapper((Map<String, Object>) o);
-        if (o instanceof List) return new JsonMapper((List<Object>) o);
+        if (o instanceof Map) return new Packer((Map<String, Object>) o);
+        if (o instanceof List) return new Packer((List<Object>) o);
         return null;
     }
 
@@ -80,8 +80,8 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
     private List<Object> point;
     private List<Object> location;
 
-    public JsonMapper(String json) {
-        Gson gson = JsonMapper.gsonInstance();
+    public Packer(String json) {
+        Gson gson = Packer.gsonInstance();
         try {
             this.root = gson.fromJson(json, Map.class);
         } catch (Exception e) {
@@ -99,24 +99,24 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
     }
 
     /**
-     * Create new instace JsonMapper basede in map backToRoot
+     * Create new instace Packer basede in map backToRoot
      *
      * @return
      */
-    public static JsonMapper newObjectInstance() {
-        return new JsonMapper(new LinkedHashMap<String, Object>());
+    public static Packer newObjectInstance() {
+        return new Packer(new LinkedHashMap<String, Object>());
     }
 
     /**
-     * Create new instance of JsonMapper basede in list backToRoot
+     * Create new instance of Packer basede in list backToRoot
      *
      * @return
      */
-    public static JsonMapper newInstanceList() {
-        return new JsonMapper(new LinkedList<Object>());
+    public static Packer newInstanceList() {
+        return new Packer(new LinkedList<Object>());
     }
 
-    public JsonMapper(Map<String, Object> object) {
+    public Packer(Map<String, Object> object) {
         this.root = object;
         this.map = object;
         this.list = null;
@@ -124,7 +124,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
         this.location = new LinkedList<>();
     }
 
-    public JsonMapper(List<Object> list) {
+    public Packer(List<Object> list) {
         this.root = list;
         this.list = list;
         this.map = null;
@@ -138,7 +138,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      * @param map
      * @return
      */
-    public synchronized JsonMapper rootMap(Map<String, Object> map) {
+    public synchronized Packer rootMap(Map<String, Object> map) {
         this.map(map);
         this.root = map;
         return this;
@@ -150,7 +150,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      * @param map
      * @return
      */
-    private synchronized JsonMapper map(Map<String, Object> map) {
+    private synchronized Packer map(Map<String, Object> map) {
         this.map = map;
         this.list = null;
         return this;
@@ -162,7 +162,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      * @param list
      * @return
      */
-    public synchronized JsonMapper rootList(List<Object> list) {
+    public synchronized Packer rootList(List<Object> list) {
         list(list);
         root = list;
         return this;
@@ -174,7 +174,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      * @param list
      * @return
      */
-    private synchronized JsonMapper list(List<Object> list) {
+    private synchronized Packer list(List<Object> list) {
         this.map = null;
         this.list = list;
         return this;
@@ -192,7 +192,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
         List<Object> asList = asList(nodes);
         Object field = asList.remove(asList.size() - 1);
         int currentPoint = this.getCheckPoint();
-        JsonMapper mapper = this.enter(asList);
+        Packer mapper = this.enter(asList);
 
         if (this.isInList() && !(
                 field.getClass().equals(Long.class)
@@ -229,8 +229,8 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      * @param nodes
      * @return
      */
-    public synchronized JsonMapper suMapper(Object... nodes) {
-        return JsonMapper.parse(elementAsJson(nodes));
+    public synchronized Packer suMapper(Object... nodes) {
+        return Packer.parse(elementAsJson(nodes));
     }
 
 
@@ -487,7 +487,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
         Object field = asList.remove(asList.size() - 1);
 
         int startPoint = this.getCheckPoint();
-        JsonMapper mapper = this.enter(asList);
+        Packer mapper = this.enter(asList);
         result = mapper != null && mapper.contains(field);
         this.backAt(startPoint);
         return result;
@@ -558,10 +558,10 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      * @param nodesLocations
      * @return
      */
-    public synchronized JsonMapper enter(Object... nodesLocations) {
+    public synchronized Packer enter(Object... nodesLocations) {
         if (!canEnter(nodesLocations)) return null;
         int startPoint = this.getCheckPoint();
-        JsonMapper mapper = enter(asList(nodesLocations));
+        Packer mapper = enter(asList(nodesLocations));
         if (mapper == null) this.backAt(startPoint);
 
         return mapper;
@@ -571,7 +571,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      * @param nodes
      * @return
      */
-    private synchronized JsonMapper enter(List<Object> nodes) {
+    private synchronized Packer enter(List<Object> nodes) {
         if (nodes.size() < 1) return this;
         Object field = nodes.remove(0);
         Object value = null;
@@ -582,13 +582,13 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
             value = (index > -1 && index < this.list.size()) ? list.get(index) : null;
         }
 
-        JsonMapper mapper = enter(field, value);
+        Packer mapper = enter(field, value);
 
         if (mapper != null && nodes.size() > 0) return enter(nodes);
         return mapper != null ? this : null;
     }
 
-    private synchronized JsonMapper enter(Object field, Object value) {
+    private synchronized Packer enter(Object field, Object value) {
         if (value == null) return null;
         if (isInMap()) {
             Object add = this.map;
@@ -599,7 +599,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
     }
 
     @NonNull
-    private synchronized JsonMapper addPoint(Object field, Object value, Object addValue) {
+    private synchronized Packer addPoint(Object field, Object value, Object addValue) {
         this.point.add(0, addValue);
         this.location.add(field);
         if (value instanceof Map) {
@@ -646,7 +646,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
     /**
      * @return
      */
-    public synchronized JsonMapper back() {
+    public synchronized Packer back() {
         if (hasBack()) {
             Object point = this.point.remove(0);
             this.location.remove(location.size() - 1);
@@ -664,7 +664,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      * @param point
      * @return
      */
-    public synchronized JsonMapper back(int point) {
+    public synchronized Packer back(int point) {
         if (point < 1 || point > this.point.size()) return null;
         while (point > 0) {
             this.back();
@@ -679,7 +679,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      * @param startPoint
      * @return
      */
-    public synchronized JsonMapper backAt(int startPoint) {
+    public synchronized Packer backAt(int startPoint) {
         if (startPoint < 0 || startPoint > this.point.size()) return null;
         while (getCheckPoint() > startPoint && hasBack()) {
             this.back();
@@ -693,7 +693,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      *
      * @return
      */
-    public synchronized JsonMapper backToRoot() {
+    public synchronized Packer backToRoot() {
         if (!this.isInRoot()) {
             this.map = this.rootAsObject();
             this.list = this.rootAsList();
@@ -724,7 +724,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      * @param nodesLastValue
      * @return
      */
-    public synchronized JsonMapper create(Object... nodesLastValue) {
+    public synchronized Packer create(Object... nodesLastValue) {
 
         if (nodesLastValue == null || nodesLastValue.length < 2) return null;
 
@@ -789,7 +789,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
     }
 
 
-    public synchronized JsonMapper removeSingle(Object node) {
+    public synchronized Packer removeSingle(Object node) {
         if (isInMap() && node instanceof String) {
             map.remove(node);
             return this;
@@ -834,27 +834,27 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
         return true;
     }
 
-    public synchronized JsonMapper set(String key, Object value) {
+    public synchronized Packer set(String key, Object value) {
         this.map.put(key, value);
         return this;
     }
 
 
-    public JsonMapper set(int index, Object value) {
+    public Packer set(int index, Object value) {
         if (!isInList()) return null;
         if (index < 0 || index > list.size() - 1) return null;
         this.list.set(index, value);
         return this;
     }
 
-    public synchronized JsonMapper add(int index, Object value) {
+    public synchronized Packer add(int index, Object value) {
         if (!isInList()) return null;
         if (index < 0 || index > list.size()) return null;
         this.list.add(index, value);
         return this;
     }
 
-    public synchronized JsonMapper add(Object value) {
+    public synchronized Packer add(Object value) {
         if (!isInList()) return null;
         return this.add(this.list.size(), value);
     }
@@ -864,7 +864,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
      * @param pairs
      * @return
      */
-    public synchronized JsonMapper putPairsValues(Object... pairs) {
+    public synchronized Packer putPairsValues(Object... pairs) {
         //Quando os valores nao for par
         if (!isInMap()) return null;
         if (pairs.length % 2 != 0) return null;
@@ -879,7 +879,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
         return this;
     }
 
-    public synchronized JsonMapper addPairsValues(Object... pairs) {
+    public synchronized Packer addPairsValues(Object... pairs) {
         //Quando os valores nao for par
         if (isInList()) {
             throw new ZudamueException("Current location in list");
@@ -905,7 +905,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
     }
 
 
-    public synchronized JsonMapper createNode(Object... nodes) {
+    public synchronized Packer createNode(Object... nodes) {
         List<Object> asList = this.asList(nodes);
         asList.add(new LinkedHashMap<String, Object>());
         this.create(asList.toArray());
@@ -913,7 +913,7 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
     }
 
 
-    public synchronized JsonMapper createList(Object... nodes) {
+    public synchronized Packer createList(Object... nodes) {
         List<Object> asList = this.asList(nodes);
         asList.add(new LinkedList<Object>());
         this.create(asList.toArray());
@@ -1064,6 +1064,6 @@ public class JsonMapper implements Iterable<Map.Entry<String, Object>> {
 
 
     public interface Consumer {
-        void accept(JsonMapper mapperPoint, String key, int index, Object value);
+        void accept(Packer mapperPoint, String key, int index, Object value);
     }
 }

@@ -7,9 +7,7 @@ import com.google.gson.Gson;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft_10;
 import org.java_websocket.framing.CloseFrame;
-import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,7 +16,7 @@ import java.util.Map;
 import st.zudamue.support.android.socket.model.SocketReceiver;
 import st.zudamue.support.android.socket.model.Packager;
 import st.zudamue.support.android.socket.model.SocketIntent;
-import st.zudamue.support.android.util.JsonMapper;
+import st.zudamue.support.android.util.Packer;
 
 
 /**
@@ -187,7 +185,7 @@ public class SocketClient {
         }
 
         try {
-            JsonMapper pack = new JsonMapper( message );
+            Packer pack = new Packer( message );
 
             if( ! pack.has( Packager.GROUP )
                     || !pack.has( Packager.CLIENT )

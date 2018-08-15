@@ -5,7 +5,7 @@ import org.java_websocket.handshake.ServerHandshake;
 import java.util.Map;
 
 import st.zudamue.support.android.socket.model.Packager;
-import st.zudamue.support.android.util.JsonMapper;
+import st.zudamue.support.android.util.Packer;
 
 /**
  * Lista de eventos do socket
@@ -30,7 +30,7 @@ public interface SocketListiner {
     }
 
     interface OnSocketInvalidPackager {
-        void onSocketInvalidPackager(String message, JsonMapper packager );
+        void onSocketInvalidPackager(String message, Packer packager );
     }
 
     interface OnSocketEvent {
