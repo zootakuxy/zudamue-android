@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package st.zudamue.support.android.model;
+package st.zudamue.support.android.util.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,18 +16,18 @@ import java.util.HashMap;
  *
  * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
-public class References
+public class ZReferences
 {
     private final ArrayList<ClassClass> listClass;
     private final HashMap<String, ClassClass> mapClass;
     private boolean upgraded;
-    private final Consumer<Boolean> onUpgrad;
+    private final ZConsumer<Boolean> onUpgrad;
     
-    public References()
+    public ZReferences()
     {
         this.listClass = new ArrayList<>();
         this.mapClass = new HashMap<>();
-        this.onUpgrad = new Consumer<Boolean>() {
+        this.onUpgrad = new ZConsumer<Boolean>() {
             @Override
             public void accept(Boolean b) {
                 if(b) upgraded = true;
@@ -218,9 +218,9 @@ public class References
         ArrayList<FieldClass> listField = new  ArrayList<>();  
         private final HashMap<String, FieldClass> mapField = new HashMap<>();
         private boolean valid;
-        private final Consumer<Boolean> onUpgrad;
+        private final ZConsumer<Boolean> onUpgrad;
 
-        private ClassClass(String className, Consumer<Boolean> onUpgrad)
+        private ClassClass(String className, ZConsumer<Boolean> onUpgrad)
         {
             this.className = className;
             this.onUpgrad = onUpgrad;

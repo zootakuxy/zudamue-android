@@ -1,4 +1,4 @@
-package st.zudamue.support.android.model;
+package st.zudamue.support.android.util.model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -8,10 +8,10 @@ import java.text.SimpleDateFormat;
  *
  * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
-public class Date extends java.util.Date
+public class ZDate extends java.util.Date
 {
 
-    public Date()
+    public ZDate()
     {
     }
 
@@ -21,7 +21,7 @@ public class Date extends java.util.Date
      * @param month
      * @param day
      */
-    public Date(int year, int month, int day)
+    public ZDate(int year, int month, int day)
     {
         this.setYear(year);
         this.setMonth(month);
@@ -36,10 +36,10 @@ public class Date extends java.util.Date
      * @param day o dia da data
      * @return a data caso for valida e null caso for invalida
      */
-    public static Date mount(int year, int month, int day)
+    public static ZDate mount(int year, int month, int day)
     {
-        Date date = new Date(year, month, day);
-        if(date.isValid()) return date;
+        ZDate ZDate = new ZDate(year, month, day);
+        if(ZDate.isValid()) return ZDate;
 
         return null;
     }
@@ -165,9 +165,9 @@ public class Date extends java.util.Date
         YEAR28_COMUN,
         YEAR29_BISEXTO;
 
-        public static TypeYear type(Date date)
+        public static TypeYear type(ZDate ZDate)
         {
-            int year = date.getYear();
+            int year = ZDate.getYear();
             return type(year);
         }
 

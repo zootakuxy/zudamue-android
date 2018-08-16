@@ -1,4 +1,4 @@
-package st.zudamue.support.android;
+package st.zudamue.support.android.util;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package st.zudamue.support.android.model;
+package st.zudamue.support.android.util.model;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
@@ -11,7 +11,7 @@ import java.util.Locale;
  *
  * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
-public class Money extends Number implements Comparable<Money>, CharSequence, Serializable
+public class ZMoney extends Number implements Comparable<ZMoney>, CharSequence, Serializable
 {
     private double value;
     private NumberFormat numberFormat;
@@ -26,18 +26,18 @@ public class Money extends Number implements Comparable<Money>, CharSequence, Se
         return format;
     }
 
-    public Money() {
+    public ZMoney() {
         this(0);
     }
 
-    public Money (double value)
+    public ZMoney(double value)
     {
         this.value = value;
         this.numberFormat = format();
         this.format = numberFormat.format(this.value);
     }
 
-    public Money(String money)
+    public ZMoney(String money)
     {
         this.format = money;
         this.numberFormat = format();
@@ -50,11 +50,11 @@ public class Money extends Number implements Comparable<Money>, CharSequence, Se
         }
     }
 
-    public Money(Money money)
+    public ZMoney(ZMoney ZMoney)
     {
-        this.value = money.value;
-        this.format = money.format;
-        this.numberFormat = money.numberFormat;
+        this.value = ZMoney.value;
+        this.format = ZMoney.format;
+        this.numberFormat = ZMoney.numberFormat;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class Money extends Number implements Comparable<Money>, CharSequence, Se
     }
 
     @Override
-    public int compareTo(Money s)
+    public int compareTo(ZMoney s)
     {
         Double value = this.value;
         return value.compareTo(s.value);
@@ -120,12 +120,12 @@ public class Money extends Number implements Comparable<Money>, CharSequence, Se
      * @param value2
      * @return
      */
-    public static Money sum(Money value1, Money value2)
+    public static ZMoney sum(ZMoney value1, ZMoney value2)
     {
         if(value1 == null || value2 == null)
             throw new NumberFormatException("Can not sum the moneys null");
         double result = value1.value + value2.value;
-        return new Money(result);
+        return new ZMoney(result);
     }
     /**
      * Somar dois valores em moeda
@@ -133,12 +133,12 @@ public class Money extends Number implements Comparable<Money>, CharSequence, Se
      * @param value2
      * @return
      */
-    public static Money sub(Money value1, Money value2)
+    public static ZMoney sub(ZMoney value1, ZMoney value2)
     {
         if(value1 == null || value2 == null)
             throw new NumberFormatException("Can not sub the moneys null");
         double result = value1.value - value2.value;
-        return new Money(result);
+        return new ZMoney(result);
     }
 
 
@@ -148,19 +148,19 @@ public class Money extends Number implements Comparable<Money>, CharSequence, Se
      * @param value2
      * @return
      */
-    public static Money mult(Money value1, Money value2)
+    public static ZMoney mult(ZMoney value1, ZMoney value2)
     {
         if(value1 == null || value2 == null)
             throw new NumberFormatException("Can not mult the moneys null");
         double result = value1.value * value2.value;
-        return new Money(result);
+        return new ZMoney(result);
     }
 
-    public static Money div(Money value1, Money value2)
+    public static ZMoney div(ZMoney value1, ZMoney value2)
     {
         if(value1 == null || value2 == null)
             throw new NumberFormatException("Can not div the moneys null");
         double result = value1.value / value2.value;
-        return new Money(result);
+        return new ZMoney(result);
     }
 }
