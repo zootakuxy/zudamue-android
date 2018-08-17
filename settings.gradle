@@ -1,1 +1,1 @@
-include':zudamue-sqlite', ':zudamue-util', ':zudamue-base', ':zudamue-componets'
+include ':zudamue-sqlite', ':zudamue-util', ':zudamue-base', ':zudamue-componets'
