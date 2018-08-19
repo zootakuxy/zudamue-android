@@ -10,9 +10,9 @@ public class WebServiceGet extends WebService {
 
     private List< Parameter > gets;
 
-    public WebServiceGet(String url) {
+    public WebServiceGet( String url ) {
         super(url);
-        this.method( "GET" );
+        this.method( Method.GET );
         this.gets = new LinkedList<>();
     }
 

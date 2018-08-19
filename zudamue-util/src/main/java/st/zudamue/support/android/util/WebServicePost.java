@@ -14,7 +14,7 @@ public class WebServicePost extends WebService {
 
     public WebServicePost(String url) {
         super(url);
-        this.method( "POST" );
+        this.method( Method.POST );
         this.posts = new LinkedList<>();
     }
 
@@ -36,6 +36,5 @@ public class WebServicePost extends WebService {
         writer.flush();
         writer.close();
         out.close();
-
     }
 }

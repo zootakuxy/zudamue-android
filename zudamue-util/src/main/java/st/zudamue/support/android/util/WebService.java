@@ -27,7 +27,7 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
     private String url;
     private URL createdUrl;
     private String encode = "UTF-8";
-    private String method;
+    private Method method;
     private List< OnReadLine > onReadLines;
     private List<OnSuccess> onSuccesses;
     private List<OnFail> onFail;
@@ -48,12 +48,12 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
         return this;
     }
 
-    public WebService method( String method ) {
+    WebService method( Method method ) {
         this.method = method;
         return this;
     }
 
-    public String getMethod() {
+    public Method getMethod() {
         return this.method;
     }
 
@@ -116,7 +116,7 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
 
             builder = new StringBuilder();
             request = (HttpURLConnection) createdUrl.openConnection();
-            request.setRequestMethod( this.getMethod() );
+            request.setRequestMethod( this.getMethod().name() );
             request.setConnectTimeout( this.timeOut);
             this.processParameter( request );
 
@@ -262,6 +262,11 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
         void onFinish(  );
     }
 
+
+    public enum Method{
+        GET,
+        POST
+    }
 
 
 

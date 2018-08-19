@@ -6,17 +6,17 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-public class WebServicePostWithGet extends WebServicePost {
+public class Request extends WebServicePost {
 
     private List< Parameter > gets;
 
-    public WebServicePostWithGet(String url) {
+    public Request( String url ) {
         super(url);
-        this.method( "GET" );
+        this.method( Method.POST );
         this.gets = new LinkedList<>();
     }
 
-    public WebServicePostWithGet get(String name, String value  ){
+    public Request get( String name, String value  ){
         this.gets.add( new Parameter( name, value ) );
         return this;
     }
