@@ -101,13 +101,13 @@ public class Select extends SelectInterfaces
 
     private void initQuery() {
         if(this.query == null || query.isEmpty())
-            this.query = "SELECT";
+            this.query = "select";
     }
 
     @Override
     public SelectResult column(CharSequence columnName, String asAlias) {
         column(columnName);
-        this.query+= " AS "+asAlias;
+        this.query+= " as "+asAlias;
         return this;
     }
 
@@ -115,7 +115,7 @@ public class Select extends SelectInterfaces
     public st.zudamue.support.android.sql.Select.FromResult from(CharSequence tableQuery) {
 
         String query = this.processIdentifier( tableQuery );
-        this.query = this.query + "\n  FROM "+query;
+        this.query = this.query + "\n  from "+query;
         if(name == null && tableQuery instanceof Select)
             this.name = ((Select) tableQuery).name;
         else if(name == null)
@@ -133,38 +133,38 @@ public class Select extends SelectInterfaces
 
     @Override
     public st.zudamue.support.android.sql.Select.Join innerJoin(String tableName) {
-        this.query = this.query + "\n    INNER JOIN "+tableName;
+        this.query = this.query + "\n    inner join "+tableName;
         return this;
     }
 
     @Override
     public st.zudamue.support.android.sql.Select.Join leftJoin(String tableName) {
-        this.query = this.query + "\n    LEFT JOIN "+tableName;
+        this.query = this.query + "\n    left join "+tableName;
         return this;
     }
 
     @Override
     public st.zudamue.support.android.sql.Select.Join rightJoin(String tableName) {
-        this.query = this.query + "\n    RIGHT JOIN "+tableName;
+        this.query = this.query + "\n    right join "+tableName;
         return this;
     }
 
     @Override
     public st.zudamue.support.android.sql.Select.Join fullJoin(String tableName) {
-        this.query = query +"\n    FULL JOIN "+tableName;
+        this.query = query +"\n    full join "+tableName;
         return this;
     }
 
     @Override
     public st.zudamue.support.android.sql.Select.WhereResult where(boolean result) {
-        this.query = this.query +"\n  WHERE "+result;
+        this.query = this.query +"\n  where "+result;
         return this;
     }
 
     @Override
     public st.zudamue.support.android.sql.Select.WhereOperator where(CharSequence ... columns) {
         String identifier = processIdentifierConjunct(columns);
-        this.query = this.query + "\n  WHERE "+ identifier +"";
+        this.query = this.query + "\n  where "+ identifier +"";
         return this;
     }
 
@@ -183,20 +183,20 @@ public class Select extends SelectInterfaces
     @Override
     public st.zudamue.support.android.sql.Select.OrderByMode orderBy() {
 
-        this.query = this.query +"\n  ORDER BY";
+        this.query = this.query +"\n  order by ";
         return this;
     }
 
     @Override
     public SQL limit(int limit) {
-        this.query = query + "\n  LIMIT "+limit;
+        this.query = query + "\n  limit "+limit;
         return this;
     }
 
     @Override
     public SQL limit(CharSequence limit) {
         String argument = this.processIdentifier(limit);
-        this.query = query + "\n  LIMIT "+argument;
+        this.query = query + "\n  limit "+argument;
         return this;
     }
 
@@ -283,46 +283,46 @@ public class Select extends SelectInterfaces
 
     @Override
     public st.zudamue.support.android.sql.Select.WhereOperatorResult like(CharSequence argument) {
-        this.query = this.query + " LIKE "+ processIdentifier(argument)+"";
+        this.query = this.query + " like "+ processIdentifier(argument)+"";
         return this;
     }
 
     @Override
     public WhereOperatorResult in(CharSequence... argument) {
         String argumentsConjunct = this.processArgumentsConjunct(argument);
-        this.query += " IN "+argumentsConjunct;
+        this.query += " in "+argumentsConjunct;
         return this;
     }
 
     @Override
     public WhereOperatorResult notIn(CharSequence... argument) {
         String argumentsConjunct = this.processArgumentsConjunct(argument);
-        this.query += " NOT IN "+argumentsConjunct;
+        this.query += " not in "+argumentsConjunct;
         return this;
     }
 
     @Override
     public st.zudamue.support.android.sql.Select.WhereOperatorResult notLike(CharSequence argument) {
-        this.query = this.query + " NOT LIKE "+ processIdentifier(argument)+"";
+        this.query = this.query + " not like "+ processIdentifier(argument)+"";
         return this;
     }
 
     @Override
     public st.zudamue.support.android.sql.Select.WhereOperatorResult between(CharSequence argumentStart, CharSequence argumetEnd) {
-        this.query = this.query + " BETWEEN "+ processIdentifier(argumentStart)+" and "+ processIdentifier(argumetEnd);
+        this.query = this.query + " between "+ processIdentifier(argumentStart)+" and "+ processIdentifier(argumetEnd);
         return this;
     }
 
     @Override
     public st.zudamue.support.android.sql.Select.WhereOperatorResult isNull() {
-        this.query = this.query + " IS NULL";
+        this.query = this.query + " is null ";
         return this;
     }
 
     @Override
     public st.zudamue.support.android.sql.Select.WhereOperator and(CharSequence ... column) {
         String identifier = processIdentifierConjunct(column);
-        this.query = this.query +" AND "+identifier;
+        this.query = this.query +" and "+identifier;
         return this;
     }
 
@@ -331,7 +331,7 @@ public class Select extends SelectInterfaces
 
         String identifier = processIdentifierConjunct(columns);
 
-        this.query = this.query +" OR "+identifier;
+        this.query = this.query +" or "+identifier;
         return this;
     }
 
@@ -339,21 +339,21 @@ public class Select extends SelectInterfaces
     public st.zudamue.support.android.sql.Select.OrderByModeResult asc(CharSequence col) {
 
         String column = col instanceof Identifier? ((Identifier) col).name() : String.valueOf( col );
-        this.query = this.query + " "+column+" ASC";
+        this.query = this.query + " "+column+" asc";
         return this;
     }
 
     @Override
     public st.zudamue.support.android.sql.Select.OrderByModeResult desc(CharSequence col ) {
         String column = col instanceof Identifier? ((Identifier) col).name() : String.valueOf( col );
-        this.query = query + " "+column+" DESC";
+        this.query = query + " "+column+" desc ";
         return this;
     }
 
 
     @Override
     public st.zudamue.support.android.sql.Select.WhereOperatorResult isNotNull() {
-        this.query = this.query + " IS NOT NULL ";
+        this.query = this.query + " is not null  ";
         return this;
     }
 

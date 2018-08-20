@@ -30,7 +30,7 @@ import st.zudamue.support.android.util.exception.ZudamueException;
  * @author Daniel Costa <costa.xdaniel@gmail.com>
  */
 
-public class Packer implements Iterable<Map.Entry<String, Object>> {
+public class Packer {
 
 
     public static Packer parse(String jsonText) {
@@ -52,12 +52,22 @@ public class Packer implements Iterable<Map.Entry<String, Object>> {
         return gson;
     }
 
-    public static Packer from(Object data) {
-        if (data == null) return null;
-        if (data instanceof Map) return new Packer((Map<String, Object>) data);
-        if (data instanceof List) return new Packer((List<Object>) data);
-        return Packer.parse(Packer.gsonInstance().toJson(data));
+    public static Packer from(Map< String, Object > object) {
+        if (object == null) return null;
+        return new Packer( object );
     }
+
+    public static Packer from(List< Object > list) {
+        if (list == null) return null;
+        return new Packer( list );
+    }
+
+
+    public static Packer from( Object object ) {
+        if (object == null) return null;
+        return Packer.parse(Packer.gsonInstance().toJson(object));
+    }
+
 
     public static Packer fromRaw(Context context, int rawId) {
         InputStream input = context.getResources().openRawResource(rawId);
@@ -94,9 +104,11 @@ public class Packer implements Iterable<Map.Entry<String, Object>> {
         else if (root instanceof List)
             list = (List<Object>) root;
 
-        this.point = new LinkedList<Object>();
-        this.location = new LinkedList<Object>();
+        this.point = new LinkedList<>();
+        this.location = new LinkedList<>();
     }
+
+
 
     /**
      * Create new instace Packer basede in map backToRoot
@@ -476,19 +488,19 @@ public class Packer implements Iterable<Map.Entry<String, Object>> {
     }
 
     /**
-     * Verify if has nodes
+     * Verify if hasPath nodes
      *
      * @param nodes
      * @return
      */
-    public synchronized boolean has(Object... nodes) {
+    public synchronized boolean hasPath(Object... nodes) {
         boolean result = false;
         List<Object> asList = this.asList(nodes);
         Object field = asList.remove(asList.size() - 1);
 
         int startPoint = this.getCheckPoint();
         Packer mapper = this.enter(asList);
-        result = mapper != null && mapper.contains(field);
+        result = mapper != null && mapper.hasKey(field);
         this.backAt(startPoint);
         return result;
     }
@@ -499,7 +511,7 @@ public class Packer implements Iterable<Map.Entry<String, Object>> {
      * @param field
      * @return
      */
-    private synchronized boolean contains(Object field) {
+    public synchronized boolean hasKey( Object field ) {
         if (isInMap() && field instanceof String)
             return this.map.containsKey(field);
         else if (isInList() && field instanceof Integer)
@@ -530,15 +542,12 @@ public class Packer implements Iterable<Map.Entry<String, Object>> {
         String node;
         Object field = nodes.remove(0);
         Object value = null;
-        String fieldType = null;
         if (field != null && field instanceof String && map != null && list == null) {
             node = String.valueOf(field);
             value = map.get(node);
-            fieldType = "String";
         } else if (field != null && field instanceof Integer && list != null && map == null) {
             index = (Integer) field;
             value = (index >= 0 && index < list.size()) ? list.get(index) : null;
-            fieldType = "Integer";
         }
 
         if (nodes.size() == 0)
@@ -618,7 +627,7 @@ public class Packer implements Iterable<Map.Entry<String, Object>> {
      * @return
      */
     private synchronized List<String> asList(String... nodes) {
-        return new LinkedList<String>(Arrays.asList(nodes));
+        return new LinkedList<>(Arrays.asList(nodes));
     }
 
     /**
@@ -628,7 +637,7 @@ public class Packer implements Iterable<Map.Entry<String, Object>> {
      * @return
      */
     private synchronized List<Object> asList(Object... nodes) {
-        return new LinkedList<Object>(Arrays.asList(nodes));
+        return new LinkedList<>(Arrays.asList(nodes));
     }
 
     private String[] asArray(String name) {
@@ -1040,21 +1049,18 @@ public class Packer implements Iterable<Map.Entry<String, Object>> {
         return this.root;
     }
 
-    public synchronized void forEach(Consumer consumer) {
-        if (this.isInMap()) this.forEachMap(consumer);
-        else if (this.isInList()) this.forEachList(consumer);
-    }
 
-    private synchronized void forEachMap(Consumer consumer) {
+
+    public synchronized void forEachObject( Consumer< String > consumer ) {
         for (Map.Entry<String, Object> entry : this.map.entrySet()) {
-            consumer.accept(this, entry.getKey(), -1, entry.getValue());
+            consumer.accept(this, entry.getKey(), entry.getValue());
         }
     }
 
-    private synchronized void forEachList(Consumer consumer) {
+    public synchronized void forEachList( Consumer< Integer > consumer) {
         int iCount = 0;
         for (Object value : this.list) {
-            consumer.accept(this, null, iCount++, value);
+            consumer.accept(this, iCount++, value);
         }
     }
 
@@ -1063,7 +1069,7 @@ public class Packer implements Iterable<Map.Entry<String, Object>> {
     }
 
 
-    public interface Consumer {
-        void accept(Packer mapperPoint, String key, int index, Object value);
+    public interface Consumer< T > {
+        void accept(Packer mapperPoint, T key,  Object value);
     }
 }

@@ -2,6 +2,8 @@ package st.zudamue.support.android.sql.sqlite;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import java.util.Arrays;
@@ -40,7 +42,7 @@ public class UpdatableSQL extends BaseSQLExecutable {
 
     private void init() {
         this.mapExecutor = new LinkedHashMap<>();
-        this.mapExecutor.put("INSERT", new Execute() {
+        this.mapExecutor.put("insert", new Execute() {
             @Override
             public void execute(SQLiteStatement statement) {
                 result = statement.executeInsert();
@@ -48,7 +50,8 @@ public class UpdatableSQL extends BaseSQLExecutable {
             }
         });
 
-        this.mapExecutor.put("UPDATE", new Execute() {
+        this.mapExecutor.put("update", new Execute() {
+            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void execute(SQLiteStatement statement) {
                 result = statement.executeUpdateDelete();
@@ -56,7 +59,8 @@ public class UpdatableSQL extends BaseSQLExecutable {
             }
         });
 
-        this.mapExecutor.put("DELETE", new Execute() {
+        this.mapExecutor.put("delete", new Execute() {
+            @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void execute(SQLiteStatement statement) {
                 result = statement.executeUpdateDelete();
@@ -92,9 +96,9 @@ public class UpdatableSQL extends BaseSQLExecutable {
         checkSqlType = checkSqlType.split(" ")[0];
         checkSqlType = checkSqlType.toUpperCase();
 
-        Execute execute = this.mapExecutor.get(checkSqlType);
+        Execute execute = this.mapExecutor.get(checkSqlType.toLowerCase());
         if(execute == null) {
-            throw  new ZudamueException( "Invalid sql statement ");
+            throw  new ZudamueException( "Invalid sql statement executor: "+checkSqlType+",  sql: "+sql );
         }
 
         execute.execute( statement );

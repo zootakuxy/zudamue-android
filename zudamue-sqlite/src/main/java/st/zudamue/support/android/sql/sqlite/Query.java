@@ -173,7 +173,7 @@ public class Query extends BaseSQLExecutable {
 
     /**
      * Verity if as row in current result
-     * @return true if as result | false if not has result
+     * @return true if as result | false if not hasPath result
      */
     public boolean hasRow() {
         return isOpen() && this.cursor.getCount()>0;
@@ -271,8 +271,8 @@ public class Query extends BaseSQLExecutable {
     }
 
     /**
-     * Verify if has next
-     * @return true if has next row
+     * Verify if hasPath next
+     * @return true if hasPath next row
      */
     public boolean hasNext() {
         return isOpen()

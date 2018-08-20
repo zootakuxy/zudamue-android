@@ -61,11 +61,11 @@ public abstract class ItemViewHolder< I extends ItemDataSet > extends RecyclerVi
     protected void onPosBind() {}
 
     /**
-     * Look for a child view with the given id.  If this view has the given
+     * Look for a child view with the given id.  If this view hasPath the given
      * id, return this view.
      *
      * @param id The id to search for.
-     * @return The view that has the given id in the hierarchy or null
+     * @return The view that hasPath the given id in the hierarchy or null
      */
     @Nullable
     public final View findViewById( @IdRes int id ) {

@@ -118,7 +118,7 @@ public interface SQLRow {
     int columnsCount();
 
     /**
-     * Verify if exist one column witch named
+     * Verify if hasPath one column witch named
      * @param columnName the name of column find
      * @return name of column
      */
