@@ -16,6 +16,7 @@ import st.zudamue.support.android.sql.sqlite.AssetsDatabase;
 import st.zudamue.support.android.sql.sqlite.Query;
 import st.zudamue.support.android.sql.sqlite.SQLResources;
 import st.zudamue.support.android.sql.sqlite.UpdatableSQL;
+import st.zudamue.support.android.sql.type.BooleanCharSequence;
 import st.zudamue.support.android.sql.type.ByteCharSequence;
 import st.zudamue.support.android.sql.type.DateCharSequence;
 import st.zudamue.support.android.sql.type.DoubleCharSequence;
@@ -162,12 +163,16 @@ public class LiteDatabase {
         return new IntegerCharSequence(value);
     }
 
+    public CharSequence value(String value ){
+        return value;
+    }
+
     public CharSequence value(Long value){
         return new LongCharSequence(value);
     }
 
-    public CharSequence value(boolean b) {
-        return String.valueOf( b );
+    public CharSequence value( Boolean b) {
+        return new BooleanCharSequence( b );
     }
 
     public CharSequence value(Float value){
@@ -183,6 +188,7 @@ public class LiteDatabase {
     }
 
     public TimestampCharSequence timestanp(java.util.Date date) {
+        if( date == null ) return null;
         return new TimestampCharSequence(date.getTime());
     }
 

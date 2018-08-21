@@ -78,6 +78,21 @@ class SQLiteRow implements SQLRow {
         }
     }
 
+    @Override
+    public Boolean booleaner(CharSequence columnName) {
+        Object value = value(columnName);
+        if(value == null) return null;
+        try{
+            return (Boolean) value;
+        }catch (Exception ex) {
+            String aValue = String.valueOf(value);
+            if( aValue.toLowerCase().equals("t")) aValue = "true";
+            else if( aValue.toLowerCase().equals("1")) aValue = "true";
+            else if( aValue.toLowerCase().equals("0")) aValue = "false";
+
+            return Boolean.valueOf( aValue );
+        }
+    }
 
     @Override
     public Float real(CharSequence columnName) {

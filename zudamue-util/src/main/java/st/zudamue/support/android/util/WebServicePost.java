@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,6 +23,10 @@ public class WebServicePost extends WebService {
     public WebServicePost post( String name, Object value ){
         this.posts.add( new Parameter( name, String.valueOf( value ) ) );
         return this;
+    }
+
+    public List<Parameter> getPosts() {
+        return Collections.unmodifiableList( this.posts );
     }
 
     @Override

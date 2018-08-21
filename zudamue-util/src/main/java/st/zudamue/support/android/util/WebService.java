@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -110,6 +111,8 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
         StringBuilder builder;
         InputStream in = null;
 
+        Gson gson = new Gson();
+
         try {
             Log.i( this.getClass().getName(), "doInBackground start" );
             this.createdUrl = this.createURL();
@@ -136,13 +139,9 @@ public abstract class WebService extends AsyncTask< Void, Void, Void>{
             in.close();
             request.disconnect();
 
-            try {
-                String text = builder.toString();
-                for( OnSuccess onReadText: this.onSuccesses){
-                    onReadText.onSuccess( text, this.responseCode, this.responseMessage );
-                }
-            } catch ( Exception ex ){
-                ex.printStackTrace();
+            String text = builder.toString();
+            for( OnSuccess onReadText: this.onSuccesses){
+                onReadText.onSuccess( text, this.responseCode, this.responseMessage );
             }
 
 

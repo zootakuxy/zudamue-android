@@ -40,6 +40,8 @@ public interface SQLRow {
      */
     Integer integer( CharSequence columnName );
 
+    Boolean booleaner ( CharSequence columnName );
+
     /**
      * Get the float value
      * @param columnName the name of column

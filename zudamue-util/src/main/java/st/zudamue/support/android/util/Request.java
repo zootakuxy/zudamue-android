@@ -1,5 +1,9 @@
 package st.zudamue.support.android.util;
 
+import android.util.Log;
+
+import com.google.gson.Gson;
+
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,4 +36,11 @@ public class Request extends WebServicePost {
         return new URL( this.getUrl()  + query );
     }
 
+    @Override
+    protected Void doInBackground(Void... voids) {
+        Gson gson = new Gson();
+        Log.i( Request.class.getName(), "get: "+ gson.toJson( gets ) );
+        Log.i( Request.class.getName(), "post: "+ gson.toJson( getPosts() ) );
+        return super.doInBackground(voids);
+    }
 }
