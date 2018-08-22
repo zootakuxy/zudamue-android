@@ -914,7 +914,7 @@ public class Packer {
     }
 
 
-    public synchronized Packer createNode(Object... nodes) {
+    public synchronized Packer createObject(Object... nodes) {
         List<Object> asList = this.asList(nodes);
         asList.add(new LinkedHashMap<String, Object>());
         this.create(asList.toArray());
