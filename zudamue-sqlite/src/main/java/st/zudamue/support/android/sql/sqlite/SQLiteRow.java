@@ -2,8 +2,11 @@ package st.zudamue.support.android.sql.sqlite;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -37,7 +40,7 @@ class SQLiteRow implements SQLRow {
 
     }
 
-    SQLiteRow (int columnCount,  Map<String, HeaderCell> headerIndex) {
+    SQLiteRow (int columnCount,  Map<String, HeaderCell> headerIndex ) {
         this(columnCount);
         this.headerIndex = headerIndex;
     }
@@ -172,12 +175,20 @@ class SQLiteRow implements SQLRow {
 
     @Override
     public boolean hasColumn(CharSequence columnName) {
-        return this.headerIndex.containsKey( columnName );
+        return this.headerIndex.containsKey( String.valueOf( columnName ) );
     }
 
     @Override
     public <T> T get( CharSequence columnName, Class< T > type) {
         return ( T ) this.value( columnName );
+    }
+
+    @Override
+    public String asJson() {
+        Map< String, Object > map = new LinkedHashMap<>();
+        for( String colun: this.headerIndex.keySet() )
+            map.put( colun, this.value( colun ) );
+        return new Gson().toJson( map );
     }
 
     @Override

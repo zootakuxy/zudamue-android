@@ -89,9 +89,9 @@ public class Query extends BaseSQLExecutable {
     protected void exec(String sql, Object [] arguments) {
         Log.i(getTag(), "QUERY->>>  "+sql);
         Log.i(getTag(), "ARGUMENTS->>>  "+Arrays.toString(arguments));
-        String[] stringArgument = asArrayString(arguments);
+        String[] stringArgument = asArrayString( arguments );
         this.index = null;
-        this.cursor = this.getDatabase().rawQuery(sql, stringArgument);
+        this.cursor = this.getDatabase().rawQuery( sql, stringArgument );
     }
 
     private String[] asArrayString(Object[] arguments) {

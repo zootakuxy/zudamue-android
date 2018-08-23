@@ -159,7 +159,7 @@ public class LiteDatabase {
         return new ByteCharSequence( value );
     }
 
-    public CharSequence value(Integer value){
+    public CharSequence value(Integer value ){
         return new IntegerCharSequence(value);
     }
 

@@ -110,7 +110,7 @@ public abstract class BaseSQLExecutable implements SQLExecutable {
     public BaseSQLExecutable execute() {
         if( this.sql() == null || this.sql().length() == 0 )
             throw new ZudamueException( "No sql for execute" );
-        this.exec(this.sql(), processArguments());
+        this.exec( this.sql(), processArguments());
         this.onPosExec();
         return this;
     }

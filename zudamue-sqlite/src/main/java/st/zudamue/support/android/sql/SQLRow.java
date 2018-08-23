@@ -129,4 +129,5 @@ public interface SQLRow {
     <T> T get( CharSequence columnName, Class< T > type);
 
 
+    String asJson();
 }

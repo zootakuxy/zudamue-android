@@ -18,6 +18,7 @@ public class BaseTypeCharSequence<E> extends BaseCharSequence implements TypeCha
 
     @Override
     public String toString() {
+        if( value == null ) return null;
         return String.valueOf(value);
     }
 
